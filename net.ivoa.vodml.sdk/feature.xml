@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="net.ivoa.vodml.sdk"
+	label="Vodsl SDK Feature "
+	version="1.0.0.qualifier">
+	<plugin
+			id="net.ivoa.vodml"
+			download-size="0"
+			install-size="0"
+			version="0.0.0"
+			unpack="false"/>
+	<plugin
+			id="net.ivoa.vodml.ui"
+			download-size="0"
+			install-size="0"
+			version="0.0.0"
+			unpack="false"/>
+</feature>

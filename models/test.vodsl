@@ -1,0 +1,12 @@
+model testing (1.0) "Description"
+	package silly {		
+		prim mad "a test primitive"
+		
+		package daft {
+			
+			dtype adytpe {
+				f1 : mad "attribute definition"
+			}
+		}
+		
+	}

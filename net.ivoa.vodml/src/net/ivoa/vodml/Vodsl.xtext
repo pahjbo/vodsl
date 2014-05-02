@@ -1,0 +1,150 @@
+grammar net.ivoa.vodml.Vodsl with org.eclipse.xtext.common.Terminals
+
+generate vodsl "http://www.ivoa.net/vodml/Vodsl"
+
+/*
+ * DSL for VODML - Paul Harrison Apr 2014.
+ */
+
+/**
+ * The root model element, comprised of one optional include section
+ * and the definition of any number of compound types.
+ */
+VoDataModel:
+	 model = ModelDeclaration
+	 ( includes += IncludeDeclaration ) *
+    elements += AbstractElement+
+    ;
+
+
+ModelDeclaration:
+	'model' name=ID '(' version=VERSION ')' description=STRING?
+;
+
+terminal VERSION: '0'..'9' ('.' '0'..'9')  ?;
+
+IncludeDeclaration:
+	'import' importedNamespace = QualifiedNameWithWildcard
+;
+
+QualifiedName:
+  ValidID (=>'.' ValidID)*;
+
+QualifiedNameWithWildcard:
+	 QualifiedName '.*'?
+;
+
+ValidID:
+	ID;
+	
+
+AbstractElement:
+   PackageDeclaration| ObjectType | Enumeration | DataType | PrimitiveType;
+ 
+
+  PackageDeclaration:
+  'package' name=ID '{'
+    elements+=AbstractElement+
+  '}';
+
+/**
+ * Convenience meta types
+ * (not actually referenced from anywhere in the grammar defn, but appear in the VODML spec).
+ */
+Type:
+    ValueType | ObjectType 
+    ;
+
+ValueType:
+    DataType | Enumeration | PrimitiveType
+    ;
+
+/*
+ * these are primitive types that are in the ivoa model - it might well be nicer to have these imported... Quantity from there is useful anyway - would be nice
+ * to be able to miss off the "ivoa." prefix
+ */
+enum StdPrimitiveType:
+    anyURI | duration| decimal| string | integer | rational | boolean | real | datatime | complex | nonnegativeInteger
+    ;
+
+
+enum ConstraintLanguage:
+    XSD | Java | OCL | Custom
+;
+/**
+ * Definition for a primitive type which has a name and
+ * either has a realization type (to connect it with e.g. ivoa primitive types)
+ * or extends an existing primitive type -in which case the realization type is
+ * that of the super type.
+ */
+PrimitiveType:
+   'prim' name=ID       
+            ( '->' superType=[PrimitiveType|QualifiedName] )?
+            description = STRING
+    ;
+
+/**
+ * Definition of a data type complete with its constituent fields,
+ * constraints
+ */
+DataType:
+    ( abstract?='abstract'? ) 'dtype' name=ID 
+    ( 'extends' superType=[DataType|QualifiedName] )? 
+    (description=STRING)?
+    '{'
+        ( attributes += Attribute )*
+        ( references += Reference ) *
+        ( constraints += Constraint )*
+    '}'
+    ;
+
+Attribute :
+    ( modifier=Modifier )? name=ID ':' type=[Type|QualifiedName] description=STRING
+    ;
+    /*
+     * validation: if type refers to a PrimitiveType, then modifier != repeated
+     * scoping: if the Attribute resides inside a DataType, then type must be a PrimitiveType;
+     * 
+     * Note that this definition might seem a bit contrived, but that's
+     * because, from a parsing viewpoint, splitting this definition up
+     * (into a SimpleField and ComplexField, e.g.) causes the grammar
+     * to be ambiguous.
+     */
+
+enum Modifier:
+    optional | required | repeated
+    ;
+
+Enumeration:
+    'enum' name=ID (description=STRING)?
+    '{'
+        ( literals += EnumLiteral )*
+    '}'
+    ;
+
+EnumLiteral:
+    name=ID (description=STRING)?
+    ;
+
+ObjectType:
+    ( abstract?='abstract'? ) 'otype' name=ID
+        ( 'extends' superType=[ObjectType|QualifiedName] )? (description=STRING)?
+            // scoping (TODO): can only be an ObjectType that isn't a sub entity of this ObjectType itself
+    '{'
+        ( attributes += Attribute )*
+        ( references += Reference )*
+        ( constraints += Constraint )*
+    '}'
+    ;
+
+Reference:
+	 name=ID 'ref' referenced=QualifiedName
+;
+
+/*
+ * The constraint is just the same as the XML definition - however, could have constraints that were expressed in the DSL directly
+ */
+Constraint:
+    'constraint' expr=STRING 'as' language=ConstraintLanguage
+    ;
+
