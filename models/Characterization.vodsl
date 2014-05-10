@@ -1,0 +1,213 @@
+
+model char (0.5) "This is the data model for describing teh Characterization of observational data sets in the IVOA."
+	  
+       include "STC.vodsl"
+     
+       include "IVOA.vodsl"
+      abstract otype CharCoordinateType  "A coordinate type to define n-D bounding boxes. To be overridden by any of the following possible substitution elements."
+  { 
+     
+        Name:string /* utype=ivoa:string*/   "";
+  }
+ otype ResolutionType  ""
+  { 
+     
+        unit:string /* utype=ivoa:string*/  @?   "";
+        resolutionRefVal:ResolutionRefValType /* utype=char:ResolutionRefValType*/   "";
+        resolutionBounds:ResolutionBoundsType /* utype=char:ResolutionBoundsType*/  @?   "";
+        resolutionSupport:ResolutionSupportType /* utype=char:ResolutionSupportType*/  @?   "";
+        resolutionVariability:ResolutionVariabilityType /* utype=char:ResolutionVariabilityType*/  @?   "";
+        coordSystem references astroCoordSystemType /* utype=astroCoordSystemType*/ ""
+  }
+ otype ComponentAxis  "INtrouced tom model aggregation of 1D axes to build a custom composite axis type."
+  { 
+     
+        axis references Custom1DCharacterisationAxis /* utype=char:Custom1DCharacterisationAxis*/ ""
+  }
+ otype SamplingPrecisionType  ""
+  { 
+     
+        unit:string /* utype=ivoa:string*/  @?   "";
+        samplingPrecisionRefVal:SamplingPrecisionRefValType /* utype=char:SamplingPrecisionRefValType*/   "";
+        samplingPrecisionBounds:SamplingPrecisionBoundsType /* utype=char:SamplingPrecisionBoundsType*/  @?   "";
+        samplingPrecisionSupport:SamplingPrecisionSupportType /* utype=char:SamplingPrecisionSupportType*/  @?   "";
+        samplingPrecisionVariability:SamplingPrecisionVariability /* utype=char:SamplingPrecisionVariability*/  @?   "";
+        coordSystem references astroCoordSystemType /* utype=astroCoordSystemType*/ ""
+  }
+ otype CoverageType  "How the observation is spanned along this axis"
+  { 
+     
+        unit:string /* utype=ivoa:string*/  @?   "";
+        location:LocationType /* utype=char:LocationType*/   "Typical value on one axis";
+        bounds:BoundsType /* utype=char:BoundsType*/  @?   "the limits of the observation on this axis";
+        support:SupportType /* utype=char:SupportType*/  @?   "describes the area where measurements are effectively present and interpretable ";
+        sensitivity:SensitivityType /* utype=char:SensitivityType*/  @?   "encodes the variability of response along the axis ";
+        coordsystem references astroCoordSystemType /* utype=astroCoordSystemType*/ "redefinition of coordsystem"
+  }
+ otype AccuracyType  ""
+  { 
+     
+        quality:string /* utype=ivoa:string*/  @?   "A combination of flags attesting the data quality. Type: String";
+        statError:StatErrorType /* utype=char:StatErrorType*/  @?   "";
+        sysError:SysErrorType /* utype=char:SysErrorType*/  @?   "";
+        CustError:ErrorType /* utype=char:ErrorType*/  @?   "";
+  }
+ otype TimeAxisType 
+  extends ChAxis /* utype=char:ChAxis*/ ""
+  { 
+     
+        numbins:nonnegativeInteger /* utype=ivoa:nonnegativeInteger*/   "";
+  }
+ otype Custom1DCharacterisationAxis 
+  extends ChAxis /* utype=char:ChAxis*/ "Introduced to model custom 1D axes."
+  { 
+     
+        numBins:nonnegativeInteger /* utype=ivoa:nonnegativeInteger*/   "";
+  }
+ otype SpatialAxisType 
+  extends ChAxis /* utype=char:ChAxis*/ ""
+  { 
+     
+        numbins1:nonnegativeInteger /* utype=ivoa:nonnegativeInteger*/   "";
+        numbins2:nonnegativeInteger /* utype=ivoa:nonnegativeInteger*/   "";
+  }
+ abstract otype CharacterisationAxisType  "describes an axis and its properties "
+  { 
+     
+        axisName:string /* utype=ivoa:string*/   "A name representing the physical nature of the axis like Spatial, Spectral, Time, Velocity or any other free name for an axis";
+        ucd:string /* utype=ivoa:string*/  @?   "The physical meaning of the axis, Type: standard semantic tag defined in the UCD list.";
+        unit:string /* utype=ivoa:string*/   "default unit for the axis: Type: controlled unit vocabulary following the VOTable units definitions ";
+        independentAxisType:boolean /* utype=ivoa:boolean*/  @?   "Indicates whether the axis is independent or not from the other axes. The Observable axis has a false independentAxis 'value' Type : boolean";
+        calibrationStatus:CalibrationStatus /* utype=char:CalibrationStatus*/   "defines if and how the axis is calibrated: Possible String values: CALIBRATED, UNCALIBRATED, RELATIVE, NORMALIZED ";
+        undersamplingStatus:boolean /* utype=ivoa:boolean*/  @?   "A flag to mention wether the data are undersampled. Type: boolean";
+        regularsamplingStatus:boolean /* utype=ivoa:boolean*/  @?   "A flag to mention wether the data are regularly sampled. Type : boolean ";
+        accuracy : AccuracyType /* utype=char:AccuracyType*/ @?  as composition "Global accuracy description of the axis"
+        coverage : CoverageType /* utype=char:CoverageType*/ as composition ""
+        resolution : ResolutionType /* utype=char:ResolutionType*/ @?  as composition ""
+        samplingPrecision : SamplingPrecisionType /* utype=char:SamplingPrecisionType*/ @?  as composition ""
+        coordsystem references astroCoordSystemType /* utype=astroCoordSystemType*/ "Reference coordinate system for the axis"
+        ObsyLoc references observatoryLocationType /* utype=observatoryLocationType*/ "Observatory location Type: a observatoryLocationType or an xlink"
+  }
+ abstract otype CharacterisationType  ""
+  { 
+     
+        characterisationAxis : ChAxis /* utype=char:ChAxis*/ @+  as composition ""
+  }
+ otype CompositeCharacterisationAxis 
+  extends ChAxis /* utype=char:ChAxis*/ "INtroduced to model composite axes."
+  { 
+     
+        dim:nonnegativeInteger /* utype=ivoa:nonnegativeInteger*/   "";
+        childAxis : ComponentAxis /* utype=char:ComponentAxis*/ @+  as composition ""
+  }
+ otype CharCoordAreaType  ""
+  { 
+     
+  }
+ otype SpectralAxisType 
+  extends ChAxis /* utype=char:ChAxis*/ ""
+  { 
+     
+        numbins:nonnegativeInteger /* utype=ivoa:nonnegativeInteger*/   "";
+  }
+ dtype ResolutionSupportType  ""
+  { 
+     
+  }
+ dtype SensitivityType  ""
+  { 
+     
+  }
+ dtype ErrorRefValType  "Typical statistical error on the axis. Types: depend on the dimensionality 1D Error based on double1Type 2D Errors based on size2Type, double2Type or double1Type (error 2 radius) 3D Errors based on size3Type, double3TYpe or double1Type (error 3 radius) "
+  { 
+     
+        unit:string /* utype=ivoa:string*/  @?   "";
+        CError:double1Type /* utype=double1Type*/   "";
+        documentation :string /* utype=ivoa:string*/  @?   "";
+        coordSystem references astroCoordSystemType /* utype=astroCoordSystemType*/ ""
+  }
+ dtype ResolutionRefValType  ""
+  { 
+     
+  }
+ dtype SupportType  ""
+  { 
+     
+  }
+ dtype LocationType  ""
+  { 
+     
+        coord:astroCoordsType /* utype=astroCoordsType*/  @?   "";
+        unit:string /* utype=ivoa:string*/  @?   "redefinition of unit";
+        documentation:string /* utype=ivoa:string*/  @?   "" constraint;
+        coordSystem references astroCoordSystemType /* utype=astroCoordSystemType*/ "Redefinition of coordsystem"
+  }
+ dtype SamplingPrecisionRefValType  ""
+  { 
+     
+  }
+ dtype ResolutionBoundsType  ""
+  { 
+     
+  }
+ dtype BoundsType  ""
+  { 
+     
+  }
+ dtype CustomError 
+  extends ErrorType /* utype=char:ErrorType*/ ""
+  { 
+     
+        flavor:string /* utype=ivoa:string*/   "";
+  }
+ dtype SamplingPrecisionBoundsType  ""
+  { 
+     
+  }
+ dtype SamplingPrecisionSupportType  ""
+  { 
+     
+  }
+ dtype StatErrorType 
+  extends ErrorType /* utype=char:ErrorType*/ ""
+  { 
+     
+  }
+ dtype ErrorBoundsType  ""
+  { 
+     
+        errorLimits:coordIntervalType /* utype=coordIntervalType*/  @?   "";
+        documentation:string /* utype=ivoa:string*/  @?   "";
+  }
+ dtype SysErrorType 
+  extends ErrorType /* utype=char:ErrorType*/ ""
+  { 
+     
+  }
+ dtype ErrorVariabilityType  ""
+  { 
+     
+  }
+ dtype ResolutionVariabilityType  ""
+  { 
+     
+  }
+ dtype SamplingPrecisionVariability  ""
+  { 
+     
+  }
+ dtype ErrorType  ""
+  { 
+     
+        ErrorRefVal:ErrorRefValType /* utype=char:ErrorRefValType*/   "";
+        ErrorBounds:ErrorBoundsType /* utype=char:ErrorBoundsType*/  @?   "";
+        ErrorVariability:ErrorVariabilityType /* utype=char:ErrorVariabilityType*/  @?   "";
+  }
+
+enum CalibrationStatus  ""
+{
+CALIBRATED  "",
+UNCALIBRATED  "",
+RELATIVE  "",
+NORMALIZED  ""
+}

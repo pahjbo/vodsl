@@ -1,0 +1,94 @@
+model photdm_alt ( 0.1 ) "This is an alternative version of the data model for Photometric Calibration ... "
+
+	include "IVOA.vodsl"
+
+	otype Access ""
+	{
+
+		reference : string /* utype=ivoa:string*/ "uri to the effective transmission curve
+NB this description applies to the inherited access atttribute on TransmissionCurve, not really to the one on the base class." ;
+		format : string /* utype=ivoa:string*/ "" ;
+		size : nonnegativeInteger /* utype=ivoa:nonnegativeInteger*/ @? "" ;
+	}
+
+	otype AsinhZeroPoint extends ZeroPoint /* utype=photdm-alt:ZeroPoint*/ ""
+	{
+
+		softeningCoefficient : real /* utype=ivoa:real*/ @? "" ;
+	}
+
+	otype LinearFlux extends ZeroPoint /* utype=photdm-alt:ZeroPoint*/ ""
+	{
+	}
+
+	otype MagnitudeSystem ""
+	{
+
+		type : string /* utype=ivoa:string*/ @? "" ;
+		referenceSpectrum : anyURI /* utype=ivoa:anyURI*/ @? "" ;
+		source : Source /* utype=photdm-alt:Source*/ @* as composition ""
+	}
+
+	otype PhotCal ""
+	{
+
+		zeroPoint : ZeroPoint /* utype=photdm-alt:ZeroPoint*/ as composition ""
+		magnitudeSystem : MagnitudeSystem /* utype=photdm-alt:MagnitudeSystem*/ as composition ""
+		photometryFilter references PhotometryFilter /* utype=photdm-alt:PhotometryFilter*/ ""
+	}
+   
+	otype PhotometricSystem ""
+	{
+
+		description : string /* utype=ivoa:string*/ @? "String representation Photometric system" constraint ;
+		detectorType : integer /* utype=ivoa:integer*/ "Type of detector (e.g energy or photon counter)" ;
+		photometryFilter : PhotometryFilter /* utype=photdm-alt:PhotometryFilter*/ @+ as composition ""
+	}
+
+	otype PhotometryFilter ""
+	{
+
+		fpsIdentifier : string /* utype=ivoa:string*/ "IVOA identifier of the Filter Profile Service" ;
+		identifier : string /* utype=ivoa:string*/ "" ;
+		name : string /* utype=ivoa:string*/ "Filter Name in the instrumental configuration" ;
+		description : string /* utype=ivoa:string*/ "Text description of the filter band" constraint ;
+		bandName : string /* utype=ivoa:string*/ "" ;
+		dataValidityFrom : datetime /* utype=ivoa:datetime*/ "" ;
+		dataValidityTo : datetime /* utype=ivoa:datetime*/ "" ;
+		spectralLocation : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
+		bandWidth : S_Bounds /* utype=photdm-alt:S_Bounds*/ "" ;
+		transmissionPoint : TransmissionPoint /* utype=photdm-alt:TransmissionPoint*/ @* as composition ""
+		access : Access /* utype=photdm-alt:Access*/ @? as composition ""
+	}
+
+	otype PogsonZeroPoint extends ZeroPoint /* utype=photdm-alt:ZeroPoint*/ ""
+	{
+	}
+
+	abstract otype ZeroPoint ""
+	{
+
+		flux : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
+		referenceMagnitude : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
+	}
+
+	otype Source ""
+	{
+	}
+
+	otype TransmissionPoint ""
+	{
+
+		spectral : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
+		spectralError : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
+		transmission : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
+		transmissionError : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
+	}
+
+	dtype S_Bounds "Could be datatype"
+	{
+
+		extent : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ @? "" ;
+		start : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
+		stop : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
+	}

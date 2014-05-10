@@ -1,12 +1,60 @@
-model testing (1.0) "Description"
-	package silly {		
-		prim mad "a test primitive"
-		
-		package daft {
+model testingscope ( 1.0 ) "Testing the scope of types"
+	include "IVOA.vodsl"
+  
+	primitive Identity "should this mask the included or be an error?"
+	primitive float "floating point number at top level in this model"
+	package topl "top level package"
+	{
+		primitive primtop "a test primitive"
+
+		package p1 
+		{
+
+			dtype scopes
+			{
+				f0 : integer "from the top level in the imported namespace - want to avoid the ivoa:prefix"
+				f1 : topl.primtop "perhaps would like this to be in scope as nested without qualification?"
+				f2 : quantity.IntegerQuantity "an example from included namespace"
+				f3 : Identity "from the top level here or in the imported ivoa namespace?"
+				f4 : daft "not a proper type anywhere - should be an error"
+				f5 : quantity.AtomicValue "this is an abstract type - so should be an error"
+				f6 : sprim "should be an error as needs a package reference"
+				f7 : topl.p2.sprim "would be nicer without needing full reference? however what should the partial pa"
+
+			}
+			otype multiplicities "the @ sign is not really syntactically necessary"
+			{
+				m1 : integer @? "0 or 1"
+				m2 : integer @* "0 or many"
+				m3 : integer @+ "1 or many"
+				m4 : integer @[2] "two (as an array?)"
+				m5 : integer @[1 .. 2] "any semantic difference to above?"
+				m6 : integer @[3 .. 2] "should be an error"
+			}
 			
-			dtype adytpe {
-				f1 : mad "attribute definition"
+			dtype derived extends quantity.AtomicValue
+			{
+				d1 : integer ""
+				s1 : topl.p1.scopes "again as in same package - would be nice not to need the full scoped name"
+			}
+			
+			dtype derived2 extends topl.p1.scopes " would be nice not to have full reference here too"{}
+			
+			dtype badderivation extends topl.p1.multiplicities "this should be an error extending wrong type - is not suggested by auto completion, however error message says type not found rather than wrong type"{}
+			
+			dtype derived3 extends topl.p1.derived2 "references to self in attributes"
+			{
+				d1: topl.p1.derived3 "is this allowable not specifically as a reference?"
+				d2 references topl.p1.derived3 "this should be ok - but does not appear in the auto complete list"
+			}
+			otype refers
+			{
+				r1 references 
 			}
 		}
-		
+		package p2 "nested at the same level as p1 "
+		{
+			primitive sprim "another primitive"
+			
+		}
 	}

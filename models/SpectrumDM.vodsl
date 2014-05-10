@@ -1,0 +1,363 @@
+
+model spectrum (0.x) "This is the VO-DML representation of the IVOA Spectrum data model in http://www.ivoa.net/Documents/SpectrumDM/index.html."
+	  ***identifier*** spec /* utype=spec*/ otype spectrumType 
+  extends ***identifier*** spec:spectrumType.EXTENDS /* utype=spec:spectrumType.EXTENDS*/***utyperef*** spec:segmentType ""
+  { 
+     ***identifier*** spec:spectrumType /* utype=spec:spectrumType*/
+  }
+ otype segmentType  ""
+  { 
+     ***identifier*** spec:segmentType /* utype=spec:segmentType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:segmentType.id /* utype=spec:segmentType.id*/;
+  }
+ otype timeSeriesType 
+  extends ***identifier*** spec:timeSeriesType.EXTENDS /* utype=spec:timeSeriesType.EXTENDS*/***utyperef*** spec:segmentType ""
+  { 
+     ***identifier*** spec:timeSeriesType /* utype=spec:timeSeriesType*/
+  }
+ otype sedType  ""
+  { 
+     ***identifier*** spec:sedType /* utype=spec:sedType*/
+  }
+ otype arrayOfFieldType  ""
+  { 
+     ***identifier*** spec:arrayOfFieldType /* utype=spec:arrayOfFieldType*/
+        Field : ***utyperef*** spec:fieldType@[..] as composition ""
+  }
+ otype fieldType  ""
+  { 
+     ***identifier*** spec:fieldType /* utype=spec:fieldType*/
+         : ***utyperef*** spec:arrayOfFieldType as composition
+        name:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:fieldType.name /* utype=spec:fieldType.name*/;
+        unit:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:fieldType.unit /* utype=spec:fieldType.unit*/;
+        ucd:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:fieldType.ucd /* utype=spec:fieldType.ucd*/;
+  }
+ otype arrayOfGenPointType  ""
+  { 
+     ***identifier*** spec:arrayOfGenPointType /* utype=spec:arrayOfGenPointType*/
+  }
+ otype arrayOfPointType 
+  extends ***identifier*** spec:arrayOfPointType.EXTENDS /* utype=spec:arrayOfPointType.EXTENDS*/***utyperef*** spec:arrayOfGenPointType ""
+  { 
+     ***identifier*** spec:arrayOfPointType /* utype=spec:arrayOfPointType*/
+        Point : ***utyperef*** spec:pointType@[..] as composition ""
+  }
+ otype pointType  ""
+  { 
+     ***identifier*** spec:pointType /* utype=spec:pointType*/
+         : ***utyperef*** spec:arrayOfPointType as composition
+        TimeAxis:***utyperef*** spec:sedCoordType @[..]  ""***identifier*** spec:pointType.TimeAxis /* utype=spec:pointType.TimeAxis*/;
+        SpectralAxis:***utyperef*** spec:sedCoordType @[..]  ""***identifier*** spec:pointType.SpectralAxis /* utype=spec:pointType.SpectralAxis*/;
+        FluxAxis:***utyperef*** spec:sedQuantityType @[..]  ""***identifier*** spec:pointType.FluxAxis /* utype=spec:pointType.FluxAxis*/;
+        BackgroundModel:***utyperef*** spec:sedQuantityType @[..]  ""***identifier*** spec:pointType.BackgroundModel /* utype=spec:pointType.BackgroundModel*/;
+  }
+ otype arrayOfFlatPointType 
+  extends ***identifier*** spec:arrayOfFlatPointType.EXTENDS /* utype=spec:arrayOfFlatPointType.EXTENDS*/***utyperef*** spec:arrayOfGenPointType ""
+  { 
+     ***identifier*** spec:arrayOfFlatPointType /* utype=spec:arrayOfFlatPointType*/
+        Point : ***utyperef*** spec:flatPointType@[..] as composition ""
+  }
+ otype flatPointType  ""
+  { 
+     ***identifier*** spec:flatPointType /* utype=spec:flatPointType*/
+         : ***utyperef*** spec:arrayOfFlatPointType as composition
+        T:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.T /* utype=spec:flatPointType.T*/;
+        T_BinL:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.T_BinL /* utype=spec:flatPointType.T_BinL*/;
+        T_BinH:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.T_BinH /* utype=spec:flatPointType.T_BinH*/;
+        T_SIze:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.T_SIze /* utype=spec:flatPointType.T_SIze*/;
+        T_Res:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.T_Res /* utype=spec:flatPointType.T_Res*/;
+        SP:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.SP /* utype=spec:flatPointType.SP*/;
+        SP_BinL:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.SP_BinL /* utype=spec:flatPointType.SP_BinL*/;
+        SP_BinH:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.SP_BinH /* utype=spec:flatPointType.SP_BinH*/;
+        SP_Size:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.SP_Size /* utype=spec:flatPointType.SP_Size*/;
+        SP_Res:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.SP_Res /* utype=spec:flatPointType.SP_Res*/;
+        F:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.F /* utype=spec:flatPointType.F*/;
+        F_ErrL:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.F_ErrL /* utype=spec:flatPointType.F_ErrL*/;
+        F_ErrH:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.F_ErrH /* utype=spec:flatPointType.F_ErrH*/;
+        F_Sys:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.F_Sys /* utype=spec:flatPointType.F_Sys*/;
+        F_Qual:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/integer @[..]  ""***identifier*** spec:flatPointType.F_Qual /* utype=spec:flatPointType.F_Qual*/;
+        BG:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.BG /* utype=spec:flatPointType.BG*/;
+        BG_ErrL:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.BG_ErrL /* utype=spec:flatPointType.BG_ErrL*/;
+        BG_ErrH:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.BG_ErrH /* utype=spec:flatPointType.BG_ErrH*/;
+        BG_Sys:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:flatPointType.BG_Sys /* utype=spec:flatPointType.BG_Sys*/;
+        BG_Qual:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/integer @[..]  ""***identifier*** spec:flatPointType.BG_Qual /* utype=spec:flatPointType.BG_Qual*/;
+  }
+ otype curationType  ""
+  { 
+     ***identifier*** spec:curationType /* utype=spec:curationType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:curationType.id /* utype=spec:curationType.id*/;
+        Publisher:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:curationType.Publisher /* utype=spec:curationType.Publisher*/;
+        PublisherID:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:curationType.PublisherID /* utype=spec:curationType.PublisherID*/;
+        Reference:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:curationType.Reference /* utype=spec:curationType.Reference*/;
+        Version:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:curationType.Version /* utype=spec:curationType.Version*/;
+        Rights:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:curationType.Rights /* utype=spec:curationType.Rights*/;
+        Date:***utyperef*** spec:dateParamType @[..]  ""***identifier*** spec:curationType.Date /* utype=spec:curationType.Date*/;
+        PublisherDID:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:curationType.PublisherDID /* utype=spec:curationType.PublisherDID*/;
+        Contact references ***utyperef*** spec:contactType ""
+  }
+ otype contactType  ""
+  { 
+     ***identifier*** spec:contactType /* utype=spec:contactType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:contactType.id /* utype=spec:contactType.id*/;
+        Name:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:contactType.Name /* utype=spec:contactType.Name*/;
+        Email:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:contactType.Email /* utype=spec:contactType.Email*/;
+  }
+ otype characterizationType  ""
+  { 
+     ***identifier*** spec:characterizationType /* utype=spec:characterizationType*/
+        CharacterizationAxis : ***utyperef*** spec:characterizationAxisType@[..] as composition ""
+        SpatialAxis references ***utyperef*** spec:characterizationAxisType ""
+        TimeAxis references ***utyperef*** spec:characterizationAxisType ""
+        fluxAxis references ***utyperef*** spec:characterizationAxisType ""
+        SpectralAxis references ***utyperef*** spec:spectraCharacterizationAxis ""
+  }
+ otype characterizationAxisType  ""
+  { 
+     ***identifier*** spec:characterizationAxisType /* utype=spec:characterizationAxisType*/
+         : ***utyperef*** spec:characterizationType as composition
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:characterizationAxisType.id /* utype=spec:characterizationAxisType.id*/;
+        name:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:characterizationAxisType.name /* utype=spec:characterizationAxisType.name*/;
+        ucd:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:characterizationAxisType.ucd /* utype=spec:characterizationAxisType.ucd*/;
+        unit:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:characterizationAxisType.unit /* utype=spec:characterizationAxisType.unit*/;
+        Resolution:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:characterizationAxisType.Resolution /* utype=spec:characterizationAxisType.Resolution*/;
+        Accuracy:***utyperef*** spec:accuracyType @[..]  ""***identifier*** spec:characterizationAxisType.Accuracy /* utype=spec:characterizationAxisType.Accuracy*/;
+        SamplingPrecision:***utyperef*** spec:samplingPrecisionType @[..]  ""***identifier*** spec:characterizationAxisType.SamplingPrecision /* utype=spec:characterizationAxisType.SamplingPrecision*/;
+        Calibration:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:characterizationAxisType.Calibration /* utype=spec:characterizationAxisType.Calibration*/;
+        CoordSystem references ***utyperef*** spec:coordSysType ""
+  }
+ otype spectraCharacterizationAxis 
+  extends ***identifier*** spec:spectraCharacterizationAxis.EXTENDS /* utype=spec:spectraCharacterizationAxis.EXTENDS*/***utyperef*** spec:characterizationAxisType ""
+  { 
+     ***identifier*** spec:spectraCharacterizationAxis /* utype=spec:spectraCharacterizationAxis*/
+        ResPower:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:spectraCharacterizationAxis.ResPower /* utype=spec:spectraCharacterizationAxis.ResPower*/;
+  }
+ otype coordSysType  ""
+  { 
+     ***identifier*** spec:coordSysType /* utype=spec:coordSysType*/
+        STCReference:***utyperef*** spec:STCReference @[..]  ""***identifier*** spec:coordSysType.STCReference /* utype=spec:coordSysType.STCReference*/;
+         : ***utyperef*** spec:coordFrameType@[..] as composition ""
+  }
+ otype dataIDType  ""
+  { 
+     ***identifier*** spec:dataIDType /* utype=spec:dataIDType*/
+        Title:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.Title /* utype=spec:dataIDType.Title*/;
+        Creator:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.Creator /* utype=spec:dataIDType.Creator*/;
+        Collection:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.Collection /* utype=spec:dataIDType.Collection*/;
+        Date:***utyperef*** spec:dateParamType @[..]  ""***identifier*** spec:dataIDType.Date /* utype=spec:dataIDType.Date*/;
+        Version:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.Version /* utype=spec:dataIDType.Version*/;
+        Instrument:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.Instrument /* utype=spec:dataIDType.Instrument*/;
+        CreationType:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.CreationType /* utype=spec:dataIDType.CreationType*/;
+        Bandpass:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.Bandpass /* utype=spec:dataIDType.Bandpass*/;
+        CreatorDID:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.CreatorDID /* utype=spec:dataIDType.CreatorDID*/;
+        Contributor:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.Contributor /* utype=spec:dataIDType.Contributor*/;
+        Logo:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.Logo /* utype=spec:dataIDType.Logo*/;
+        DataSource:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:dataIDType.DataSource /* utype=spec:dataIDType.DataSource*/;
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:dataIDType.id /* utype=spec:dataIDType.id*/;
+  }
+ otype targetType  ""
+  { 
+     ***identifier*** spec:targetType /* utype=spec:targetType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:targetType.id /* utype=spec:targetType.id*/;
+        Name:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:targetType.Name /* utype=spec:targetType.Name*/;
+        Description:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:targetType.Description /* utype=spec:targetType.Description*/;
+        TargetClass:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:targetType.TargetClass /* utype=spec:targetType.TargetClass*/;
+        SpectralClass:***utyperef*** spec:textParamType @[..]  ""***identifier*** spec:targetType.SpectralClass /* utype=spec:targetType.SpectralClass*/;
+        Redshift:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:targetType.Redshift /* utype=spec:targetType.Redshift*/;
+        Pos:***utyperef*** spec:positionParamType @[..]  ""***identifier*** spec:targetType.Pos /* utype=spec:targetType.Pos*/;
+        VarAmpl:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:targetType.VarAmpl /* utype=spec:targetType.VarAmpl*/;
+        CustomParams : ***utyperef*** spec:CustomParameter@[..] as composition ""
+  }
+ otype CustomParameter  ""
+  { 
+     ***identifier*** spec:CustomParameter /* utype=spec:CustomParameter*/
+         : ***utyperef*** spec:targetType as composition
+        Param:***utyperef*** spec:paramType @[..]  ""***identifier*** spec:CustomParameter.Param /* utype=spec:CustomParameter.Param*/;
+  }
+ otype coordFrameType  ""
+  { 
+     ***identifier*** spec:coordFrameType /* utype=spec:coordFrameType*/
+         : ***utyperef*** spec:coordSysType as composition
+        Name:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:coordFrameType.Name /* utype=spec:coordFrameType.Name*/;
+        ReferencePosition:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:coordFrameType.ReferencePosition /* utype=spec:coordFrameType.ReferencePosition*/;
+        id:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:coordFrameType.id /* utype=spec:coordFrameType.id*/;
+        ucd:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:coordFrameType.ucd /* utype=spec:coordFrameType.ucd*/;
+  }
+ otype spectralFrameType 
+  extends ***identifier*** spec:spectralFrameType.EXTENDS /* utype=spec:spectralFrameType.EXTENDS*/***utyperef*** spec:coordFrameType ""
+  { 
+     ***identifier*** spec:spectralFrameType /* utype=spec:spectralFrameType*/
+        Redshift:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:spectralFrameType.Redshift /* utype=spec:spectralFrameType.Redshift*/;
+  }
+ otype timeFrameType 
+  extends ***identifier*** spec:timeFrameType.EXTENDS /* utype=spec:timeFrameType.EXTENDS*/***utyperef*** spec:coordFrameType ""
+  { 
+     ***identifier*** spec:timeFrameType /* utype=spec:timeFrameType*/
+        Zero:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:timeFrameType.Zero /* utype=spec:timeFrameType.Zero*/;
+  }
+ otype redshiftFrameType 
+  extends ***identifier*** spec:redshiftFrameType.EXTENDS /* utype=spec:redshiftFrameType.EXTENDS*/***utyperef*** spec:coordFrameType ""
+  { 
+     ***identifier*** spec:redshiftFrameType /* utype=spec:redshiftFrameType*/
+        DopplerDefinition:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:redshiftFrameType.DopplerDefinition /* utype=spec:redshiftFrameType.DopplerDefinition*/;
+  }
+ otype spaceFrameType 
+  extends ***identifier*** spec:spaceFrameType.EXTENDS /* utype=spec:spaceFrameType.EXTENDS*/***utyperef*** spec:coordFrameType ""
+  { 
+     ***identifier*** spec:spaceFrameType /* utype=spec:spaceFrameType*/
+        Equinox:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:spaceFrameType.Equinox /* utype=spec:spaceFrameType.Equinox*/;
+  }
+ abstract dtype paramType  ""
+  { 
+     ***identifier*** spec:paramType /* utype=spec:paramType*/
+        name:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:paramType.name /* utype=spec:paramType.name*/;
+        ucd:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:paramType.ucd /* utype=spec:paramType.ucd*/;
+  }
+ dtype doubleParamType 
+  extends ***identifier*** spec:doubleParamType.EXTENDS /* utype=spec:doubleParamType.EXTENDS*/***utyperef*** spec:paramType ""
+  { 
+     ***identifier*** spec:doubleParamType /* utype=spec:doubleParamType*/
+        value:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/real @[..]  ""***identifier*** spec:doubleParamType.value /* utype=spec:doubleParamType.value*/;
+        unit:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:doubleParamType.unit /* utype=spec:doubleParamType.unit*/;
+  }
+ dtype textParamType 
+  extends ***identifier*** spec:textParamType.EXTENDS /* utype=spec:textParamType.EXTENDS*/***utyperef*** spec:paramType ""
+  { 
+     ***identifier*** spec:textParamType /* utype=spec:textParamType*/
+        value:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:textParamType.value /* utype=spec:textParamType.value*/;
+  }
+ dtype dateParamType 
+  extends ***identifier*** spec:dateParamType.EXTENDS /* utype=spec:dateParamType.EXTENDS*/***utyperef*** spec:paramType ""
+  { 
+     ***identifier*** spec:dateParamType /* utype=spec:dateParamType*/
+        value:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/datetime @[..]  ""***identifier*** spec:dateParamType.value /* utype=spec:dateParamType.value*/;
+  }
+ dtype positionParamType 
+  extends ***identifier*** spec:positionParamType.EXTENDS /* utype=spec:positionParamType.EXTENDS*/***utyperef*** spec:paramType ""
+  { 
+     ***identifier*** spec:positionParamType /* utype=spec:positionParamType*/
+        value1:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:positionParamType.value1 /* utype=spec:positionParamType.value1*/;
+        value2:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:positionParamType.value2 /* utype=spec:positionParamType.value2*/;
+  }
+ dtype timeParamType 
+  extends ***identifier*** spec:timeParamType.EXTENDS /* utype=spec:timeParamType.EXTENDS*/***utyperef*** spec:paramType ""
+  { 
+     ***identifier*** spec:timeParamType /* utype=spec:timeParamType*/
+        value:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/datetime @[..]  ""***identifier*** spec:timeParamType.value /* utype=spec:timeParamType.value*/;
+        unit:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:timeParamType.unit /* utype=spec:timeParamType.unit*/;
+  }
+ dtype intParamType 
+  extends ***identifier*** spec:intParamType.EXTENDS /* utype=spec:intParamType.EXTENDS*/***utyperef*** spec:paramType ""
+  { 
+     ***identifier*** spec:intParamType /* utype=spec:intParamType*/
+  }
+ dtype Group  ""
+  { 
+     ***identifier*** spec:Group /* utype=spec:Group*/
+        id:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:Group.id /* utype=spec:Group.id*/;
+        idref:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:Group.idref /* utype=spec:Group.idref*/;
+  }
+ dtype sedBaseCoordType  ""
+  { 
+     ***identifier*** spec:sedBaseCoordType /* utype=spec:sedBaseCoordType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:sedBaseCoordType.id /* utype=spec:sedBaseCoordType.id*/;
+  }
+ dtype sedCoordType 
+  extends ***identifier*** spec:sedCoordType.EXTENDS /* utype=spec:sedCoordType.EXTENDS*/***utyperef*** spec:sedBaseCoordType ""
+  { 
+     ***identifier*** spec:sedCoordType /* utype=spec:sedCoordType*/
+        Value:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:sedCoordType.Value /* utype=spec:sedCoordType.Value*/;
+        Accuracy:***utyperef*** spec:accuracyType @[..]  ""***identifier*** spec:sedCoordType.Accuracy /* utype=spec:sedCoordType.Accuracy*/;
+        Resolution:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:sedCoordType.Resolution /* utype=spec:sedCoordType.Resolution*/;
+  }
+ dtype sedQuantityType 
+  extends ***identifier*** spec:sedQuantityType.EXTENDS /* utype=spec:sedQuantityType.EXTENDS*/***utyperef*** spec:sedBaseCoordType ""
+  { 
+     ***identifier*** spec:sedQuantityType /* utype=spec:sedQuantityType*/
+        Value:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:sedQuantityType.Value /* utype=spec:sedQuantityType.Value*/;
+        Accuracy:***utyperef*** spec:accuracyType @[..]  ""***identifier*** spec:sedQuantityType.Accuracy /* utype=spec:sedQuantityType.Accuracy*/;
+        Resolution:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:sedQuantityType.Resolution /* utype=spec:sedQuantityType.Resolution*/;
+        Quality:***utyperef*** spec:intParamType @[..]  ""***identifier*** spec:sedQuantityType.Quality /* utype=spec:sedQuantityType.Quality*/;
+  }
+ dtype accuracyType  ""
+  { 
+     ***identifier*** spec:accuracyType /* utype=spec:accuracyType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:accuracyType.id /* utype=spec:accuracyType.id*/;
+        BinLow:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:accuracyType.BinLow /* utype=spec:accuracyType.BinLow*/;
+        BinHigh:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:accuracyType.BinHigh /* utype=spec:accuracyType.BinHigh*/;
+        BinSize:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:accuracyType.BinSize /* utype=spec:accuracyType.BinSize*/;
+        StatError:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:accuracyType.StatError /* utype=spec:accuracyType.StatError*/;
+        StatErrLow:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:accuracyType.StatErrLow /* utype=spec:accuracyType.StatErrLow*/;
+        StatErrHigh:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:accuracyType.StatErrHigh /* utype=spec:accuracyType.StatErrHigh*/;
+        SysError:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:accuracyType.SysError /* utype=spec:accuracyType.SysError*/;
+        Confidence:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:accuracyType.Confidence /* utype=spec:accuracyType.Confidence*/;
+  }
+ dtype coverageType  ""
+  { 
+     ***identifier*** spec:coverageType /* utype=spec:coverageType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:coverageType.id /* utype=spec:coverageType.id*/;
+        Location:***utyperef*** spec:coverageLocationType @[..]  ""***identifier*** spec:coverageType.Location /* utype=spec:coverageType.Location*/;
+        Bounds:***utyperef*** spec:coverageBoundsType @[..]  ""***identifier*** spec:coverageType.Bounds /* utype=spec:coverageType.Bounds*/;
+        Support:***utyperef*** spec:coverageSupportType @[..]  ""***identifier*** spec:coverageType.Support /* utype=spec:coverageType.Support*/;
+  }
+ dtype coverageLocationType 
+  extends ***identifier*** spec:coverageLocationType.EXTENDS /* utype=spec:coverageLocationType.EXTENDS*/***utyperef*** spec:sedBaseCoordType ""
+  { 
+     ***identifier*** spec:coverageLocationType /* utype=spec:coverageLocationType*/
+        Value:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:coverageLocationType.Value /* utype=spec:coverageLocationType.Value*/;
+        Accuracy:***utyperef*** spec:accuracyType @[..]  ""***identifier*** spec:coverageLocationType.Accuracy /* utype=spec:coverageLocationType.Accuracy*/;
+        Resolution:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:coverageLocationType.Resolution /* utype=spec:coverageLocationType.Resolution*/;
+  }
+ dtype coverageBoundsType  ""
+  { 
+     ***identifier*** spec:coverageBoundsType /* utype=spec:coverageBoundsType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:coverageBoundsType.id /* utype=spec:coverageBoundsType.id*/;
+        Extent:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:coverageBoundsType.Extent /* utype=spec:coverageBoundsType.Extent*/;
+        Range:***utyperef*** spec:intervalType @[..]  ""***identifier*** spec:coverageBoundsType.Range /* utype=spec:coverageBoundsType.Range*/;
+  }
+ dtype coverageSupportType  ""
+  { 
+     ***identifier*** spec:coverageSupportType /* utype=spec:coverageSupportType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:coverageSupportType.id /* utype=spec:coverageSupportType.id*/;
+        Area:***utyperef*** spec:skyRegionType @[..]  ""***identifier*** spec:coverageSupportType.Area /* utype=spec:coverageSupportType.Area*/;
+        Extent:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:coverageSupportType.Extent /* utype=spec:coverageSupportType.Extent*/;
+        Range:***utyperef*** spec:intervalType @[..]  ""***identifier*** spec:coverageSupportType.Range /* utype=spec:coverageSupportType.Range*/;
+  }
+ dtype intervalType  ""
+  { 
+     ***identifier*** spec:intervalType /* utype=spec:intervalType*/
+        Min:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:intervalType.Min /* utype=spec:intervalType.Min*/;
+        Max:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:intervalType.Max /* utype=spec:intervalType.Max*/;
+  }
+ dtype samplingPrecisionRefValueType  ""
+  { 
+     ***identifier*** spec:samplingPrecisionRefValueType /* utype=spec:samplingPrecisionRefValueType*/
+        id:***utyperef*** spec:Group @[..]  ""***identifier*** spec:samplingPrecisionRefValueType.id /* utype=spec:samplingPrecisionRefValueType.id*/;
+        FillFactor:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:samplingPrecisionRefValueType.FillFactor /* utype=spec:samplingPrecisionRefValueType.FillFactor*/;
+  }
+ dtype samplingPrecisionType  ""
+  { 
+     ***identifier*** spec:samplingPrecisionType /* utype=spec:samplingPrecisionType*/
+        SamplingPrecisionRefVal:***utyperef*** spec:samplingPrecisionRefValueType @[..]  ""***identifier*** spec:samplingPrecisionType.SamplingPrecisionRefVal /* utype=spec:samplingPrecisionType.SamplingPrecisionRefVal*/;
+        SampleExtent:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:samplingPrecisionType.SampleExtent /* utype=spec:samplingPrecisionType.SampleExtent*/;
+  }
+ dtype skyRegionType 
+  extends ***identifier*** spec:skyRegionType.EXTENDS /* utype=spec:skyRegionType.EXTENDS*/***utyperef*** spec:textParamType ""
+  { 
+     ***identifier*** spec:skyRegionType /* utype=spec:skyRegionType*/
+  }
+ dtype derivedDataType  ""
+  { 
+     ***identifier*** spec:derivedDataType /* utype=spec:derivedDataType*/
+        SNT:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:derivedDataType.SNT /* utype=spec:derivedDataType.SNT*/;
+        VarAmpl:***utyperef*** spec:doubleParamType @[..]  ""***identifier*** spec:derivedDataType.VarAmpl /* utype=spec:derivedDataType.VarAmpl*/;
+        Redshift:***utyperef*** spec:sedQuantityType @[..]  ""***identifier*** spec:derivedDataType.Redshift /* utype=spec:derivedDataType.Redshift*/;
+  }
+ dtype STCReference  ""
+  { 
+     ***identifier*** spec:STCReference /* utype=spec:STCReference*/
+        id:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:STCReference.id /* utype=spec:STCReference.id*/;
+        idref:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:STCReference.idref /* utype=spec:STCReference.idref*/;
+        ucd:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:STCReference.ucd /* utype=spec:STCReference.ucd*/;
+        xlinktype:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/string @[..]  ""***identifier*** spec:STCReference.xlinktype /* utype=spec:STCReference.xlinktype*/;
+        slinkhref:***modelUtypeRef*** ivoa_1.0***utyperef*** ivoa_1.0:stdtypes/anyURI @[..]  ""***identifier*** spec:STCReference.slinkhref /* utype=spec:STCReference.slinkhref*/;
+  }

@@ -4,6 +4,12 @@
 package net.ivoa.vodml.ui.labeling
 
 import com.google.inject.Inject
+import net.ivoa.vodml.vodsl.IncludeDeclaration
+import net.ivoa.vodml.vodsl.PackageDeclaration
+import net.ivoa.vodml.vodsl.Enumeration
+import net.ivoa.vodml.vodsl.ObjectType
+import net.ivoa.vodml.vodsl.Attribute
+import net.ivoa.vodml.vodsl.DataType
 
 /**
  * Provides labels for a EObjects.
@@ -15,7 +21,11 @@ class VodslLabelProvider extends org.eclipse.xtext.ui.label.DefaultEObjectLabelP
 	@Inject
 	new(org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider delegate) {
 		super(delegate);
+		
+//		  PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_BACK)  - could return this....
+		
 	}
+
 
 	// Labels and icons can be computed like this:
 	
@@ -23,7 +33,25 @@ class VodslLabelProvider extends org.eclipse.xtext.ui.label.DefaultEObjectLabelP
 //		'A greeting to ' + ele.name
 //	}
 //
-//	def image(Greeting ele) {
-//		'Greeting.gif'
-//	}
+
+
+	def image(IncludeDeclaration ele) {
+		'import_wiz.gif'
+	}
+	def image(PackageDeclaration ele) {
+		'package_obj.gif'
+	}
+	def image(Enumeration ele) {
+		'enum_obj.gif'
+	}
+	def image(ObjectType ele) {
+		'class_obj.gif'
+	}
+	def image(DataType ele) {
+		'data_obj.png'
+	}
+	def image(Attribute ele) {
+		'field_obj.gif'
+	}
+	
 }

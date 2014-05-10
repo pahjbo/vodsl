@@ -1,9 +1,11 @@
 grammar net.ivoa.vodml.Vodsl with org.eclipse.xtext.common.Terminals
 
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
 generate vodsl "http://www.ivoa.net/vodml/Vodsl"
 
 /*
- * DSL for VODML - Paul Harrison Apr 2014.
+ * DSL for VODML - Paul Harrison, Apr 2014.
  */
 
 /**
@@ -21,10 +23,11 @@ ModelDeclaration:
 	'model' name=ID '(' version=VERSION ')' description=STRING?
 ;
 
-terminal VERSION: '0'..'9' ('.' '0'..'9')  ?;
+/* avoid terminals here as causes confusion in the LEXing which is greedy see http://www.eclipse.org/forums/index.php/t/263071/ */
+VERSION returns ecore::EString : INT ('.' INT)?;
 
 IncludeDeclaration:
-	'import' importedNamespace = QualifiedNameWithWildcard
+	'include' importURI=STRING
 ;
 
 QualifiedName:
@@ -37,48 +40,34 @@ QualifiedNameWithWildcard:
 ValidID:
 	ID;
 	
+DefinitionType:
+	ObjectType | Enumeration | DataType | PrimitiveType
+;
 
 AbstractElement:
-   PackageDeclaration| ObjectType | Enumeration | DataType | PrimitiveType;
+   PackageDeclaration| DefinitionType;
  
 
   PackageDeclaration:
-  'package' name=ID '{'
+  'package' name=ID description=STRING? '{'
     elements+=AbstractElement+
   '}';
 
 /**
- * Convenience meta types
- * (not actually referenced from anywhere in the grammar defn, but appear in the VODML spec).
+ * Convenience meta type
+ * (not actually referenced from anywhere in the grammar defn, but appear in the VODML spec! and makes code generation easier).
  */
-Type:
-    ValueType | ObjectType 
-    ;
+ 
+ReferableElement :
+	AbstractElement | EnumLiteral | Attribute
+;   
 
-ValueType:
-    DataType | Enumeration | PrimitiveType
-    ;
-
-/*
- * these are primitive types that are in the ivoa model - it might well be nicer to have these imported... Quantity from there is useful anyway - would be nice
- * to be able to miss off the "ivoa." prefix
- */
-enum StdPrimitiveType:
-    anyURI | duration| decimal| string | integer | rational | boolean | real | datatime | complex | nonnegativeInteger
-    ;
-
-
-enum ConstraintLanguage:
-    XSD | Java | OCL | Custom
-;
 /**
- * Definition for a primitive type which has a name and
- * either has a realization type (to connect it with e.g. ivoa primitive types)
- * or extends an existing primitive type -in which case the realization type is
- * that of the super type.
+ * Definition for a primitive type.
+ * TODO not really sure that it captures the subsets idea from VODML really yet...
  */
 PrimitiveType:
-   'prim' name=ID       
+   'primitive' name=ID       
             ( '->' superType=[PrimitiveType|QualifiedName] )?
             description = STRING
     ;
@@ -98,27 +87,35 @@ DataType:
     '}'
     ;
 
-Attribute :
-    ( modifier=Modifier )? name=ID ':' type=[Type|QualifiedName] description=STRING
-    ;
-    /*
-     * validation: if type refers to a PrimitiveType, then modifier != repeated
-     * scoping: if the Attribute resides inside a DataType, then type must be a PrimitiveType;
-     * 
-     * Note that this definition might seem a bit contrived, but that's
-     * because, from a parsing viewpoint, splitting this definition up
-     * (into a SimpleField and ComplexField, e.g.) causes the grammar
-     * to be ambiguous.
-     */
 
-enum Modifier:
-    optional | required | repeated
+/*
+ * composition/referencing probably needs a better design.
+ * 
+ */
+Attribute :
+    name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )? ('as' (ordered?='ordered')? composition?='composition')?  description=STRING ((skosConcept=SkosConcept)? & ( constraints += Constraint )* )';'?
     ;
+
+/*
+ * the @ is not really necessary from a parsing/grammar point of view - just put in to make it stand out in the text
+ * when not present it is assumed that the multiplicity is @[1..1]
+ */
+Multiplicity :
+	'@' ( ('[' (minOccurs=MInt) ('..' maxOccurs=MInt)? ']' ) | ( multiplicitySpec = MultiplicityBound ) )
+;
+		
+/* need this because of problems with the terminal INT rule in different contexts  */		
+MInt returns ecore::EInt : INT ;
+
+/*shortcut representation of common multiplicities */
+enum MultiplicityBound :
+	MANY='*' | OPTIONAL='?' | ATLEASTONE='+' ;
+
 
 Enumeration:
     'enum' name=ID (description=STRING)?
     '{'
-        ( literals += EnumLiteral )*
+        literals += EnumLiteral (',' literals += EnumLiteral) *
     '}'
     ;
 
@@ -129,7 +126,6 @@ EnumLiteral:
 ObjectType:
     ( abstract?='abstract'? ) 'otype' name=ID
         ( 'extends' superType=[ObjectType|QualifiedName] )? (description=STRING)?
-            // scoping (TODO): can only be an ObjectType that isn't a sub entity of this ObjectType itself
     '{'
         ( attributes += Attribute )*
         ( references += Reference )*
@@ -137,14 +133,28 @@ ObjectType:
     '}'
     ;
 
+/*
+ * no multiplicity in referenes
+ */
 Reference:
-	 name=ID 'ref' referenced=QualifiedName
+	 name=ID 'references' referenced=QualifiedName  (description=STRING)?
 ;
 
 /*
- * The constraint is just the same as the XML definition - however, could have constraints that were expressed in the DSL directly
+ * The constraint is just the same as the XML definition - min/max datatypes are not well specified at the moment - they are all strings 
+ * 
+ * perhaps could have constraints expressions that were more like traditional logical expressions
  */
 Constraint:
-    'constraint' expr=STRING 'as' language=ConstraintLanguage
+	{Constraint}
+    'constraint' (expr=STRING 'as' language=ConstraintLanguage)? (('min=' min=STRING)? & ('max=' max=STRING)? & ('minlen=' minlen=INT)? 
+    & ('maxlen=' maxlen=INT)? & ('len=' len=INT)? & ((unique?='unique' )|(gunique?='unique globally'))?)
     ;
 
+enum ConstraintLanguage:
+    XSD | Java | OCL | Custom
+;
+
+SkosConcept:
+	'skosconcept' (broadestSKOSConcept=STRING)? 'in' vocabularyURI=STRING
+;

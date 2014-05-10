@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     6 May 2014 15:16:34                                                        
+
+     ant script to do initial translation of vodml files to vodsl
+                   
+     Paul Harrison                                                                
+     ====================================================================== -->
+<project name="project" default="alltodsl">
+	
+	<property name="vodmlbase" location="/Users/pharriso/Work/volute/projects/dm/vo-dml/"/>
+    <target name="alltodsl"  description="description">
+    	<todsl model="ivoa" sdir="ivoa"/>
+    	<todsl model="Characterization" sdir="characterization"/>
+    	<todsl model="SourceDM" sdir="source" />
+    	<todsl model="PhotDM-alt" sdir="photdm-alt" />
+    	<todsl model="STC" sdir="stc"/>
+    	<todsl model="ObsCore" sdir="obscore"/>
+  	   <todsl model="SpectrumDM" sdir="spectrum" />
+     	<todsl model="Cube2.4.1" sdir="cube" />
+    	
+    </target>
+	
+	<!-- ================================= 
+          target: fewdsl              
+         ================================= -->
+    <target name="fewdsl"  description="do a few transformations">
+        <todsl model="Characterization" sdir="characterization"/>
+
+    </target>
+
+
+	
+    <macrodef name="todsl">
+        <attribute name="model" />
+    	  <attribute name="sdir"  />
+        <sequential>
+      	<xslt style="vo-dml2dsl.xsl" in="${vodmlbase}/models/@{sdir}/@{model}.vo-dml.xml" out="@{model}.vodsl" force="true" >
+      		<factory name="net.sf.saxon.TransformerFactoryImpl" />
+<!--                  <param name="docversion" expression="${docversion}"/> -->
+      		
+       	</xslt>
+        </sequential>
+    </macrodef>
+
+
+</project>
