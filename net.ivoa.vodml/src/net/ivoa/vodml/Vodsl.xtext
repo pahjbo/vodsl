@@ -59,7 +59,7 @@ AbstractElement:
  */
  
 ReferableElement :
-	AbstractElement | EnumLiteral | Attribute
+	AbstractElement | EnumLiteral | Attribute | Reference
 ;   
 
 /**
@@ -134,10 +134,10 @@ ObjectType:
     ;
 
 /*
- * no multiplicity in referenes
+ * The reference to a definitionType is not quite allowed - allows reference to an attribute for instance - TODO need to custom scope this so that only DataTypes and ObjectTypes are allowed I think.
  */
 Reference:
-	 name=ID 'references' referenced=QualifiedName  (description=STRING)?
+	 name=ID 'references' referenced=[DefinitionType|QualifiedName]  (description=STRING)?
 ;
 
 /*

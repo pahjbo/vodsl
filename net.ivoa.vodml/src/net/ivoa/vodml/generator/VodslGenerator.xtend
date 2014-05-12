@@ -20,6 +20,12 @@ import net.ivoa.vodml.vodsl.Attribute
 import net.ivoa.vodml.vodsl.Constraint
 import net.ivoa.vodml.vodsl.Multiplicity
 import net.ivoa.vodml.vodsl.ReferableElement
+import java.util.TimeZone
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import org.eclipse.emf.ecore.EObject
+import net.ivoa.vodml.vodsl.Reference
 
 /**
  * Generates code from your model files on save.
@@ -28,33 +34,48 @@ import net.ivoa.vodml.vodsl.ReferableElement
  */
 class VodslGenerator implements IGenerator {
 	
+	 static val TimeZone tz = TimeZone.getTimeZone("UTC")
+    static val DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+    new()
+    {
+    	df.setTimeZone(tz)
+    }
+	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val vodecl = resource.allContents.filter(typeof(VoDataModel)).head // surely there must be a better way of getting this one....
 		val modelDecl = vodecl.model
 		val filename = modelDecl.name + '.vo-dml.xml'
-		fsa.generateFile(filename, 
-	  '''
-<?xml version="1.0" encoding="UTF-8"?>
-	<vo-dml:model xmlns:vo-dml="http://volute.googlecode.com/dm/vo-dml/v0.9"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://volute.googlecode.com/dm/vo-dml/v0.9 https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/xsd/vo-dml.xsd">
-	  <!-- file generated from VODSL -->
-''' +   modelDecl.vodml
-    +   vodecl.includes.map[vodml].join('')
-    +   vodecl.elements.map[vodml].join('')	
-	 +	'</vo-dml:model>')
+		fsa.generateFile(filename, vodecl.vodml)
 	}
 	
 	
-	def vodml (ModelDeclaration e) '''
-    <vodml-id>«e.name»</vodml-id>
-    <name>«e.name»</name>
-    <version>«e.version»</version>
-    <description>«e.description»</description> 
+	def vodml(VoDataModel e)'''
+	<?xml version="1.0" encoding="UTF-8"?>
+	<vo-dml:model xmlns:vo-dml="http://volute.googlecode.com/dm/vo-dml/v0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://volute.googlecode.com/dm/vo-dml/v0.9 https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/xsd/vo-dml.xsd">
+	<!-- file generated from VODSL -->
+      <vodml-id>«e.model.name»</vodml-id>
+      <name>«e.model.name»</name>
+      <description>«e.model.description»</description> 
+      «FOR f: e.elements»
+        «f.vodml»
+      «ENDFOR»
+      <version>«e.model.version»</version>
+      <lastModified>«df.format(new Date())»</lastModified>
+      «FOR f:e.includes»
+      	«f.vodml»
+      «ENDFOR»
+   </vo-dml:model>
 	'''
 	
+	
 	def vodml(IncludeDeclaration e) '''
-	<include>«e.importURI»</include>
+	<import>
+	  <prefix>notyetknown</prefix>
+	  <url>«e.importURI»</url>
+	  <documentationURL>not known</documentationURL>
+	</import>
 	'''
 	
 	def vodml(AbstractElement e)
@@ -91,7 +112,7 @@ class VodslGenerator implements IGenerator {
 	   «e.preamble»
 	   «IF e.superType != null»
 	   <extends>
-	      <utype>«e.superType.name»</utype>
+	      «(e.superType as ReferableElement).vodml»
 	   </extends>
 	   «ENDIF»
 	   «FOR f: e.constraints»
@@ -100,30 +121,67 @@ class VodslGenerator implements IGenerator {
 	   «FOR f: e.attributes»
 	   	«f.vodml»
 	   «ENDFOR»
+	   «FOR f: e.references»
+	   	«f.vodml»
+	   «ENDFOR»
+	   
+	   
 	</objectType>
 	'''
 	def vodml (Attribute e)'''
-	«IF e.composition»
-	<composition>
-	«ELSE»
-	<attribute>
-	«ENDIF»
+	«val atstr = e.attrType»
+	<«atstr»>
 	  «e.preamble»
-	  «(e.type as ReferableElement).vodml»
+	  <datatype>
+	     «(e.type as ReferableElement).vodml»
+	  </datatype>
 	  «vodml(e.multiplicity)»
-	«IF e.composition»
-	</composition>
-	«ELSE»	
-	</attribute>
-	«ENDIF»
+	</«atstr»>
 	'''
+	
+	def attrType(Attribute attribute)
+	{
+		if(attribute.composition)
+		{
+			"collection"
+		}
+		else
+		{
+			"attribute"
+		}
+		
+	}
+	
 
    def vodml(ReferableElement e)'''
-   <datatype><!--this does not have the proper UType yet -->
-     <utype>«e.name»</utype>
-   </datatype>
+   <utype>«e.UType»</utype>
    '''
 
+/**
+ * this should give the full UType name. TODO this is not really working - the scoping of the types should fill this in, as the rules are a bit tricky
+ */
+   def UType(ReferableElement e)
+   {
+   	//hunt for the containing VODatModelImpl (is there a better way to do this?)
+   	var cont = e as EObject
+   	while (cont.eContainer != null)
+   	{
+   		cont = cont.eContainer
+   	}
+   	(cont as VoDataModel).model.name +":"+e.name
+   }
+
+
+//No multiplicity
+   def vodml(Reference e)'''
+   <reference>
+     «e.preamble»
+     <datatype>
+       «(e.referenced as ReferableElement).vodml»
+     <datatype>
+   </reference>
+   '''
+   
 // this is not really doing correct thing for attributes yet...
    def vodml(Constraint e)'''
    <constraint>
@@ -141,14 +199,14 @@ class VodslGenerator implements IGenerator {
       «FOR f: e.literals»
          «f.vodml»
       «ENDFOR»
-	<enumeration>
+	</enumeration>
 	'''
 	def vodml (DataType e)'''
 	<dataType  «IF e.abstract» abstract='true'«ENDIF»>
 	  «e.preamble»
 	   «IF e.superType != null»
 	   <extends>
-	      <utype>«e.superType.name»</utype>
+	      «(e.superType as ReferableElement).vodml»
 	   </extends>
 	   «ENDIF»
 	   «FOR f: e.constraints»
@@ -201,7 +259,7 @@ class VodslGenerator implements IGenerator {
 	def vodml (PrimitiveType e)'''
    <primitiveType>
      «e.preamble»
-   </primitiveType>	
+   </primitiveType>
 	'''
 	def vodml (EnumLiteral e)'''
    <literal>

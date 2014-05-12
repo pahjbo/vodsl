@@ -3,13 +3,13 @@ It has some sample relationships etc to be used in documentation etc."
 
 	include "IVOA.vodsl"
 
-	include "PhotDM-alt.vodsl"    
+	include "PhotDM-alt.vodsl"
 
-	package source "this is main package" 
-	{
+	package source "this is main package"
+	{       
 
 		otype LuminosityMeasurement ""
-	 	{
+		{
 
 			value : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
 			error : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ @? "" ;

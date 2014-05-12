@@ -5,9 +5,10 @@
 	  <!-- file generated from VODSL -->
 <vodml-id>photdm_alt</vodml-id>
 <name>photdm_alt</name>
-<version>0.1</version>
 <description>This is an alternative version of the data model for Photometric Calibration ... </description> 
-<include>IVOA.vodsl</include>
+<version>0.1</version>
+<lastModified>2014-05-12T10:05:45Z</lastModified>
+<import>IVOA.vodsl</import>
 <objectType >
    <vodml-id>Access</vodml-id>
    <name>Access</name>
@@ -18,7 +19,7 @@
      <description>uri to the effective transmission curve
      NB this description applies to the inherited access atttribute on TransmissionCurve, not really to the one on the base class.</description>	    
      <datatype>
-       <utype>string</utype>
+        <utype>ivoa:string</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -30,7 +31,7 @@
      <name>format</name>
      <description></description>	    
      <datatype>
-       <utype>string</utype>
+        <utype>ivoa:string</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -42,7 +43,7 @@
      <name>size</name>
      <description></description>	    
      <datatype>
-       <utype>nonnegativeInteger</utype>
+        <utype>ivoa:nonnegativeInteger</utype>
      </datatype>
      <multiplicity>
        <minOccurs>0</minOccurs>
@@ -55,14 +56,14 @@
    <name>AsinhZeroPoint</name>
    <description></description>	    
    <extends>
-      <utype>ZeroPoint</utype>
+      <utype>photdm_alt:ZeroPoint</utype>
    </extends>
    <attribute>
      <vodml-id>softeningCoefficient</vodml-id>
      <name>softeningCoefficient</name>
      <description></description>	    
      <datatype>
-       <utype>real</utype>
+        <utype>ivoa:real</utype>
      </datatype>
      <multiplicity>
        <minOccurs>0</minOccurs>
@@ -75,7 +76,7 @@
    <name>LinearFlux</name>
    <description></description>	    
    <extends>
-      <utype>ZeroPoint</utype>
+      <utype>photdm_alt:ZeroPoint</utype>
    </extends>
 </objectType>
 <objectType >
@@ -87,7 +88,7 @@
      <name>type</name>
      <description></description>	    
      <datatype>
-       <utype>string</utype>
+        <utype>ivoa:string</utype>
      </datatype>
      <multiplicity>
        <minOccurs>0</minOccurs>
@@ -99,7 +100,7 @@
      <name>referenceSpectrum</name>
      <description></description>	    
      <datatype>
-       <utype>anyURI</utype>
+        <utype>ivoa:anyURI</utype>
      </datatype>
      <multiplicity>
        <minOccurs>0</minOccurs>
@@ -111,7 +112,7 @@
      <name>source</name>
      <description></description>	    
      <datatype>
-       <utype>Source</utype>
+        <utype>photdm_alt:Source</utype>
      </datatype>
      <multiplicity>
        <minOccurs>0</minOccurs>
@@ -128,7 +129,7 @@
      <name>zeroPoint</name>
      <description></description>	    
      <datatype>
-       <utype>ZeroPoint</utype>
+        <utype>photdm_alt:ZeroPoint</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -140,7 +141,7 @@
      <name>magnitudeSystem</name>
      <description></description>	    
      <datatype>
-       <utype>MagnitudeSystem</utype>
+        <utype>photdm_alt:MagnitudeSystem</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -157,7 +158,7 @@
      <name>description</name>
      <description>String representation Photometric system</description>	    
      <datatype>
-       <utype>string</utype>
+        <utype>ivoa:string</utype>
      </datatype>
      <multiplicity>
        <minOccurs>0</minOccurs>
@@ -169,7 +170,7 @@
      <name>detectorType</name>
      <description>Type of detector (e.g energy or photon counter)</description>	    
      <datatype>
-       <utype>integer</utype>
+        <utype>ivoa:integer</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -181,7 +182,7 @@
      <name>photometryFilter</name>
      <description></description>	    
      <datatype>
-       <utype>PhotometryFilter</utype>
+        <utype>photdm_alt:PhotometryFilter</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -198,7 +199,7 @@
      <name>fpsIdentifier</name>
      <description>IVOA identifier of the Filter Profile Service</description>	    
      <datatype>
-       <utype>string</utype>
+        <utype>ivoa:string</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -210,7 +211,7 @@
      <name>identifier</name>
      <description></description>	    
      <datatype>
-       <utype>string</utype>
+        <utype>ivoa:string</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -222,7 +223,7 @@
      <name>name</name>
      <description>Filter Name in the instrumental configuration</description>	    
      <datatype>
-       <utype>string</utype>
+        <utype>ivoa:string</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -234,7 +235,7 @@
      <name>description</name>
      <description>Text description of the filter band</description>	    
      <datatype>
-       <utype>string</utype>
+        <utype>ivoa:string</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -246,7 +247,7 @@
      <name>bandName</name>
      <description></description>	    
      <datatype>
-       <utype>string</utype>
+        <utype>ivoa:string</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -258,7 +259,7 @@
      <name>dataValidityFrom</name>
      <description></description>	    
      <datatype>
-       <utype>datetime</utype>
+        <utype>ivoa:datetime</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -270,7 +271,7 @@
      <name>dataValidityTo</name>
      <description></description>	    
      <datatype>
-       <utype>datetime</utype>
+        <utype>ivoa:datetime</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -282,7 +283,7 @@
      <name>spectralLocation</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -294,7 +295,7 @@
      <name>bandWidth</name>
      <description></description>	    
      <datatype>
-       <utype>S_Bounds</utype>
+        <utype>photdm_alt:S_Bounds</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -306,7 +307,7 @@
      <name>transmissionPoint</name>
      <description></description>	    
      <datatype>
-       <utype>TransmissionPoint</utype>
+        <utype>photdm_alt:TransmissionPoint</utype>
      </datatype>
      <multiplicity>
        <minOccurs>0</minOccurs>
@@ -318,7 +319,7 @@
      <name>access</name>
      <description></description>	    
      <datatype>
-       <utype>Access</utype>
+        <utype>photdm_alt:Access</utype>
      </datatype>
      <multiplicity>
        <minOccurs>0</minOccurs>
@@ -331,7 +332,7 @@
    <name>PogsonZeroPoint</name>
    <description></description>	    
    <extends>
-      <utype>ZeroPoint</utype>
+      <utype>photdm_alt:ZeroPoint</utype>
    </extends>
 </objectType>
 <objectType  abstract='true'>
@@ -343,7 +344,7 @@
      <name>flux</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -355,7 +356,7 @@
      <name>referenceMagnitude</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -377,7 +378,7 @@
      <name>spectral</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -389,7 +390,7 @@
      <name>spectralError</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -401,7 +402,7 @@
      <name>transmission</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -413,7 +414,7 @@
      <name>transmissionError</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -430,7 +431,7 @@
      <name>extent</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>0</minOccurs>
@@ -442,7 +443,7 @@
      <name>start</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>
@@ -454,7 +455,7 @@
      <name>stop</name>
      <description></description>	    
      <datatype>
-       <utype>RealQuantity</utype>
+        <utype>ivoa:RealQuantity</utype>
      </datatype>
      <multiplicity>
        <minOccurs>1</minOccurs>

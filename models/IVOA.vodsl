@@ -1,11 +1,9 @@
-
 model ivoa ( 1.0 ) "This is the main reference data model containing primitive types used in other data models."
 
-	dtype Identity
+	dtype Identity 
 	"This datatype represents an identifier for an object in the data model. It consists of 3 attributes that each are assumed to work in a particular context or representation of a data model instance."
-	{
-
-		id : integer /* utype=ivoa:integer*/ @?  
+	{      
+		id : integer /* utype=ivoa:integer*/ @?
 		"The id attribute is assumed to represent an object in a database storing instances of the data model. " ;
 		xmlId : string /* utype=ivoa:string*/ @?
 		"This attribute is used to support identifing of and referring to an object in an XML document using the ID/IDREF mechanism."
@@ -44,7 +42,7 @@ I.e. string has value type semantics."
 For that purpose the attribute isa skosconcept, but a proper SKOS vocabulary for UCDs would be required to formalize this further." skosconcept
 			"" in "http://www.ivoa.net/rdf/Vocabularies/vocabularies-20091007/UCD/UCD.rdf" ;
 		}
-
+ 
 		dtype BooleanValue extends quantity.AtomicValue /* utype=ivoa:quantity.AtomicValue*/ ""
 		{
 			value : boolean /* utype=ivoa:boolean*/ "" ;
