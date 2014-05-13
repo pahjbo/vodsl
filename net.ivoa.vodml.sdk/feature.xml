@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="net.ivoa.vodml.sdk"
-	label="Vodsl SDK Feature "
-	version="1.0.0.qualifier">
-	<plugin
-			id="net.ivoa.vodml"
-			download-size="0"
-			install-size="0"
-			version="0.0.0"
-			unpack="false"/>
-	<plugin
-			id="net.ivoa.vodml.ui"
-			download-size="0"
-			install-size="0"
-			version="0.0.0"
-			unpack="false"/>
+<feature
+      id="net.ivoa.vodml.sdk"
+      label="VODML/I SDK Feature"
+      version="0.1.0.20130513"
+      provider-name="JBO, University of Manchester">
+
+   <description>
+      A domain specfic language and editor for VODML
+   </description>
+
+   <copyright>
+      Copyright Paul Harrison JBCA, Manchester University 2014
+   </copyright>
+
+   <requires>
+      <import plugin="org.eclipse.xtext"/>
+      <import plugin="org.eclipse.xtext.util"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.antlr.runtime"/>
+      <import plugin="org.eclipse.xtext.common.types"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="org.eclipse.xtext.xbase.lib"/>
+      <import plugin="org.eclipse.xtext.ui"/>
+      <import plugin="org.eclipse.ui.editors" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.ui.shared"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.xtext.builder"/>
+      <import plugin="org.eclipse.xtext.common.types.ui"/>
+      <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
+      <import plugin="org.eclipse.compare"/>
+   </requires>
+
+   <plugin
+         id="net.ivoa.vodml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.ivoa.vodml.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
