@@ -234,6 +234,19 @@ class VodslGenerator implements IGenerator {
 					case OPTIONAL: {
 						vodml(0,1)
 					}
+					case ONE:
+					{
+						if(e.minOccurs != 0)
+						{
+							vodml(e.minOccurs, e.maxOccurs)
+						}
+						else
+						{
+							vodml(1,1)
+						}
+					}
+					default:
+						vodml(1,1)
 					
 				}
 			}

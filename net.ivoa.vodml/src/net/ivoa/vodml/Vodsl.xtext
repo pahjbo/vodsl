@@ -40,14 +40,18 @@ QualifiedNameWithWildcard:
 ValidID:
 	ID;
 	
+ValueType:
+	Enumeration | DataType | PrimitiveType
+;
+
 DefinitionType:
-	ObjectType | Enumeration | DataType | PrimitiveType
+	ObjectType | ValueType
 ;
 
 AbstractElement:
    PackageDeclaration| DefinitionType;
  
-
+/*TODO - just call this package - semantically this is the whole package */
   PackageDeclaration:
   'package' name=ID description=STRING? '{'
     elements+=AbstractElement+
@@ -57,10 +61,11 @@ AbstractElement:
  * Convenience meta type
  * (not actually referenced from anywhere in the grammar defn, but appear in the VODML spec! and makes code generation easier).
  */
- 
+
+
 ReferableElement :
 	AbstractElement | EnumLiteral | Attribute | Reference
-;   
+;  
 
 /**
  * Definition for a primitive type.
@@ -106,10 +111,10 @@ Multiplicity :
 		
 /* need this because of problems with the terminal INT rule in different contexts  */		
 MInt returns ecore::EInt : INT ;
-
-/*shortcut representation of common multiplicities */
+  
+/*shortcut representation of common multiplicities - the ONE is a bit ugly - but first is the what will get bound to multiplicitySpec by default */
 enum MultiplicityBound :
-	MANY='*' | OPTIONAL='?' | ATLEASTONE='+' ;
+	ONE | MANY='*' | OPTIONAL='?' | ATLEASTONE='+' ;
 
 
 Enumeration:

@@ -11,5 +11,5 @@ package net.ivoa.vodml.scoping
  *
  */
 class VodslScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider {
-
+   
 }
