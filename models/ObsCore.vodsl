@@ -11,94 +11,96 @@ It is ported from the recommendation in http://www.ivoa.net/documents/ObsCore/in
 		abstract otype ObservingElement ""
 		{
 
-			name : string /* utype=ivoa:string*/ "" ;
-			type : string /* utype=ivoa:string*/ "" ;
+			name : string  "" ;
+			type : string  "" ;
 		}
 
 		otype ObsConfig ""
 		{
 
-			observingElement : Provenance.ObservingElement /* utype=obscore:Provenance.ObservingElement*/ @* as composition ""
+			observingElement : Provenance.ObservingElement  @* as composition "";
 		}
 
 
-		otype Filter extends Provenance.ObservingElement /* utype=obscore:Provenance.ObservingElement*/ ""
+		otype Filter extends Provenance.ObservingElement  ""
 		{
 		}
 
-		otype Facility extends Provenance.ObservingElement /* utype=obscore:Provenance.ObservingElement*/ ""
+		otype Facility extends Provenance.ObservingElement  ""
 		{
 		}
 
-		otype Instrument extends Provenance.ObservingElement /* utype=obscore:Provenance.ObservingElement*/ ""
+		otype Instrument extends Provenance.ObservingElement  ""
 		{
 		}
 
-		otype Detector extends Provenance.ObservingElement /* utype=obscore:Provenance.ObservingElement*/ ""
+		otype Detector extends Provenance.ObservingElement  ""
 		{
 		}
 
 		otype Proposal ""
 		{
 
-			identifier : string /* utype=ivoa:string*/ "" ;
+			identifier : string  "" ;
 		}
 	}
 
 	otype Observation ""
 	{
 
-		dataProductType : string /* utype=ivoa:string*/ "Data product (file content) primary type" ;
-		dataProductSubtype : string /* utype=ivoa:string*/ @? "Data product specific type" ;
-		calibLevel : CalibrationLevel /* utype=obscore:CalibrationLevel*/
-		"Calibration level of the observation: in {0, 1, 2, 3}" ;
-		target : Target /* utype=obscore:Target*/ @? "" ;
-		dataID : DataID /* utype=obscore:DataID*/ "" ;
-		access : Access /* utype=obscore:Access*/ "" ;
-		curation : Curation /* utype=obscore:Curation*/ as composition ""
-		characterisation : ObsCharacterisation /* utype=obscore:ObsCharacterisation*/ as composition ""
-		obsconfig references ObsConfig /* utype=obscore:Provenance.ObsConfig*/ "" proposal references Proposal
-		/* utype=obscore:Provenance.Proposal*/ ""
+		dataProductType : string  "Data product (file content) primary type" ;
+		dataProductSubtype : string  @? "Data product specific type" ;
+		calibLevel : integer "Calibration level of the observation: in {0, 1, 2, 3}" /*would have been nicer as an enum */;
+		target : Target  @? "" ;
+		dataID : DataID  "" ;
+		access : Access  "" ;
+		curation : Curation  as composition "";
+		characterisation : ObsCharacterisation  as composition "";
+		obsconfig references  Provenance.ObsConfig "";
+		proposal references Provenance.Proposal "";
+		
 	}
 
 	otype Curation ""
 	{
 
-		CONTAINER : Obs /* utype=obscore:Obs*/ as composition "Reference to container in collection curation"
-		releaseDate : datetime /* utype=ivoa:datetime*/ @? "" ;
-		publisherDID : string /* utype=ivoa:string*/ "" ;
-		publisherId : string /* utype=ivoa:string*/ @? "" ;
-		reference : string /* utype=ivoa:string*/ @? "" ;
-		rights : Rights /* utype=obscore:Rights*/ @? "" ;
+		CONTAINER : Obs  as composition "Reference to container in collection curation";
+		releaseDate : datetime  @? "" ;
+		publisherDID : string  "" ;
+		publisherId : string  @? "" ;
+		reference : string  @? "" ;
+		rights : Rights  @? "" ;
 	}
 
-	otype ObsCharacterisation extends Char /* utype=char:Char*/ "" { CONTAINER : Obs /* utype=obscore:Obs*/ as
-	composition "Reference to container in collection characterisation" }
+	otype ObsCharacterisation extends Char  "" { 
+    CONTAINER : Obs  as
+	composition "Reference to container in collection characterisation";
+	 }
 
 	dtype DataID ""
 	{
 
-		observationID : string /* utype=ivoa:string*/ "" ;
-		title : string /* utype=ivoa:string*/ @? "" ;
-		collection : string /* utype=ivoa:string*/ "Name of the data collection" ;
-		creationDate : datetime /* utype=ivoa:datetime*/ @? "" ;
-		creator : string /* utype=ivoa:string*/ @? "" ;
-		creatorDID : string /* utype=ivoa:string*/ @? "" ;
+		observationID : string  "" ;
+		title : string  @? "" ;
+		collection : string  "Name of the data collection" ;
+		creationDate : datetime  @? "" ;
+		creator : string  @? "" ;
+		creatorDID : string  @? "" ;
 	}
 
 	dtype Target ""
 	{
 
-		name : string /* utype=ivoa:string*/ "" ;
-		classification : string /* utype=ivoa:string*/ @? "" ;
+		name : string  "" ;
+		classification : string  @? "" ;
 	}
 
 	dtype Access ""
 	{
 
-		reference : anyURI /* utype=ivoa:anyURI*/ "" ;
-		format : FormatType /* utype=obscore:FormatType*/ @? "" ;
-		size : integer /* utype=ivoa:integer*/ @? "" ;
+		reference : anyURI  "" ;
+		format : FormatType  @? "" ;
+		size : integer  @? "" ;
 	}
 	enum FormatType ""
 	{
@@ -114,7 +116,4 @@ It is ported from the recommendation in http://www.ivoa.net/documents/ObsCore/in
 		,
 		Proprietary ""
 	}
-	enum CalibrationLevel ""
-	{ 0 ""
-		, 1 "" , 2 "" , 3 ""
-	}
+

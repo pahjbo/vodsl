@@ -1,0 +1,689 @@
+
+model stc (2.0) "
+          TODO : Missing description : please, update your UML model asap.
+        "
+	  
+       include "IVOA.vodsl"
+enum Handedness  ""
+{
+left  "",
+right  ""
+}
+
+enum CoordFlavor  ""
+{
+spherical  "",
+cartesian  "",
+polar  "",
+cylindrical  "",
+unitsphere  "",
+healpix  "",
+string  "",
+polarization  ""
+}
+
+enum StdSpaceRefFrame  ""
+{
+ICRS  "",
+FK4  "",
+FK5  "",
+ECLIPTIC  "",
+GALACTIC_I  "",
+GALACTIC_II  "",
+SUPER_GALACTIC  "",
+AZ_EL  "",
+BODY  "",
+GEO_C  "",
+GEO_D  "",
+MAG  "",
+GSE  "",
+GSM  "",
+SM  "",
+HGC  "",
+HEE  "",
+HEEQ  "",
+HCI  "",
+HCD  "",
+MERCURY_C  "",
+VENUS_C  "",
+LUNA_C  "",
+MARS_C  "",
+JUPITER_C_III  "",
+SATURN_C_III  "",
+URANUS_C_III  "",
+NEPTUNE_C_III  "",
+PLUTO_C  "",
+MERCURY_G  "",
+VENUS_G  "",
+LUNA_G  "",
+MARS_G  "",
+JUPITER_G_III  "",
+SATURN_G_III  "",
+URANUS_G_III  "",
+NEPTUNE_G_III  "",
+PLUTO_G  "",
+UNKNOWN  "",
+CUSTOM  ""
+}
+
+enum StdRefPosition  ""
+{
+TOPOCENTER  "",
+BARYCENTER  "",
+HELIOCENTER  "",
+GEOCENTER  "",
+GALACTIC_CENTER  "",
+LOCAL_GROUP_CENTER  "",
+MOON  "",
+EMBARYCENTER  "",
+MERCURY  "",
+VENUS  "",
+MARS  "",
+JUPITER  "",
+SATURN  "",
+URANUS  "",
+NEPTUNE  "",
+PLUTO  "",
+RELOCATABLE  "",
+LSR  "",
+LSRK  "",
+LSRD  "",
+UNKNOWN  "",
+CUSTOM  ""
+}
+
+enum EpochType  ""
+{
+J  "",
+B  ""
+}
+
+enum TimeScale  ""
+{
+TT  "",
+ET  "",
+TDB  "",
+TCG  "",
+TCB  "",
+TAI  "",
+UTC  "",
+LST  "",
+LOCAL  ""
+}
+
+enum DopplerDefinition  ""
+{
+optical  "",
+radio  "",
+relativistic  "",
+redshift  ""
+}
+
+enum PolarizationType  ""
+{
+STOKES  "",
+CIRCULAR  "",
+LINEAR  "",
+VECTOR  ""
+}
+
+enum Projection  ""
+{
+LOG  "",
+TAN  "",
+SIN  "",
+STG  "",
+ARC  "",
+ZEA  "",
+AIR  "",
+CEA  "",
+CAR  "",
+MER  "",
+SFL  "",
+PAR  "",
+MOL  "",
+AIT  "",
+COE  "",
+COD  "",
+COO  "",
+BON  "",
+PCO  "",
+TSC  "",
+CSC  "",
+QSC  ""
+}
+
+enum PolStokes  ""
+{
+I  "",
+Q  "",
+U  "",
+V  ""
+}
+
+enum PolCircular  ""
+{
+RR  "",
+LL  "",
+RL  "",
+LR  ""
+}
+
+enum PolLinear  ""
+{
+XX  "",
+YY  "",
+XY  "",
+YX  ""
+}
+
+enum PolVector  ""
+{
+I  "",
+PF  "",
+PP  "",
+PA  ""
+}
+
+dtype Epoch  ""
+  {   
+        type: EpochType   "";
+        year: decimal   "";
+  }
+
+abstract dtype Coordinate  ""
+  {   
+        coordinateDomain: string   "";
+        frame  @?  references CoordFrame "";
+  }
+
+dtype GenericCoord 
+  extends Coordinate ""
+  {   
+        coord: quantity.RealQuantity  @?   "";
+        statError: MultiStruct  @?   "";
+        sysError: MultiStruct  @?   "";
+        ranError: MultiStruct  @?   "";
+        resolution: MultiStruct  @?   "";
+  }
+
+abstract dtype SpatialCoord 
+  extends Coordinate ""
+  {   
+        ndim: nonnegativeInteger   "";
+        coord: QuantityVector   "";
+        epoch: Epoch  @?   "";
+        statError: MultiStruct  @?   "";
+        sysError: MultiStruct  @?   "";
+        ranError: MultiStruct  @?   "";
+        resolution: MultiStruct  @?   "";
+  }
+
+dtype Position 
+  extends SpatialCoord ""
+  {   
+  }
+
+dtype Velocity 
+  extends SpatialCoord ""
+  {   
+  }
+
+dtype Time 
+  extends Coordinate ""
+  {   
+        coord: TimeStamp  @?   "";
+        statError: MultiStruct  @?   "";
+        sysError: MultiStruct  @?   "";
+        ranError: MultiStruct  @?   "";
+        resolution: MultiStruct  @?   "";
+  }
+
+abstract dtype SpectralCoord 
+  extends Coordinate ""
+  {   
+        coord: quantity.RealQuantity  @?   "";
+        statError: MultiStruct  @?   "";
+        sysError: MultiStruct  @?   "";
+        ranError: MultiStruct  @?   "";
+        resolution: MultiStruct  @?   "";
+  }
+
+dtype Frequency 
+  extends SpectralCoord ""
+  {   
+  }
+
+dtype Energy 
+  extends SpectralCoord ""
+  {   
+  }
+
+dtype Wavelength 
+  extends SpectralCoord ""
+  {   
+  }
+
+abstract dtype GenericRedshiftCoord 
+  extends Coordinate ""
+  {   
+        coord: quantity.RealQuantity  @?   "";
+        statError: MultiStruct  @?   "";
+        sysError: MultiStruct  @?   "";
+        ranError: MultiStruct  @?   "";
+        resolution: MultiStruct  @?   "";
+  }
+
+dtype DopplerVelocity 
+  extends GenericRedshiftCoord ""
+  {   
+  }
+
+dtype Redshift 
+  extends GenericRedshiftCoord ""
+  {   
+  }
+
+abstract dtype PolarizationCoord 
+  extends Coordinate ""
+  {   
+  }
+
+dtype Stokes 
+  extends PolarizationCoord ""
+  {   
+        coord: PolStokes   "";
+  }
+
+dtype Circular 
+  extends PolarizationCoord ""
+  {   
+        coord: PolCircular   "";
+  }
+
+dtype Linear 
+  extends PolarizationCoord ""
+  {   
+        coord: PolLinear   "";
+  }
+
+dtype Vector 
+  extends PolarizationCoord ""
+  {   
+        coord: PolVector   "";
+  }
+
+dtype PixelCoordinate  ""
+  {   
+        coordinateDomain: string   "";
+        naxes: nonnegativeInteger   "";
+        coord: quantity.RealQuantity   "";
+        frame  @?  references PixelCoordSystem "";
+        coordSys  references PixelCoordSystem "";
+  }
+
+abstract dtype MultiStruct  ""
+  {   
+        flavor: string   "";
+        ndim: nonnegativeInteger   "";
+  }
+
+dtype Symmetrical 
+  extends MultiStruct ""
+  {   
+        radius: quantity.RealQuantity   "";
+  }
+
+dtype Asymmetrical 
+  extends MultiStruct ""
+  {   
+        plus: quantity.RealQuantity   "";
+        minus: quantity.RealQuantity   "";
+  }
+
+dtype Bounds 
+  extends MultiStruct ""
+  {   
+        loLimit: QuantityVector   "";
+        hiLimit: QuantityVector   "";
+  }
+
+dtype Box 
+  extends MultiStruct ""
+  {   
+        boxSize: QuantityVector   "";
+  }
+
+dtype Ellipse 
+  extends MultiStruct ""
+  {   
+        semiAxes: QuantityVector   "";
+        positionAngles: QuantityVector   "";
+  }
+
+dtype MSMatrix 
+  extends MultiStruct ""
+  {   
+        matrix: Matrix   "";
+  }
+
+dtype QualityCode  ""
+  {   
+        codeNum: integer   "";
+        definition: string  @?   "";
+  }
+
+abstract dtype Matrix  ""
+  {   
+  }
+
+dtype Matrix2x2 
+  extends Matrix ""
+  {   
+        m11: real   "";
+        m12: real   "";
+        m21: real   "";
+        m22: real   "";
+  }
+
+dtype Matrix3x3 
+  extends Matrix ""
+  {   
+        m11: real   "";
+        m12: real   "";
+        m13: real   "";
+        m21: real   "";
+        m22: real   "";
+        m23: real   "";
+        m31: real   "";
+        m32: real   "";
+        m33: real   "";
+  }
+
+dtype RealScalar 
+  extends QuantityVector ""
+  {   
+        d1: quantity.RealQuantity   "";
+  }
+
+dtype RealDoublet 
+  extends QuantityVector ""
+  {   
+        d1: quantity.RealQuantity   "";
+        d2: quantity.RealQuantity   "";
+  }
+
+dtype RealTriplet 
+  extends QuantityVector ""
+  {   
+        d1: quantity.RealQuantity   "";
+        d2: quantity.RealQuantity   "";
+        d3: quantity.RealQuantity   "";
+  }
+
+abstract dtype TimeStamp  ""
+  {   
+  }
+
+dtype ISOtime 
+  extends TimeStamp ""
+  {   
+        time: datetime   "";
+  }
+
+dtype JD 
+  extends TimeStamp ""
+  {   
+        time: real   "";
+  }
+
+dtype MJD 
+  extends TimeStamp ""
+  {   
+        time: real   "";
+  }
+
+dtype TimeOffset 
+  extends TimeStamp ""
+  {   
+        offset: real   "";
+  }
+
+abstract dtype SpaceRefPosition  ""
+  {   
+  }
+
+dtype StdSpaceRefPos 
+  extends SpaceRefPosition ""
+  {   
+        location: StdRefPosition   "";
+  }
+
+dtype CustomSpaceRefPos 
+  extends SpaceRefPosition ""
+  {   
+        location: Position   "";
+  }
+
+abstract dtype QuantityVector  ""
+  {   
+  }
+
+abstract otype CoordFrame  ""
+  {   
+        mapping : FrameTransform @*  as composition "";
+  }
+
+otype GenericFrame 
+  extends CoordFrame ""
+  {   
+        handedness: Handedness  @?   "";
+        naxes: nonnegativeInteger   "";
+        flavor: CoordFlavor   "";
+  }
+
+otype SpaceFrame 
+  extends CoordFrame ""
+  {   
+        spaceRefFrame: StdSpaceRefFrame   "";
+        refPosition: SpaceRefPosition   "";
+        equinox: Epoch  @?   "";
+        flavor: CoordFlavor   "";
+  }
+
+otype TimeFrame 
+  extends CoordFrame ""
+  {   
+        timeScale: TimeScale   "";
+        refPosition: SpaceRefPosition   "";
+        refDirection: Position  @?   "";
+        time0: TimeStamp  @?   "";
+  }
+
+abstract otype SpectralLikeFrame 
+  extends CoordFrame ""
+  {   
+        refPosition: StdRefPosition   "";
+  }
+
+otype SpectralFrame 
+  extends SpectralLikeFrame ""
+  {   
+  }
+
+otype RedshiftFrame 
+  extends SpectralLikeFrame ""
+  {   
+        dopplerDefinition: DopplerDefinition   "";
+  }
+
+otype PolarizationFrame 
+  extends CoordFrame ""
+  {   
+        polType: PolarizationType   "";
+  }
+
+otype CoordSys  ""
+  {   
+        genericFrame  @*  references GenericFrame "";
+  }
+
+otype AstroCoordSystem 
+  extends CoordSys ""
+  {   
+        planetaryEphemeris: string  @?   "";
+        spaceFrame  @?  references SpaceFrame "";
+        timeFrame  @?  references TimeFrame "";
+        spectralFrame  @?  references SpectralFrame "";
+        redshiftFrame  @?  references RedshiftFrame "";
+        polarizationFrame  @?  references PolarizationFrame "";
+  }
+
+otype PixelCoordSystem  ""
+  {   
+        handedness: Handedness  @?   "";
+        pixelFrame : PixelFrame @+  as composition "";
+        pixelSpace : PixelSpace as composition "";
+  }
+
+otype PixelFrame 
+  extends CoordFrame ""
+  {   
+        nativeAxis1: nonnegativeInteger   "";
+        nativeAxis2: nonnegativeInteger  @?   "";
+        nativeAxis3: nonnegativeInteger  @?   "";
+  }
+
+otype PixelSpace  ""
+  {   
+        naxes: nonnegativeInteger   "";
+        pixelAxes : PixelAxis as composition "";
+  }
+
+otype PixelAxis  ""
+  {   
+        axisno: nonnegativeInteger   "";
+        length: nonnegativeInteger   "";
+  }
+
+otype FrameTransform  ""
+  {   
+        operation : Transform as composition "";
+        targetFrame  references CoordFrame "";
+  }
+
+abstract otype Transform  ""
+  {   
+        operation : Transform @?  as composition "";
+  }
+
+otype TUnit 
+  extends Transform ""
+  {   
+  }
+
+otype TScale 
+  extends Transform ""
+  {   
+        ndim: nonnegativeInteger   "";
+        factor: real   "";
+  }
+
+otype TRotate 
+  extends Transform ""
+  {   
+        ndim: nonnegativeInteger   "";
+        angle: real   "";
+  }
+
+otype TMatrix 
+  extends Transform ""
+  {   
+        matrix: Matrix   "";
+  }
+
+otype TProjection 
+  extends Transform ""
+  {   
+        algorithm: Projection   "";
+        ndim: nonnegativeInteger   "";
+        nativeRefValue: real   "";
+        targetRefValue: real   "";
+  }
+
+abstract otype TLookup 
+  extends Transform ""
+  {   
+        nvals: nonnegativeInteger   "";
+  }
+
+otype TLookup1D 
+  extends TLookup ""
+  {   
+        nativeValue1: real   "";
+        targetValue1: real   "";
+  }
+
+otype TLookup2D 
+  extends TLookup ""
+  {   
+        nativeValue1: real   "";
+        nativeValue2: real   "";
+        targetValue1: real   "";
+        targetValue2: real   "";
+  }
+
+otype TPolarization 
+  extends TLookup ""
+  {   
+        nativeValue1: integer   "";
+  }
+
+otype TPolStokes 
+  extends TPolarization ""
+  {   
+        polType: PolStokes   "";
+  }
+
+otype TPolLinear 
+  extends TPolarization ""
+  {   
+        polType: PolLinear   "";
+  }
+
+otype TPolCircular 
+  extends TPolarization ""
+  {   
+        polType: PolCircular   "";
+  }
+
+otype TPolVector 
+  extends TPolarization ""
+  {   
+        polType: PolVector   "";
+  }
+
+otype TPolynomial 
+  extends Transform ""
+  {   
+        order: nonnegativeInteger   "";
+        coeff: real   "";
+  }
+
+otype TShift 
+  extends Transform ""
+  {   
+        shift: real   "";
+        ndim: nonnegativeInteger   "";
+  }
+
+otype Mappings  ""
+  {   
+        transforms  @+  references FrameTransform "";
+  }
+
+package transform_example  ""
+{
+      
+}
+  

@@ -1,18 +1,17 @@
 model ivoa ( 1.0 ) "This is the main reference data model containing primitive types used in other data models."
-
 	dtype Identity 
 	"This datatype represents an identifier for an object in the data model. It consists of 3 attributes that each are assumed to work in a particular context or representation of a data model instance."
 	{      
-		id : integer /* utype=ivoa:integer*/ @?
+		id : integer  @?
 		"The id attribute is assumed to represent an object in a database storing instances of the data model. " ;
-		xmlId : string /* utype=ivoa:string*/ @?
+		xmlId : string  @?
 		"This attribute is used to support identifing of and referring to an object in an XML document using the ID/IDREF mechanism."
 		;
-		ivoId : anyURI /* utype=ivoa:anyURI*/ @? "The ivoId attribute is assumed to represent an object in a database following the design of the data model and accessible through a standardised registration and discovery protocols.
-It is assumed to be unique within the IVOA and its format follows (a generalisation of) the IVO Resource Identifier standard (see http://www.ivoa.net/Documents/REC/Identifiers/Identifiers-20070302.html).
+		ivoId : anyURI  @? "The ivoId attribute is assumed to represent an object in a database following the design of the data model and accessible through a standardised registration and discovery protocols.
+It is assumed to be unique within the IVOA and its format follows (a generalisation of) the IVO Resource Identifier standard (see http://www.net/Documents/REC/Identifiers/Identifiers-20070302.html).
 Since the ivoId is assumed to represent the resource as registered in a standard database for the data model, it is assumed to be allocated by such a database service. This is in contrast to the use of the IVO Identifier in resource registries, where the id is assumed to be allocated by the publisher. We have the publisherDID attribute for that purpose. Also in contrast to that usage is the fact that each object in the model is assigned this identifier, not only the root resources.
 We suggest as algorithm for assigning these ivoId to use as root the ivoId of the registered database service, and to append to this a # then the UTYPE of the element and finally its id attribute, separetd from the UTYPE by a forward slash." ;
-		publisherDID : anyURI /* utype=ivoa:anyURI*/ @? "This attribute identifies an element in the context of the publisher. 
+		publisherDID : anyURI  @? "This attribute identifies an element in the context of the publisher. 
 It is supposed to be unique in the IVO context and should likely be constrained to have the publisher's authority IVO id. This may need to be rediscussed when protocols for accessing a database built around a data model are to be designed." ;
 	}
 
@@ -23,7 +22,7 @@ It is supposed to be unique in the IVO context and should likely be constrained 
 	primitive boolean "The standard boolean, having values true or false."
 	primitive real "A real number (from R)."
 	primitive nonnegativeInteger "An integer number from N, therefore greater than or equal to 0."
-	primitive rational
+	 primitive rational
 	"A rational number from Q, represented by two integers, a numerator and a denominator. A native mapping to a serialisation context does in general not exists."
 	primitive datetime
 	"Represents a moment in time using a date+timestamp. Coordinate reference systems must be defined by the context serialisation."
@@ -38,41 +37,41 @@ I.e. string has value type semantics."
 		abstract dtype AtomicValue ""
 		{
 
-			ucd : string /* utype=ivoa:string*/ @? "This attribute should hold on to a valid UCD.
-For that purpose the attribute isa skosconcept, but a proper SKOS vocabulary for UCDs would be required to formalize this further." skosconcept
-			"" in "http://www.ivoa.net/rdf/Vocabularies/vocabularies-20091007/UCD/UCD.rdf" ;
+			ucd : string  @? "This attribute should hold on to a valid UCD.
+For that purpose the attribute isa skosconcept, but a proper SKOS vocabulary for UCDs would be required to formalize this further." semantic
+			"" in "http://www.net/rdf/Vocabularies/vocabularies-20091007/UCD/UCD.rdf" ;
 		}
  
-		dtype BooleanValue extends quantity.AtomicValue /* utype=ivoa:quantity.AtomicValue*/ ""
+		dtype BooleanValue extends quantity.AtomicValue  ""
 		{
-			value : boolean /* utype=ivoa:boolean*/ "" ;
+			value : boolean  "" ;
 		}
 
-		dtype IntegerQuantity extends quantity.Quantity /* utype=ivoa:quantity.Quantity*/ ""
+		dtype IntegerQuantity extends quantity.Quantity  ""
 		{
 
-			value : integer /* utype=ivoa:integer*/ "" ;
+			value : integer  "" ;
 		}
 
-		abstract dtype Quantity extends quantity.AtomicValue /* utype=ivoa:quantity.AtomicValue*/
+		abstract dtype Quantity extends quantity.AtomicValue 
 		"Meant to represent the value of a numerical physical quantity.  May be integer, what units can apply there?"
 		{
 
-			unit : quantity.Unit /* utype=ivoa:quantity.Unit*/ @? "" ;
+			unit : quantity.Unit @? "" ;
 		}
 
-		dtype RealQuantity extends quantity.Quantity /* utype=ivoa:quantity.Quantity*/ "A real quantity"
+		dtype RealQuantity extends quantity.Quantity  "A real quantity"
 		{
 
-			value : real /* utype=ivoa:real*/ "" ;
+			value : real "" ;
 		}
 
-		dtype StringValue extends quantity.AtomicValue /* utype=ivoa:quantity.AtomicValue*/ ""
+		dtype StringValue extends quantity.AtomicValue  ""
 		{
 
-			value : string /* utype=ivoa:string*/ "" ;
+			value : string  "" ;
 		}
 
 		primitive Unit "Must conform to definition of unit in VOUnit spec."
 	}
-  
+ 

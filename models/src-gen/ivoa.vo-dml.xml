@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<vo-dml:model xmlns:vo-dml="http://volute.googlecode.com/dm/vo-dml/v0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://volute.googlecode.com/dm/vo-dml/v0.9 https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/xsd/vo-dml.xsd">
-<!-- file generated from VODSL -->
-      <vodml-id>ivoa</vodml-id>
+<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">	<!-- file generated from VODSL -->
       <name>ivoa</name>
       <description>This is the main reference data model containing primitive types used in other data models.</description> 
-      <dataType  >
+      <version>1.0</version>
+      <lastModified>2016-01-27T20:55:42Z</lastModified>
+      <dataType>
         <vodml-id>Identity</vodml-id>
         <name>Identity</name>
         <description>This datatype represents an identifier for an object in the data model. It consists of 3 attributes that each are assumed to work in a particular context or representation of a data model instance.</description>	    
@@ -15,7 +15,7 @@
            <name>id</name>
            <description>The id attribute is assumed to represent an object in a database storing instances of the data model. </description>	    
            <datatype>
-              <utype>ivoa:integer</utype>
+              <vodml-ref>ivoa:integer</vodml-ref>
            </datatype>
            <multiplicity>
              <minOccurs>0</minOccurs>
@@ -27,7 +27,7 @@
            <name>xmlId</name>
            <description>This attribute is used to support identifing of and referring to an object in an XML document using the ID/IDREF mechanism.</description>	    
            <datatype>
-              <utype>ivoa:string</utype>
+              <vodml-ref>ivoa:string</vodml-ref>
            </datatype>
            <multiplicity>
              <minOccurs>0</minOccurs>
@@ -38,11 +38,11 @@
            <vodml-id>ivoId</vodml-id>
            <name>ivoId</name>
            <description>The ivoId attribute is assumed to represent an object in a database following the design of the data model and accessible through a standardised registration and discovery protocols.
-           It is assumed to be unique within the IVOA and its format follows (a generalisation of) the IVO Resource Identifier standard (see http://www.ivoa.net/Documents/REC/Identifiers/Identifiers-20070302.html).
+           It is assumed to be unique within the IVOA and its format follows (a generalisation of) the IVO Resource Identifier standard (see http://www.net/Documents/REC/Identifiers/Identifiers-20070302.html).
            Since the ivoId is assumed to represent the resource as registered in a standard database for the data model, it is assumed to be allocated by such a database service. This is in contrast to the use of the IVO Identifier in resource registries, where the id is assumed to be allocated by the publisher. We have the publisherDID attribute for that purpose. Also in contrast to that usage is the fact that each object in the model is assigned this identifier, not only the root resources.
            We suggest as algorithm for assigning these ivoId to use as root the ivoId of the registered database service, and to append to this a # then the UTYPE of the element and finally its id attribute, separetd from the UTYPE by a forward slash.</description>	    
            <datatype>
-              <utype>ivoa:anyURI</utype>
+              <vodml-ref>ivoa:anyURI</vodml-ref>
            </datatype>
            <multiplicity>
              <minOccurs>0</minOccurs>
@@ -55,7 +55,7 @@
            <description>This attribute identifies an element in the context of the publisher. 
            It is supposed to be unique in the IVO context and should likely be constrained to have the publisher's authority IVO id. This may need to be rediscussed when protocols for accessing a database built around a data model are to be designed.</description>	    
            <datatype>
-              <utype>ivoa:anyURI</utype>
+              <vodml-ref>ivoa:anyURI</vodml-ref>
            </datatype>
            <multiplicity>
              <minOccurs>0</minOccurs>
@@ -133,7 +133,7 @@
                  <description>This attribute should hold on to a valid UCD.
                  For that purpose the attribute isa skosconcept, but a proper SKOS vocabulary for UCDs would be required to formalize this further.</description>	    
                  <datatype>
-                    <utype>ivoa:string</utype>
+                    <vodml-ref>ivoa:string</vodml-ref>
                  </datatype>
                  <multiplicity>
                    <minOccurs>0</minOccurs>
@@ -146,14 +146,14 @@
               <name>BooleanValue</name>
               <description></description>	    
                <extends>
-                  <utype>ivoa:AtomicValue</utype>
+                  <vodml-ref>ivoa:AtomicValue</vodml-ref>
                </extends>
                <attribute>
                  <vodml-id>value</vodml-id>
                  <name>value</name>
                  <description></description>	    
                  <datatype>
-                    <utype>ivoa:boolean</utype>
+                    <vodml-ref>ivoa:boolean</vodml-ref>
                  </datatype>
                  <multiplicity>
                    <minOccurs>1</minOccurs>
@@ -166,14 +166,14 @@
               <name>IntegerQuantity</name>
               <description></description>	    
                <extends>
-                  <utype>ivoa:Quantity</utype>
+                  <vodml-ref>ivoa:Quantity</vodml-ref>
                </extends>
                <attribute>
                  <vodml-id>value</vodml-id>
                  <name>value</name>
                  <description></description>	    
                  <datatype>
-                    <utype>ivoa:integer</utype>
+                    <vodml-ref>ivoa:integer</vodml-ref>
                  </datatype>
                  <multiplicity>
                    <minOccurs>1</minOccurs>
@@ -186,14 +186,14 @@
               <name>Quantity</name>
               <description>Meant to represent the value of a numerical physical quantity.  May be integer, what units can apply there?</description>	    
                <extends>
-                  <utype>ivoa:AtomicValue</utype>
+                  <vodml-ref>ivoa:AtomicValue</vodml-ref>
                </extends>
                <attribute>
                  <vodml-id>unit</vodml-id>
                  <name>unit</name>
                  <description></description>	    
                  <datatype>
-                    <utype>ivoa:Unit</utype>
+                    <vodml-ref>ivoa:Unit</vodml-ref>
                  </datatype>
                  <multiplicity>
                    <minOccurs>0</minOccurs>
@@ -206,14 +206,14 @@
               <name>RealQuantity</name>
               <description>A real quantity</description>	    
                <extends>
-                  <utype>ivoa:Quantity</utype>
+                  <vodml-ref>ivoa:Quantity</vodml-ref>
                </extends>
                <attribute>
                  <vodml-id>value</vodml-id>
                  <name>value</name>
                  <description></description>	    
                  <datatype>
-                    <utype>ivoa:real</utype>
+                    <vodml-ref>ivoa:real</vodml-ref>
                  </datatype>
                  <multiplicity>
                    <minOccurs>1</minOccurs>
@@ -226,14 +226,14 @@
               <name>StringValue</name>
               <description></description>	    
                <extends>
-                  <utype>ivoa:AtomicValue</utype>
+                  <vodml-ref>ivoa:AtomicValue</vodml-ref>
                </extends>
                <attribute>
                  <vodml-id>value</vodml-id>
                  <name>value</name>
                  <description></description>	    
                  <datatype>
-                    <utype>ivoa:string</utype>
+                    <vodml-ref>ivoa:string</vodml-ref>
                  </datatype>
                  <multiplicity>
                    <minOccurs>1</minOccurs>
@@ -247,6 +247,4 @@
               <description>Must conform to definition of unit in VOUnit spec.</description>	    
             </primitiveType>
       </package>
-      <version>1.0</version>
-      <lastModified>2014-05-12T14:13:36Z</lastModified>
    </vo-dml:model>

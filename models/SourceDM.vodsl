@@ -1,95 +1,103 @@
-model src ( 1.0 ) "This is a sample data model. It contains the IVOA UML Profile and imports the IVOA_Profile data model with primitive types.
+
+model src (1.0) "This is a sample data model. It contains the IVOA UML Profile and imports the IVOA_Profile data model with primitive types.
 It has some sample relationships etc to be used in documentation etc."
+	  
+       include "IVOA.vodsl"
+     
+       include "PhotDM-alt.vodsl"
+     
+package source  ""
+{
+      
+enum LuminosityType  ""
+{
+magnitude  "",
+flux  ""
+}
 
-	include "IVOA.vodsl"
+enum SourceClassification  ""
+{
+star  "",
+galaxy  "",
+AGN  "",
+planet  "",
+unknown  ""
+}
 
-	include "PhotDM-alt.vodsl"
+dtype AlignedEllipse 
+  extends source.SkyError ""
+  {   
+        longError: real   "";
+        latError: real   "";
+  }
 
-	package source "this is main package"
-	{       
+dtype CircleError 
+  extends source.SkyError ""
+  {   
+        radius: real   "";
+  }
 
-		otype LuminosityMeasurement ""
-		{
+dtype GenericEllipse 
+  extends source.SkyError ""
+  {   
+        major: real   "major axis of error ellipse";
+        minor: real   "";
+        pa: real  @*   "Position angle of error ellipse in coordinate system of position.";
+  }
 
-			value : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ "" ;
-			error : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/ @? "" ;
-			description : string /* utype=ivoa:string*/ @? "" ;
-			type : source.LuminosityType /* utype=src:source.LuminosityType*/ "" ;
-		}
+dtype SkyCoordinate  ""
+  {   
+        longitude: quantity.RealQuantity   "The longitude part of this position in units of degrees.";
+        latitude: quantity.RealQuantity   "The latitude part of this position in units of degrees.";
+        frame  references source.SkyCoordinateFrame "";
+  }
 
-		otype Source extends source.AstroObject /* utype=src:source.AstroObject*/ ""
-		{
+abstract dtype SkyError  "Error of a position on the sky."
+  {   
+  }
 
-			name : string /* utype=ivoa:string*/ "" ;
-			description : string /* utype=ivoa:string*/ @? "" ;
-			position : source.SkyCoordinate /* utype=src:source.SkyCoordinate*/ "" ;
-			positionError : source.SkyError /* utype=src:source.SkyError*/ @? "" ;
-			classification : source.SourceClassification /* utype=src:source.SourceClassification*/ "" ;
-			luminosity : source.LuminosityMeasurement /* utype=src:source.LuminosityMeasurement*/ @* as composition ""
-		}
+abstract otype AstroObject  "Generic base class for all astronomical objects."
+  {   
+        label: string  @?   "" semantic "http://purl.org/astronomy/vocab/DataObjectTypes/DataObjectType" in "http://purl.org/astronomy/vocab/DataObjectTypes";
+  }
 
-		abstract otype AstroObject "Generic base class for all astronomical objects."
-		{
+otype LuminosityMeasurement  ""
+  {   
+        value: quantity.RealQuantity   "";
+        error: quantity.RealQuantity  @?   "";
+        description: string  @?   "";
+        type: source.LuminosityType   "";
+        filter  references PhotometryFilter "";
+  }
 
-			label : string /* utype=ivoa:string*/ @? "" skosconcept
-			"http://purl.org/astronomy/vocab/DataObjectTypes/DataObjectType" in
-			"http://purl.org/astronomy/vocab/DataObjectTypes" ;
-		}
+otype SDSSSource 
+  extends source.Source ""
+  {   
+  }
 
-		otype SkyCoordinateFrame ""
-		{
+otype SkyCoordinateFrame  ""
+  {   
+        name: string   "";
+        documentURI: anyURI   "";
+        equinox: string  @?   "";
+        system: string  @?   "";
+  }
 
-			name : string /* utype=ivoa:string*/ "" ;
-			documentURI : anyURI /* utype=ivoa:anyURI*/ "" ;
-			equinox : string /* utype=ivoa:string*/ @? "" ;
-			system : string /* utype=ivoa:string*/ @? "" ;
-		}
+otype Source 
+  extends source.AstroObject ""
+  {   
+        name: string   "";
+        description: string  @?   "";
+        position: source.SkyCoordinate   "";
+        positionError: source.SkyError  @?   "";
+        classification: source.SourceClassification   "";
+        luminosity : source.LuminosityMeasurement @*  as composition "";
+  }
 
-		abstract dtype SkyError "Error of a position on the sky."
-		{
-		}
+otype TwoMassSource 
+  extends source.Source ""
+  {   
+  }
 
-		dtype CircleError extends source.SkyError /* utype=src:source.SkyError*/ ""
-		{
-
-			radius : real /* utype=ivoa:real*/ "" ;
-		}
-
-		dtype AlignedEllipse extends source.SkyError /* utype=src:source.SkyError*/ ""
-		{
-
-			longError : real /* utype=ivoa:real*/ "" ;
-			latError : real /* utype=ivoa:real*/ "" ;
-		}
-
-		dtype GenericEllipse extends source.SkyError /* utype=src:source.SkyError*/ ""
-		{
-
-			major : real /* utype=ivoa:real*/ "major axis of error ellipse" ;
-			minor : real /* utype=ivoa:real*/ "" ;
-			pa : real /* utype=ivoa:real*/ @* "Position angle of error ellipse in coordinate system of position." ;
-		}
-
-		dtype SkyCoordinate ""
-		{
-
-			longitude : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/
-			"The longitude part of this position in units of degrees." ;
-			latitude : quantity.RealQuantity /* utype=ivoa:quantity.RealQuantity*/
-			"The latitude part of this position in units of degrees." ;
-		}
-		enum SourceClassification ""
-		{
-			star "" ,
-			galaxy "" ,
-			AGN "" ,
-			planet "" ,
-			unknown ""
-		}
-		enum LuminosityType ""
-		{
-			magnitude "" ,
-			flux ""
-		}
-	}
+}
   

@@ -1,0 +1,94 @@
+
+model NDcube (1.0) "
+This IVOA model describes N-dimensional data cubes.
+"
+       include "IVOA.vodsl"
+	  
+       include "STC2_20151030.vodsl"
+     
+package ds  "
+Dataset Metadata V1.0 (2014)
+"
+{
+      
+abstract otype ObsDataset  ""
+  {   
+  }
+
+}
+  
+package cube  ""
+{
+      
+otype NDImageDataset 
+  extends ds.ObsDataset ""
+  {   
+        image  @*  references cube.NDImage "";
+  }
+
+otype NDImage 
+  extends cube.PixelatedData ""
+  {   
+        data : cube.Voxel @*  as composition "";
+  }
+
+otype CoordSys 
+  extends coordsystem.AstroCoordSystem ""
+  {   
+  }
+
+otype PixelCoordSys 
+  extends frametransforms.PixelCoordSystem ""
+  {   
+  }
+
+otype FrameMappings 
+  extends frametransforms.PixelFrameTransform ""
+  {   
+  }
+
+otype Voxel  ""
+  {   
+        pixelAxes: frametransforms.PixelCoordinate  @?   "";
+        dependentAxis: coords.Coordinate  @?   "";
+  }
+
+abstract otype PixelatedData  ""
+  {   
+        pixelCoordSys : cube.PixelCoordSys @?  as composition "";
+  }
+
+abstract otype PointData  ""
+  {   
+        customAxes: coords.GenericCoord  @*   "";
+  }
+
+otype SparseCube 
+  extends cube.PointData ""
+  {   
+        data : cube.NDPoint @*  as composition "";
+  }
+
+otype NDPoint  ""
+  {   
+        spaceAxis: coords.SpatialCoord  @?   "";
+        timeAxis: coords.Time  @?   "";
+        spectralAxis: coords.SpectralCoord  @?   "";
+        redshiftAxis: coords.GenericRedshiftCoord  @?   "";
+        polarizationAxis: coords.PolCoord  @?   "";
+  }
+
+otype SparseCubeDataset 
+  extends ds.ObsDataset ""
+  {   
+        cube  @*  references cube.SparseCube "";
+  }
+
+abstract otype DataProduct  ""
+  {   
+        mappings : cube.FrameMappings @?  as composition "";
+        coordSys : cube.CoordSys @?  as composition "";
+  }
+
+}
+  

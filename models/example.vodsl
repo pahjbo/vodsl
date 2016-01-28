@@ -1,0 +1,32 @@
+model example (0.1) "an example model" 
+include "IVOA.vodsl"
+
+	primitive float "a new primitive"
+	package apackage "example package"
+	{
+		dtype fq extends quantity.AtomicValue {
+			value : float "a new float";
+		}
+		abstract otype base 
+		{
+		    bv : boolean  "Description";
+		}
+		otype derived extends apackage.base
+		{
+			sv : quantity.RealQuantity "";
+		}
+		otype another {
+			f1 : apackage.fq @[6] "an array";
+			f2 : apackage.derived as composition "";
+ //f2 as an otype
+		}
+		
+		package nestedpackage
+		{
+			otype another "different package"
+			{
+				cc : apackage.another as composition "" ;
+				rf references apackage.derived "a reference";
+			}
+		}
+	}

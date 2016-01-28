@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 This XSLT script transforms a data model from the
-intermediate representation to the dsl representation.
+official VODML XML representation to the dsl representation.
  -->
 
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 								xmlns:exsl="http://exslt.org/common"
                 extension-element-prefixes="exsl"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                xmlns:vo-dml="http://volute.googlecode.com/dm/vo-dml/v0.9">
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0">
   
  <xsl:output method="text" encoding="UTF-8" indent="no" />
   
-  <xsl:param name="model.name"/>
+  <xsl:param name="model.name" select="'silly'"/>
   <xsl:param name="usesubgraph" select="'F'"/>
   
   <xsl:strip-space elements="*" />
@@ -24,6 +25,8 @@ intermediate representation to the dsl representation.
   <xsl:variable name="packages" select="//package/vodml-id"/>
   <xsl:variable name="single_quote"><xsl:text>'</xsl:text></xsl:variable>
   <xsl:variable name="double_quote"><xsl:text>"</xsl:text></xsl:variable>
+  <xsl:variable name='newline'><xsl:text>
+</xsl:text></xsl:variable>
 
   <xsl:variable name="modname">
     <xsl:choose>
@@ -66,21 +69,23 @@ package <xsl:value-of select="concat(vodml-id,' ')"/> <xsl:apply-templates selec
   <xsl:template match="primitiveType">
     primitive <xsl:value-of select="concat(vodml-id, ' ')"/> <xsl:apply-templates select="description"/>
   </xsl:template>  
+  
+  <xsl:template match='vodml-ref'> <!-- remove the local namespace -->
+     <xsl:value-of select="substring-after(.,':')"/>
+  </xsl:template>
 
 <xsl:template match="objectType">
-  <xsl:text> </xsl:text><xsl:if test="@abstract">abstract </xsl:if>otype <xsl:value-of select="name"/><xsl:text> </xsl:text>
+  <xsl:value-of select="$newline"/><xsl:if test="@abstract">abstract </xsl:if>otype <xsl:value-of select="name"/><xsl:text> </xsl:text>
   <xsl:apply-templates select= "extends"/>
   <xsl:apply-templates select= "description"/>
-  { 
-     <xsl:apply-templates select="* except (vodml-id|description|name|extends)"/>
+  {   <xsl:apply-templates select="* except (vodml-id|description|name|extends|constraint)"/>
   }
 </xsl:template>
 <xsl:template match="dataType"><!-- is this really so different from object? -->
-  <xsl:text> </xsl:text><xsl:if test="@abstract">abstract </xsl:if>dtype <xsl:value-of select="name"/><xsl:text> </xsl:text>
+  <xsl:value-of select="$newline"/><xsl:if test="@abstract">abstract </xsl:if>dtype <xsl:value-of select="name"/><xsl:text> </xsl:text>
   <xsl:apply-templates select= "extends"/>
   <xsl:apply-templates select= "description"/>
-  { 
-     <xsl:apply-templates select="* except (vodml-id|description|name|extends)"/>
+  {   <xsl:apply-templates select="* except (vodml-id|description|name|extends|constraint)"/>
   }
 </xsl:template>
 
@@ -91,10 +96,11 @@ package <xsl:value-of select="concat(vodml-id,' ')"/> <xsl:apply-templates selec
 <xsl:template match="attribute">
   <xsl:text>
         </xsl:text>
-  <xsl:value-of select="concat(name, ':')"/> 
-  <xsl:apply-templates select="datatype"/><xsl:text> </xsl:text> 
+  <xsl:value-of select="concat(name, ': ')"/> 
+  <xsl:apply-templates select="datatype/vodml-ref"/><xsl:text> </xsl:text> 
   <xsl:apply-templates select="multiplicity"/><xsl:text> </xsl:text> 
   <xsl:apply-templates select="description"/>
+  <xsl:apply-templates select="preceding-sibling::constraint[@xsi:type='vo-dml:SubsettedRole' and tokenize(role/vodml-ref,'\.')[last()] eq current()/name]"/>
   <xsl:apply-templates select="* except (description|datatype|name|vodml-id|multiplicity)"/>
   <xsl:text>;</xsl:text>
 </xsl:template>
@@ -141,24 +147,27 @@ enum <xsl:value-of select="name"/><xsl:text> </xsl:text>
 </xsl:if>
 </xsl:template>
 
-<xsl:template match="collection|container"> <!-- are they both present? think that want to be able to say things set list vector and whether composition or aggregation-->
+<xsl:template match="collection|container"> <!-- are they both present? -->
   <xsl:text>
         </xsl:text>
   <xsl:value-of select="concat(name, ' : ')"/> 
-  <xsl:apply-templates select="datatype,multiplicity"/>
+  <xsl:apply-templates select="datatype/vodml-ref,multiplicity"/>
   <xsl:text> as</xsl:text>
   <xsl:if test="@isOrdered"><xsl:text> ordered</xsl:text></xsl:if>
   <xsl:text> composition</xsl:text>
   <xsl:apply-templates select="description"/>
-
+  <xsl:text>;</xsl:text>
 </xsl:template>
 
 <xsl:template match="reference">
    <xsl:text>
         </xsl:text>
-  <xsl:value-of select="concat(name, ' references ')"/> 
-  <xsl:apply-templates select="datatype"/>
+  <xsl:value-of select="concat(name, ' ')"/> 
+  <xsl:apply-templates select="multiplicity"/>
+  <xsl:text> references </xsl:text>
+  <xsl:apply-templates select="datatype/vodml-ref"/>
   <xsl:apply-templates select="description"/>
+  <xsl:text>;</xsl:text>
 </xsl:template>
 
 
@@ -166,37 +175,38 @@ enum <xsl:value-of select="name"/><xsl:text> </xsl:text>
   extends <xsl:apply-templates/>
 </xsl:template>
 
-<xsl:template match="skosconcept">
- skosconcept "<xsl:value-of select="broadestSKOSConcept"/>" in "<xsl:value-of select="vocabularyURI"/>"
+<xsl:template match="semanticconcept">
+<xsl:text> semantic "</xsl:text><xsl:value-of select="topConcept"/><xsl:text>" in "</xsl:text><xsl:value-of select="vocabularyURI"/><xsl:text>"</xsl:text>
 </xsl:template>
 
-<xsl:template match="datatype"> <!-- just a reference... -->
-  <xsl:apply-templates/>
+<xsl:template match="constraint[@xsi:type='vo-dml:SubsettedRole']"><!-- FIXME these apply to attributes...I think.... -->
+<xsl:text> subsets</xsl:text> 
 </xsl:template>
 
-<xsl:template match="constraints"> 
-  <xsl:text> constraint</xsl:text>
-  <xsl:apply-templates select="* except attribute"/>
+
+<xsl:template match="constraint"> 
+  <xsl:text>&lt;</xsl:text> <xsl:apply-templates select="* except attribute"/> <xsl:text>&gt;</xsl:text>
 </xsl:template>
 
-<xsl:template match="constraints/minValue"> 
+<!-- I think that these specialized constraints have disappeared now -->
+<xsl:template match="constraint/minValue"> 
   <xsl:value-of select="concat(' min=&quot;',.,'&quot;')"/>
 </xsl:template>
-<xsl:template match="constraints/minLength"> 
+<xsl:template match="constraint/minLength"> 
   <xsl:value-of select="concat(' minlen=',.)"/>
 </xsl:template>
-<xsl:template match="constraints/maxLength"> 
+<xsl:template match="constraint/maxLength"> 
 <xsl:if test="number(.) ne -1">
   <xsl:value-of select="concat(' maxlen=',.)"/>
  </xsl:if>
 </xsl:template>
-<xsl:template match="constraints/length"> 
+<xsl:template match="constraint/length"> 
   <xsl:value-of select="concat(' len=',.)"/>
 </xsl:template>
-<xsl:template match="constraints/uniqueGlobally"> 
+<xsl:template match="constraint/uniqueGlobally"> 
   <xsl:text> unique globally</xsl:text>
 </xsl:template>
-<xsl:template match="constraints/uniqueInCollection"> 
+<xsl:template match="constraint/uniqueInCollection"> 
   <xsl:text> unique</xsl:text>
 </xsl:template>
 
@@ -204,17 +214,13 @@ enum <xsl:value-of select="name"/><xsl:text> </xsl:text>
 <xsl:template match="author">
   <!-- ignore for now -->
 </xsl:template>
-<xsl:template match="*"> <!-- catchall to indicate where there might be missed element -->
+<xsl:template match="*"> <!-- catchall to indicate where there might be missed element to highlight when VODML might have changed-->
   <xsl:value-of select="concat('***',name(.),'*** ')"/>
    <xsl:apply-templates/>
 </xsl:template>
 
 
-
-
-
-
-<xsl:template match="text()|@*">
+<xsl:template match="text()|*">
   <xsl:value-of select="."/>
 </xsl:template>
 
