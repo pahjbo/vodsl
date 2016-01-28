@@ -85,6 +85,7 @@ DataType:
     ( abstract?='abstract'? ) 'dtype' name=ID 
     ( 'extends' superType=[DataType|QualifiedName] )? 
     (description=STRING)?
+    
     '{'
         ( attributes += Attribute )*
         ( references += Reference ) *
@@ -98,7 +99,7 @@ DataType:
  * 
  */
 Attribute :
-    name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )? ('as' (ordered?='ordered')? composition?='composition')?  description=STRING ((skosConcept=SkosConcept)? & ( constraints += Constraint )* )';'?
+    name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )? ('as' (ordered?='ordered')? composition?='composition')?  description=STRING ((semanticConcept=SemanticConcept)? & ( constraints += Constraint )* )';'
     ;
 
 /*
@@ -136,30 +137,30 @@ ObjectType:
         ( references += Reference )*
         ( constraints += Constraint )*
     '}'
-    ;
+    ;	
 
 /*
  * The reference to a definitionType is not quite allowed - allows reference to an attribute for instance - TODO need to custom scope this so that only DataTypes and ObjectTypes are allowed I think.
  */
 Reference:
-	 name=ID 'references' referenced=[DefinitionType|QualifiedName]  (description=STRING)?
+	 name=ID (multiplicity=Multiplicity )? 'references' referenced=[DefinitionType|QualifiedName]  description=STRING ';'
 ;
 
 /*
- * The constraint is just the same as the XML definition - min/max datatypes are not well specified at the moment - they are all strings 
+ * The constraint is just the same as the XML definition - TODO min/max datatypes are not well specified any longer in VODML - they are all strings 
  * 
  * perhaps could have constraints expressions that were more like traditional logical expressions
  */
 Constraint:
 	{Constraint}
-    'constraint' (expr=STRING 'as' language=ConstraintLanguage)? (('min=' min=STRING)? & ('max=' max=STRING)? & ('minlen=' minlen=INT)? 
-    & ('maxlen=' maxlen=INT)? & ('len=' len=INT)? & ((unique?='unique' )|(gunique?='unique globally'))?)
+    '<' (expr=STRING 'as' language=ConstraintLanguage)? (('min=' min=STRING)? & ('max=' max=STRING)? & ('minlen=' minlen=INT)? 
+    & ('maxlen=' maxlen=INT)? & ('len=' len=INT)? & ((unique?='unique' )|(gunique?='unique globally'))?) '>'
     ;
 
 enum ConstraintLanguage:
-    XSD | Java | OCL | Custom
+    XSD | Java | OCL | Natural
 ;
 
-SkosConcept:
-	'skosconcept' (broadestSKOSConcept=STRING)? 'in' vocabularyURI=STRING
+SemanticConcept:
+	(subset?='subsets')? 'semantic' (broadestConcept=STRING)? 'in' vocabularyURI=STRING
 ;

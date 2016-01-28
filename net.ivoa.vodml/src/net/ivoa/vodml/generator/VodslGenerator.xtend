@@ -51,20 +51,20 @@ class VodslGenerator implements IGenerator {
 	
 	def vodml(VoDataModel e)'''
 	<?xml version="1.0" encoding="UTF-8"?>
-	<vo-dml:model xmlns:vo-dml="http://volute.googlecode.com/dm/vo-dml/v0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://volute.googlecode.com/dm/vo-dml/v0.9 https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/xsd/vo-dml.xsd">
-	<!-- file generated from VODSL -->
-      <vodml-id>«e.model.name»</vodml-id>
+<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">	<!-- file generated from VODSL -->
       <name>«e.model.name»</name>
       <description>«e.model.description»</description> 
-      «FOR f: e.elements»
-        «f.vodml»
-      «ENDFOR»
+      <title>TBD</title>
+      <author>TBD</author>
       <version>«e.model.version»</version>
       <lastModified>«df.format(new Date())»</lastModified>
       «FOR f:e.includes»
       	«f.vodml»
+      «ENDFOR» 
+      «FOR f: e.elements»
+         «f.vodml»
       «ENDFOR»
    </vo-dml:model>
 	'''
@@ -94,7 +94,6 @@ class VodslGenerator implements IGenerator {
 	}
 	
 	def preamble(ReferableElement e) '''
-	   <vodml-id>«e.name»</vodml-id>
 	   <name>«e.name»</name>
 	   <description>«e.description»</description>	    
 	'''
@@ -154,7 +153,7 @@ class VodslGenerator implements IGenerator {
 	
 
    def vodml(ReferableElement e)'''
-   <utype>«e.UType»</utype>
+   <vodml-id>«e.UType»</vodml-id>
    '''
 
 /**

@@ -11,12 +11,19 @@ import net.ivoa.vodml.vodsl.VodslPackage
 import org.eclipse.xtext.validation.Check
 
 import static net.ivoa.vodml.vodsl.MultiplicityBound.*
+import net.ivoa.vodml.vodsl.Reference
+import net.ivoa.vodml.vodsl.ObjectType
+import net.ivoa.vodml.vodsl.DataType
 
 /**
  * Custom validation rules. 
- *
+ * 
  * see http://www.eclipse.org/Xtext/documentation.html#validation
+ * 
+ * TODO - need to make sure that composition target is only used once - probably better done with direct EMF validation
+ * would like to report errors with the fully qualified name
  */
+ 
 class VodslValidator extends AbstractVodslValidator {
 
 	@Check
@@ -24,44 +31,123 @@ class VodslValidator extends AbstractVodslValidator {
 		if (!attr.composition) {
 			if (!(attr.type instanceof ValueType)) {
 
-				error('Attribute should be a value type', VodslPackage.Literals.ATTRIBUTE__TYPE)
+				error('Attribute '+attr.name+' should be a value type', VodslPackage.Literals.ATTRIBUTE__TYPE)
 			}
 		}
 
+	}
+
+  def checkAbstract(DataType t) {
+  	  if (t.abstract)  	  
+  	  	 if ( t.attributes.empty  && t.references.empty )
+  	  	 	warning ('abstract datatype with no members ', VodslPackage.Literals.DATA_TYPE__ABSTRACT)
+ 
+  }
+
+// actually  abstract attributes are ok - probably want to check that abstract class h	
+//	@Check
+//	def checkAttrNotAbstract(Attribute attr) {
+//		val p = attr.eContainer
+//		val parentAbstract = switch (p)
+//		{
+//			DataType case p.abstract: true
+//			ObjectType case p.abstract : true
+//			default: false
+//		}
+//	
+//		if (!attr.composition) {
+//			val at = attr.type
+//			if ((at instanceof ValueType)) {
+//            val attrAbstract = switch (at){
+//            	DataType case at.abstract: true
+//            	default: false
+//            }
+//            
+//				if (!parentAbstract && attrAbstract) error('Attribute  '+attr.name+' - type is abstract', VodslPackage.Literals.ATTRIBUTE__TYPE)
+//			}
+//		}
+//
+//	}
+	
+	
+
+	@Check
+	def checkReferenceObject(Reference refr) {
+		if (! (refr.referenced instanceof ObjectType )) {
+			error('Reference '+refr.name+'  should point to ObjectType', VodslPackage.Literals.REFERENCE__REFERENCED)
+		}
 	}
 
 	@Check
 	def checkMultiplicity(Multiplicity mul) {
-		val attr = mul.eContainer as Attribute
-		if (attr.composition) {
-			if (mul.multiplicitySpec == null || mul.multiplicitySpec == MultiplicityBound.ONE) {
-				if (mul.maxOccurs < mul.minOccurs) {
-					error("maximum multiplicity less than minimum", VodslPackage.Literals.MULTIPLICITY__MAX_OCCURS)
-				}
-			}
-		} else { 
-			if (mul.multiplicitySpec != null) {
+		val typ = mul.eContainer
+		switch (typ) {
+			Attribute: checkMultiplicity(typ)
+			Reference: checkMultiplicity(typ)
+		}
+
+	}
+
+	def checkMultiplicity(Reference typ) {
+		val mul = typ.multiplicity
+		if (mul.multiplicitySpec != null) {
 				switch mul.multiplicitySpec {
 					case ATLEASTONE: {
-						error("multiplicity '+' not allowed for attribute",
+						error("multiplicity '+' not allowed for reference " +typ.name,
 							VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 					}
 					case MANY: {
-						error("multiplicity '*' not allowed for attribute",
+						error("multiplicity '*' not allowed for reference " +typ.name,
 							VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 
 					}
 					case OPTIONAL: {
-						//OK
+						// OK
 					}
 					case ONE: {
-				if (mul.maxOccurs != 0 && mul.minOccurs != mul.maxOccurs) {
-					error("multiplicity for attribute should specify array size so that min=max",
-						VodslPackage.Literals.MULTIPLICITY__MAX_OCCURS)
+						if (mul.maxOccurs != 1 || mul.minOccurs != 1) {
+							error("multiplicity of reference is only allowed to be one or optional for " +typ.name,
+								VodslPackage.Literals.MULTIPLICITY__MAX_OCCURS)
+						}
+					}
 				}
+		}
+
+	}
+
+	def checkMultiplicity(Attribute typ) {
+		val mul = typ.multiplicity
+		if (typ.composition) {
+			if (mul.multiplicitySpec == null || mul.multiplicitySpec == MultiplicityBound.ONE) {
+				if (mul.maxOccurs < mul.minOccurs) {
+					error("maximum multiplicity less than minimum - " +typ.name, VodslPackage.Literals.MULTIPLICITY__MAX_OCCURS)
+				}
+			}
+		} else {
+			if (mul.multiplicitySpec != null) {
+				switch mul.multiplicitySpec {
+					case ATLEASTONE: {
+						error("multiplicity '+' not allowed for attribute " +typ.name,
+							VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
+					}
+					case MANY: {
+						error("multiplicity '*' not allowed for attribute " +typ.name,
+							VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
+					}
+					case OPTIONAL: {
+						// OK
+					}
+					case ONE: {
+						if (mul.maxOccurs != 0 && mul.minOccurs != mul.maxOccurs) {
+							error("multiplicity for attribute should specify array size so that min=max for " +typ.name,
+								VodslPackage.Literals.MULTIPLICITY__MAX_OCCURS)
+						}
 					}
 				}
 			}
 		}
+
 	}
+	
+	
 }
