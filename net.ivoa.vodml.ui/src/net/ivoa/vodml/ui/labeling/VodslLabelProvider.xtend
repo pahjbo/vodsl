@@ -39,7 +39,7 @@ class VodslLabelProvider extends org.eclipse.xtext.ui.label.DefaultEObjectLabelP
 		'import_wiz.gif'
 	}
 	def image(PackageDeclaration ele) {
-		'package_obj.gif'
+		'PackageDeclaration.gif'
 	}
 	def image(Enumeration ele) {
 		'enum_obj.gif'

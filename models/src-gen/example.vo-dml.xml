@@ -2,31 +2,35 @@
 <vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">	<!-- file generated from VODSL -->
-      <vodml-id>example</vodml-id>
       <name>example</name>
       <description>an example model</description> 
+      <title>TBD</title>
+      <author>TBD</author>
+      <version>0.1</version>
+      <lastModified>2016-02-03T14:49:50Z</lastModified>
+      <import>
+        <prefix>notyetknown</prefix>
+        <url>IVOA.vodsl</url>
+        <documentationURL>not known</documentationURL>
+      </import>
       <primitiveType>
-        <vodml-id>float</vodml-id>
         <name>float</name>
         <description>a new primitive</description>	    
       </primitiveType>
       <package>
-         <vodml-id>apackage</vodml-id>
          <name>apackage</name>
          <description>example package</description>	    
             <dataType  >
-              <vodml-id>fq</vodml-id>
               <name>fq</name>
               <description></description>	    
                <extends>
-                  <utype>ivoa:AtomicValue</utype>
+                  <vodml-id>ivoa:AtomicValue</vodml-id>
                </extends>
                <attribute>
-                 <vodml-id>value</vodml-id>
                  <name>value</name>
                  <description>a new float</description>	    
                  <datatype>
-                    <utype>example:float</utype>
+                    <vodml-id>example:float</vodml-id>
                  </datatype>
                  <multiplicity>
                    <minOccurs>1</minOccurs>
@@ -35,15 +39,13 @@
                </attribute>
             </dataType>
             <objectType  abstract='true'>
-               <vodml-id>base</vodml-id>
                <name>base</name>
                <description></description>	    
                <attribute>
-                 <vodml-id>bv</vodml-id>
                  <name>bv</name>
                  <description>Description</description>	    
                  <datatype>
-                    <utype>ivoa:boolean</utype>
+                    <vodml-id>ivoa:boolean</vodml-id>
                  </datatype>
                  <multiplicity>
                    <minOccurs>1</minOccurs>
@@ -54,18 +56,16 @@
                
             </objectType>
             <objectType >
-               <vodml-id>derived</vodml-id>
                <name>derived</name>
                <description></description>	    
                <extends>
-                  <utype>example:base</utype>
+                  <vodml-id>example:base</vodml-id>
                </extends>
                <attribute>
-                 <vodml-id>sv</vodml-id>
                  <name>sv</name>
                  <description></description>	    
                  <datatype>
-                    <utype>ivoa:RealQuantity</utype>
+                    <vodml-id>ivoa:RealQuantity</vodml-id>
                  </datatype>
                  <multiplicity>
                    <minOccurs>1</minOccurs>
@@ -76,15 +76,13 @@
                
             </objectType>
             <objectType >
-               <vodml-id>another</vodml-id>
                <name>another</name>
                <description></description>	    
                <attribute>
-                 <vodml-id>f1</vodml-id>
                  <name>f1</name>
                  <description>an array</description>	    
                  <datatype>
-                    <utype>example:fq</utype>
+                    <vodml-id>example:fq</vodml-id>
                  </datatype>
                  <multiplicity>
                    <minOccurs>6</minOccurs>
@@ -92,11 +90,10 @@
                  </multiplicity>
                </attribute>
                <collection>
-                 <vodml-id>f2</vodml-id>
                  <name>f2</name>
                  <description></description>	    
                  <datatype>
-                    <utype>example:derived</utype>
+                    <vodml-id>example:derived</vodml-id>
                  </datatype>
                  <multiplicity>
                    <minOccurs>1</minOccurs>
@@ -107,19 +104,16 @@
                
             </objectType>
             <package>
-               <vodml-id>nestedpackage</vodml-id>
                <name>nestedpackage</name>
                <description></description>	    
                   <objectType >
-                     <vodml-id>another</vodml-id>
                      <name>another</name>
                      <description>different package</description>	    
                      <collection>
-                       <vodml-id>cc</vodml-id>
                        <name>cc</name>
                        <description></description>	    
                        <datatype>
-                          <utype>example:another</utype>
+                          <vodml-id>example:another</vodml-id>
                        </datatype>
                        <multiplicity>
                          <minOccurs>1</minOccurs>
@@ -127,11 +121,10 @@
                        </multiplicity>
                      </collection>
                      <reference>
-                       <vodml-id>rf</vodml-id>
                        <name>rf</name>
                        <description>a reference</description>	    
                        <datatype>
-                         <utype>example:derived</utype>
+                         <vodml-id>example:derived</vodml-id>
                        <datatype>
                      </reference>
                      
@@ -139,11 +132,4 @@
                   </objectType>
             </package>
       </package>
-      <version>0.1</version>
-      <lastModified>2016-01-27T20:55:41Z</lastModified>
-      <import>
-        <prefix>notyetknown</prefix>
-        <url>IVOA.vodsl</url>
-        <documentationURL>not known</documentationURL>
-      </import>
    </vo-dml:model>

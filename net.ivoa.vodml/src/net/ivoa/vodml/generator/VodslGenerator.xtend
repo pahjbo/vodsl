@@ -26,13 +26,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import org.eclipse.emf.ecore.EObject
 import net.ivoa.vodml.vodsl.Reference
+import org.eclipse.xtext.generator.AbstractGenerator
+import org.eclipse.xtext.generator.IGeneratorContext
+import org.eclipse.xtext.generator.IFileSystemAccess2
 
 /**
  * Generates code from your model files on save.
  * 
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
-class VodslGenerator implements IGenerator {
+class VodslGenerator extends AbstractGenerator  {
 	
 	 static val TimeZone tz = TimeZone.getTimeZone("UTC")
     static val DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
@@ -41,7 +44,7 @@ class VodslGenerator implements IGenerator {
     	df.setTimeZone(tz)
     }
 	
-	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
+	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val vodecl = resource.allContents.filter(typeof(VoDataModel)).head // surely there must be a better way of getting this one....
 		val modelDecl = vodecl.model
 		val filename = modelDecl.name + '.vo-dml.xml'

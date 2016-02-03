@@ -12,6 +12,8 @@
 
 package net.ivoa.vodml.ui;
 
+import com.google.inject.Singleton;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.documentation.IEObjectDocumentationProvider;
 
@@ -20,6 +22,7 @@ import org.eclipse.xtext.documentation.IEObjectDocumentationProvider;
  * @author Paul Harrison (paul.harrison@manchester.ac.uk) 8 May 2014
  * @version $Revision$ $date$
  */
+@Singleton
 public class VodslEobjectDocumentationProvider implements
         IEObjectDocumentationProvider {
 

@@ -24,14 +24,20 @@ Subdirectories
  
 Development Hints
 -----------------
-
- - it seems that in more recent versions of XText that there is unwelcome dependence
-   on org.eclipse.equinox.common when running mwe for grammar compilation
-   that is not picked up in the DSL plugin config -
-   a workaround is to add the dependence in the "automated management of dependencies"
-   section (so that it does not actually get written into the manifiest) 
-   of the manifest editor
+ - It is best to start with the preconfigured "Eclipse modelling bundle" 
+ - to test with the minimally configured eclipse platform it is necessary to add
+ "Eclipse UI IDE Application" to the list of automatically added plugin dependencies.
+ and "Views Log"
    
+Prebuilt  Plugins
+-----------------
+
+The VODSL editor feature is available prebuillt from download site
+
+It is necessary to have  http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/
+as an additional download site configured to resolve missing dependencies if starting
+from a vanilla version of eclipse.
+ 
 Language Issues
 ---------------
 

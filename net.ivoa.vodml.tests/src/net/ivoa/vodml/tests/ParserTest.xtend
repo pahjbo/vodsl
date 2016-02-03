@@ -10,7 +10,7 @@
  *
  */ 
 
-package net.ivoa.vodml
+package net.ivoa.vodml.tests
 
 import org.eclipse.xtext.junit4.util.ParseHelper
 import static org.junit.Assert.*
@@ -22,8 +22,8 @@ import org.junit.Test
 import net.ivoa.vodml.vodsl.VoDataModel
 import net.ivoa.vodml.vodsl.ModelDeclaration
 
-@InjectWith(VodslInjectorProvider)
 @RunWith(XtextRunner)
+@InjectWith(VodslInjectorProvider)
 /**
  *  .
  * @author Paul Harrison (paul.harrison@manchester.ac.uk) 1 May 2014
