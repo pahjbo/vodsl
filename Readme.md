@@ -8,9 +8,7 @@ The aims of the serialization are
  - have something easier than XML to edit
  - more constrained and specific than UML
  - focused editors via eclipse [Xtext](https://eclipse.org/Xtext).
- 
-The 
- 
+  
 Subdirectories
 --------------
 
@@ -29,7 +27,7 @@ Development Hints
  "Eclipse UI IDE Application" to the list of automatically added plugin dependencies.
  and "Views Log"
    
-Prebuilt  Plugins
+Prebuilt Plugins
 -----------------
 
 The VODSL editor feature is available prebuillt from download site
@@ -45,4 +43,9 @@ Language Issues
     - should all files have an enclosing package?
     - if not are the top level ones in the "global" scope
     - or do we try to have a scope that is part of the name of the model
+    
+Validation
+----------
+
+
     

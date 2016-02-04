@@ -1,4 +1,5 @@
-model example (0.1) "an example model" 
+model example (0.1) "an example model"
+author "tbd"
 include "IVOA.vodsl"
 
 	primitive float "a new primitive"

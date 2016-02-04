@@ -1,5 +1,6 @@
 model obscore ( 0.1 ) "This is the VO-DML representation of the ObsCore data model.
 It is ported from the recommendation in http://www.ivoa.net/documents/ObsCore/index.html"
+	   author "tbd"
 
 	include "IVOA.vodsl"
 

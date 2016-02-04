@@ -2,7 +2,7 @@
 model stc (2.0) "
           TODO : Missing description : please, update your UML model asap.
         "
-	  
+	   author "tbd"
        include "IVOA.vodsl"
 enum Handedness  ""
 {

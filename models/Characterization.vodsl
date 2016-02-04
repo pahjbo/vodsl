@@ -1,5 +1,6 @@
 
 model char (0.9) "This is the data model for describing the Characterization of observational data sets in the IVOA."
+	   author "tbd"
 	  
        include "STC2_20151030.vodsl"
      

@@ -1,4 +1,4 @@
-model ivoa ( 1.0 ) "This is the main reference data model containing primitive types used in other data models."
+model ivoa ( 1.0 ) "This is the main reference data model containing primitive types used in other data models." author "Gerard Lemson" 
 	dtype Identity 
 	"This datatype represents an identifier for an object in the data model. It consists of 3 attributes that each are assumed to work in a particular context or representation of a data model instance."
 	{      

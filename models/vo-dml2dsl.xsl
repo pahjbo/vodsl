@@ -23,9 +23,9 @@ official VODML XML representation to the dsl representation.
 
   
   <xsl:variable name="packages" select="//package/vodml-id"/>
-  <xsl:variable name="single_quote"><xsl:text>'</xsl:text></xsl:variable>
-  <xsl:variable name="double_quote"><xsl:text>"</xsl:text></xsl:variable>
-  <xsl:variable name='newline'><xsl:text>
+  <xsl:variable name="sq"><xsl:text>'</xsl:text></xsl:variable>
+  <xsl:variable name="dq"><xsl:text>"</xsl:text></xsl:variable>
+  <xsl:variable name='nl'><xsl:text>
 </xsl:text></xsl:variable>
 
   <xsl:variable name="modname">
@@ -44,8 +44,9 @@ official VODML XML representation to the dsl representation.
   <xsl:template match="vo-dml:model">  
   <xsl:message>Found model <xsl:value-of select="$modname"/></xsl:message>
 model <xsl:value-of select="$modname"/> (<xsl:value-of select="version"/>) "<xsl:value-of select="description"/>"
+     <xsl:apply-templates select="author" />
 	  <xsl:apply-templates select="import" />
-	  <xsl:apply-templates select="* except (import|version|description|vodml-id|lastModified|name|title)"/>
+	  <xsl:apply-templates select="* except (import|version|description|vodml-id|lastModified|name|title|author)"/>
   </xsl:template>
  
  <xsl:template match="import">
@@ -59,6 +60,9 @@ model <xsl:value-of select="$modname"/> (<xsl:value-of select="version"/>) "<xsl
  </xsl:template> 
   
 
+<xsl:template match="author">
+   <xsl:value-of select="concat($nl,' author ',$dq,.,$dq)"/>
+</xsl:template>
   <xsl:template match="package">
 package <xsl:value-of select="concat(vodml-id,' ')"/> <xsl:apply-templates select= "description"/>
 {
@@ -75,14 +79,14 @@ package <xsl:value-of select="concat(vodml-id,' ')"/> <xsl:apply-templates selec
   </xsl:template>
 
 <xsl:template match="objectType">
-  <xsl:value-of select="$newline"/><xsl:if test="@abstract">abstract </xsl:if>otype <xsl:value-of select="name"/><xsl:text> </xsl:text>
+  <xsl:value-of select="$nl"/><xsl:if test="@abstract">abstract </xsl:if>otype <xsl:value-of select="name"/><xsl:text> </xsl:text>
   <xsl:apply-templates select= "extends"/>
   <xsl:apply-templates select= "description"/>
   {   <xsl:apply-templates select="* except (vodml-id|description|name|extends|constraint)"/>
   }
 </xsl:template>
 <xsl:template match="dataType"><!-- is this really so different from object? -->
-  <xsl:value-of select="$newline"/><xsl:if test="@abstract">abstract </xsl:if>dtype <xsl:value-of select="name"/><xsl:text> </xsl:text>
+  <xsl:value-of select="$nl"/><xsl:if test="@abstract">abstract </xsl:if>dtype <xsl:value-of select="name"/><xsl:text> </xsl:text>
   <xsl:apply-templates select= "extends"/>
   <xsl:apply-templates select= "description"/>
   {   <xsl:apply-templates select="* except (vodml-id|description|name|extends|constraint)"/>
@@ -90,7 +94,7 @@ package <xsl:value-of select="concat(vodml-id,' ')"/> <xsl:apply-templates selec
 </xsl:template>
 
 <xsl:template match ="description">
-  <xsl:text> "</xsl:text><xsl:if test="not(matches(text(),'^\s*TODO'))"><xsl:value-of select='translate(.,$double_quote,$single_quote)'/></xsl:if><xsl:text>"</xsl:text>
+  <xsl:text> "</xsl:text><xsl:if test="not(matches(text(),'^\s*TODO'))"><xsl:value-of select='translate(.,$dq,$sq)'/></xsl:if><xsl:text>"</xsl:text>
 </xsl:template>
 
 <xsl:template match="attribute">

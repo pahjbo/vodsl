@@ -2,6 +2,7 @@
 model NDcube (1.0) "
 This IVOA model describes N-dimensional data cubes.
 "
+	   author "tbd"
        include "IVOA.vodsl"
 	  
        include "STC2_20151030.vodsl"

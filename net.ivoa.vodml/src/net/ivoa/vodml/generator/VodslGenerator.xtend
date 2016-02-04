@@ -60,7 +60,9 @@ class VodslGenerator extends AbstractGenerator  {
       <name>«e.model.name»</name>
       <description>«e.model.description»</description> 
       <title>TBD</title>
-      <author>TBD</author>
+      «FOR a:e.model.authors»
+        <author>«a»</author>
+      «ENDFOR»
       <version>«e.model.version»</version>
       <lastModified>«df.format(new Date())»</lastModified>
       «FOR f:e.includes»

@@ -2,6 +2,7 @@
 model stc2 (2.0) "
           TODO : Missing description : please, update your UML model asap.
         "
+	   author "tbd"
 	  
        include "IVOA.vodsl"
      

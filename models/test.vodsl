@@ -1,4 +1,5 @@
 model testingscope ( 1.0 ) "Testing the scope of types"
+	 author "tbd"
 	include "IVOA.vodsl"
   
 	primitive Identity "should this mask the included or be an error?"
@@ -12,7 +13,7 @@ model testingscope ( 1.0 ) "Testing the scope of types"
 
 			dtype scopes
 			{
-				f0 : integer "from the top level in the imported namespace - want to avoid the ivoa:prefix";
+				f0 : integer "from the top level in the imported namespace - want to avoid the ivoa:prefix?";
 				f1 : topl.primtop "perhaps would like this to be in scope as nested without qualification?";
 				f2 : quantity.IntegerQuantity "an example from included namespace";
 				f3 : Identity "from the top level here or in the imported ivoa namespace?";

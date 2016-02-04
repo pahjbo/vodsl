@@ -1,4 +1,6 @@
-model spectral
+model spectral (1.0) ""
+	   author "tbd"
+
 
 	otype CoordSys ""
 	{

@@ -1,4 +1,5 @@
 model ProvDM (0.1) "This is the data model for the provenance of observations. It contains the IVOA UML Profile and imports the IVOA_Profile data model with primitive types."
+	   author "tbd"
 	  
        include "IVOA.vodsl"
       otype Activity  "An Activity is any kind of link between input and result data."

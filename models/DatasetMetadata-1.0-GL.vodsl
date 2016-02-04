@@ -3,6 +3,7 @@ model ds (1.0) "
 This document provides a data model describing the structure and content of generic Dataset metadata for the IVOA.  This is a high-level model which is to be referenced and extended by other models describing specific types of Datasets and Data products.  In this document, we specify the generic Dataset, as well as an ObservationDataset model which covers the class of Datasets which are derived from an Observation.  At the time of this writing, there is no formal Observation-Experiment model for the IVOA, so we include a hypothetical Observation-Experiment model to serve as a placeholder. 
 
 "
+	   author "Gerard Lemson"
 	  
        include "IVOA.vodsl"
      

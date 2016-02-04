@@ -20,7 +20,7 @@ VoDataModel:
 
 
 ModelDeclaration:
-	'model' name=ID '(' version=VERSION ')' description=STRING?
+	'model' name=ID '(' version=VERSION ')' description=STRING? ('author' authors+=STRING)+
 ;
 
 /* avoid terminals here as causes confusion in the LEXing which is greedy see http://www.eclipse.org/forums/index.php/t/263071/ */
