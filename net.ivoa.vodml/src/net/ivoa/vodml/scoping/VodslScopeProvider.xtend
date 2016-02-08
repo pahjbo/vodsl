@@ -3,6 +3,9 @@
  */
 package net.ivoa.vodml.scoping
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EReference
+
 /**
  * This class contains custom scoping description.
  * 
@@ -10,6 +13,10 @@ package net.ivoa.vodml.scoping
  * on how and when to use it 
  *
  */
-class VodslScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider {
-   
+class VodslScopeProvider extends AbstractVodslScopeProvider {
+    
+				override getScope(EObject context, EReference reference) {
+					super.getScope(context, reference)
+				}
+				
 }

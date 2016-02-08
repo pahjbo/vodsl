@@ -1,7 +1,6 @@
 
-model char (0.9) "This is the data model for describing the Characterization of observational data sets in the IVOA."
-	   author "tbd"
-	  
+model char (0.9) "This is the data model for describing teh Characterization of observational data sets in the IVOA."
+     
        include "STC2_20151030.vodsl"
      
        include "IVOA.vodsl"
@@ -14,85 +13,85 @@ RELATIVE  "",
 NORMALIZED  ""
 }
 
-dtype ResolutionSupport  ""
+dtype ResolutionSupportType  ""
   {   
   }
 
-dtype Sensitivity  ""
+dtype SensitivityType  ""
   {   
   }
 
-dtype ErrorRefVal  "Typical statistical error on the axis. Types: depend on the dimensionality 1D Error based on stc:double1Type 2D Errors based on stc:size2, double2 or double1 (error 2 radius) 3D Errors based on stc:size3, double3TYpe or double1 (error 3 radius) "
+dtype ErrorRefValType  "Typical statistical error on the axis. Types: depend on the dimensionality 1D Error based on stc:double1Type 2D Errors based on stc:size2Type, double2Type or double1Type (error 2 radius) 3D Errors based on stc:size3Type, double3TYpe or double1Type (error 3 radius) "
   {   
-        unit: string  @?   "";
-        CError: double1   "";
-        documentation: string  @?   "";
-        coordSystem  @?  references coordsystem.AstroCoordSystem "";
+        unit: ivoa:string  @?   "";
+        CError: stc2.double1Type   "";
+        documentation: ivoa:string  @?   "";
+        coordSystem  @?  references stc2:AstroCoordSystem "";
   }
 
-dtype ResolutionRefVal  ""
-  {   
-  }
-
-dtype Support  ""
+dtype ResolutionRefValType  ""
   {   
   }
 
-dtype Location  ""
-  {   
-        coord: coords.AstroCoords  as composition  "";
-        unit: string  @?   "redefinition of unit";
-        documentation: string  @?   "";
-        coordSystem  @?  references coordsystem.AstroCoordSystem "Redefinition of coordsystem";
-  }
-
-dtype SamplingPrecisionRefVal  ""
+dtype SupportType  ""
   {   
   }
 
-dtype ResolutionBounds  ""
+dtype LocationType  ""
+  {   
+        coord: stc2.coords.AstroCoords  @?   "";
+        unit: ivoa:string  @?   "redefinition of unit";
+        documentation: ivoa:string  @?   "";
+        coordSystem  @?  references stc.AstroCoordSystem "Redefinition of coordsystem";
+  }
+
+dtype SamplingPrecisionRefValType  ""
   {   
   }
 
-dtype Bounds  ""
+dtype ResolutionBoundsType  ""
+  {   
+  }
+
+dtype BoundsType  ""
   {   
   }
 
 dtype CustomError 
-  extends Error ""
+  -> ErrorType ""
   {   
-        flavor: string   "";
+        flavor: ivoa:string   "";
   }
 
-dtype SamplingPrecisionBounds  ""
-  {   
-  }
-
-dtype SamplingPrecisionSupport  ""
+dtype SamplingPrecisionBoundsType  ""
   {   
   }
 
-dtype StatError 
-  extends Error ""
+dtype SamplingPrecisionSupportType  ""
   {   
   }
 
-dtype ErrorBounds  ""
-  {   
-        errorLimits: coordarea.CoordInterval  @?   "";
-        documentation: string  @?   "";
-  }
-
-dtype SysError 
-  extends Error ""
+dtype StatErrorType 
+  -> ErrorType ""
   {   
   }
 
-dtype ErrorVariability  ""
+dtype ErrorBoundsType  ""
+  {   
+        errorLimits: stc2.coordarea.CoordInterval  @?   "";
+        documentation: ivoa:string  @?   "";
+  }
+
+dtype SysErrorType 
+  -> ErrorType ""
   {   
   }
 
-dtype ResolutionVariability  ""
+dtype ErrorVariabilityType  ""
+  {   
+  }
+
+dtype ResolutionVariabilityType  ""
   {   
   }
 
@@ -100,26 +99,26 @@ dtype SamplingPrecisionVariability  ""
   {   
   }
 
-dtype Error  ""
+dtype ErrorType  ""
   {   
-        ErrorRefVal: ErrorRefVal   "";
-        ErrorBounds: ErrorBounds  @?   "";
-        ErrorVariability: ErrorVariability  @?   "";
+        ErrorRefVal: ErrorRefValType   "";
+        ErrorBounds: ErrorBoundsType  @?   "";
+        ErrorVariability: ErrorVariabilityType  @?   "";
   }
 
-abstract otype CharCoordinate  "A coordinate type to define n-D bounding boxes. To be overridden by any of the following possible substitution elements."
+abstract otype CharCoordinateType  "A coordinate type to define n-D bounding boxes. To be overridden by any of the following possible substitution elements."
   {   
-        Name: string   "";
+        Name: ivoa:string   "";
   }
 
-otype Resolution  ""
+otype ResolutionType  ""
   {   
-        unit: string  @?   "";
-        resolutionRefVal: ResolutionRefVal   "";
-        resolutionBounds: ResolutionBounds  @?   "";
-        resolutionSupport: ResolutionSupport  @?   "";
-        resolutionVariability: ResolutionVariability  @?   "";
-        coordSystem  @?  references coordsystem.AstroCoordSystem "";
+        unit: ivoa:string  @?   "";
+        resolutionRefVal: ResolutionRefValType   "";
+        resolutionBounds: ResolutionBoundsType  @?   "";
+        resolutionSupport: ResolutionSupportType  @?   "";
+        resolutionVariability: ResolutionVariabilityType  @?   "";
+        coordSystem  @?  references stc2.coordsystem.AstroCoordSystem "";
   }
 
 otype ComponentAxis  "INtrouced tom model aggregation of 1D axes to build a custom composite axis type."
@@ -127,88 +126,88 @@ otype ComponentAxis  "INtrouced tom model aggregation of 1D axes to build a cust
         axis  references Custom1DCharacterisationAxis "";
   }
 
-otype SamplingPrecision  ""
+otype SamplingPrecisionType  ""
   {   
-        unit: string  @?   "";
-        samplingPrecisionRefVal: SamplingPrecisionRefVal   "";
-        samplingPrecisionBounds: SamplingPrecisionBounds  @?   "";
-        samplingPrecisionSupport: SamplingPrecisionSupport  @?   "";
+        unit: ivoa:string  @?   "";
+        samplingPrecisionRefVal: SamplingPrecisionRefValType   "";
+        samplingPrecisionBounds: SamplingPrecisionBoundsType  @?   "";
+        samplingPrecisionSupport: SamplingPrecisionSupportType  @?   "";
         samplingPrecisionVariability: SamplingPrecisionVariability  @?   "";
-        coordSystem  @?  references coordsystem.AstroCoordSystem "";
+        coordSystem  @?  references stc2.coordsystem.AstroCoordSystem "";
   }
 
-otype Coverage  "How the observation is spanned along this axis"
+otype CoverageType  "How the observation is spanned along this axis"
   {   
-        unit: string  @?   "";
-        location: Location   "Typical value on one axis";
-        bounds: Bounds  @?   "the limits of the observation on this axis";
-        support: Support  @?   "describes the area where measurements are effectively present and interpretable ";
-        sensitivity: Sensitivity  @?   "encodes the variability of response along the axis ";
-        coordsystem  @?  references coordsystem.AstroCoordSystem "redefinition of coordsystem";
+        unit: ivoa:string  @?   "";
+        location: LocationType   "Typical value on one axis";
+        bounds: BoundsType  @?   "the limits of the observation on this axis";
+        support: SupportType  @?   "describes the area where measurements are effectively present and interpretable ";
+        sensitivity: SensitivityType  @?   "encodes the variability of response along the axis ";
+        coordsystem  @?  references stc2.coordsystem.AstroCoordSystem "redefinition of coordsystem";
   }
 
-otype Accuracy  ""
+otype AccuracyType  ""
   {   
-        quality: string  @?   "A combination of flags attesting the data quality. : String";
-        statError: StatError  @?   "";
-        sysError: SysError  @?   "";
-        CustError: Error  @?   "";
+        quality: ivoa:string  @?   "A combination of flags attesting the data quality. Type: String";
+        statError: StatErrorType  @?   "";
+        sysError: SysErrorType  @?   "";
+        CustError: ErrorType  @?   "";
   }
 
-otype TimeAxis 
-  extends CharacterisationAxis ""
+otype TimeAxisType 
+  -> spectral.char.CharacterisationAxis ""
   {   
-        numbins: nonnegativeInteger   "";
+        numbins: ivoa:nonnegativeInteger   "";
   }
 
 otype Custom1DCharacterisationAxis 
-  extends CharacterisationAxis "Introduced to model custom 1D axes."
+  -> spectral.char.CharacterisationAxis "Introduced to model custom 1D axes."
   {   
-        numBins: nonnegativeInteger   "";
+        numBins: ivoa:nonnegativeInteger   "";
   }
 
-otype SpatialAxis 
-  extends CharacterisationAxis ""
+otype SpatialAxisType 
+  -> spectral.char.CharacterisationAxis ""
   {   
-        numbins1: nonnegativeInteger   "";
-        numbins2: nonnegativeInteger   "";
+        numbins1: ivoa:nonnegativeInteger   "";
+        numbins2: ivoa:nonnegativeInteger   "";
   }
 
-abstract otype CharacterisationAxis  "describes an axis and its properties "
+abstract otype CharacterisationAxisType  "describes an axis and its properties "
   {   
-        axisName: string   "A name representing the physical nature of the axis like Spatial, Spectral, Time, Velocity or any other free name for an axis";
-        ucd: string  @?   "The physical meaning of the axis, : standard semantic tag defined in the UCD list.";
-        unit: string   "default unit for the axis: Type: controlled unit vocabulary following the VOTable units definitions ";
-        independentAxis: boolean  @?   "Indicates whether the axis is independent or not from the other axes. The Observable axis has a false independentAxis 'value' Type : boolean";
+        axisName: ivoa:string   "A name representing the physical nature of the axis like Spatial, Spectral, Time, Velocity or any other free name for an axis";
+        ucd: ivoa:string  @?   "The physical meaning of the axis, Type: standard semantic tag defined in the UCD list.";
+        unit: ivoa:string   "default unit for the axis: Type: controlled unit vocabulary following the VOTable units definitions ";
+        independentAxisType: ivoa:boolean  @?   "Indicates whether the axis is independent or not from the other axes. The Observable axis has a false independentAxis 'value' Type : boolean";
         calibrationStatus: CalibrationStatus   "defines if and how the axis is calibrated: Possible String values: CALIBRATED, UNCALIBRATED, RELATIVE, NORMALIZED ";
-        undersamplingStatus: boolean  @?   "A flag to mention wether the data are undersampled. Type: boolean";
-        regularsamplingStatus: boolean  @?   "A flag to mention wether the data are regularly sampled. Type : boolean ";
-        accuracy : Accuracy @?  as composition "Global accuracy description of the axis";
-        coverage : Coverage as composition "";
-        resolution : Resolution @?  as composition "";
-        samplingPrecision : SamplingPrecision @?  as composition "";
-        coordsystem  references coordsystem.AstroCoordSystem "Reference coordinate system for the axis";
-        ObsyLoc  @?  references observatoryLocation "Observatory location Type: a STC:observatoryLocationType or an xlink";
+        undersamplingStatus: ivoa:boolean  @?   "A flag to mention wether the data are undersampled. Type: boolean";
+        regularsamplingStatus: ivoa:boolean  @?   "A flag to mention wether the data are regularly sampled. Type : boolean ";
+        accuracy : AccuracyType @?  as composition "Global accuracy description of the axis";
+        coverage : CoverageType as composition "";
+        resolution : ResolutionType @?  as composition "";
+        samplingPrecision : SamplingPrecisionType @?  as composition "";
+        coordsystem  references stc2:coordsystem.AstroCoordSystem "Reference coordinate system for the axis";
+        ObsyLoc  @?  references stc.observatoryLocationType "Observatory location Type: a STC:observatoryLocationType or an xlink";
   }
 
-abstract otype Characterisation  ""
+abstract otype CharacterisationType  ""
   {   
-        characterisationAxis : CharacterisationAxis @+  as composition "";
+        characterisationAxis : ChAxis @+  as composition "";
   }
 
 otype CompositeCharacterisationAxis 
-  extends CharacterisationAxis "INtroduced to model composite axes."
+  -> ChAxis "INtroduced to model composite axes."
   {   
-        dim: nonnegativeInteger   "";
+        dim: ivoa:nonnegativeInteger   "";
         childAxis : ComponentAxis @+  as composition "";
   }
 
-otype CharCoordArea  ""
+otype CharCoordAreaType  ""
   {   
   }
 
-otype SpectralAxis 
-  extends CharacterisationAxis ""
+otype SpectralAxisType 
+  -> ChAxis ""
   {   
-        numbins: nonnegativeInteger   "";
+        numbins: ivoa:nonnegativeInteger   "";
   }

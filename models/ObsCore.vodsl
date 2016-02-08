@@ -1,5 +1,5 @@
 model obscore ( 0.1 ) "This is the VO-DML representation of the ObsCore data model.
-It is ported from the recommendation in http://www.ivoa.net/documents/ObsCore/index.html"
+It is ported from the recommendation in http://www.ivoa:net/documents/ObsCore/index.html"
 	   author "tbd"
 
 	include "IVOA.vodsl"
@@ -12,8 +12,8 @@ It is ported from the recommendation in http://www.ivoa.net/documents/ObsCore/in
 		abstract otype ObservingElement ""
 		{
 
-			name : string  "" ;
-			type : string  "" ;
+			name : ivoa:string  "" ;
+			type : ivoa:string  "" ;
 		}
 
 		otype ObsConfig ""
@@ -23,35 +23,35 @@ It is ported from the recommendation in http://www.ivoa.net/documents/ObsCore/in
 		}
 
 
-		otype Filter extends Provenance.ObservingElement  ""
+		otype Filter -> Provenance.ObservingElement  ""
 		{
 		}
 
-		otype Facility extends Provenance.ObservingElement  ""
+		otype Facility -> Provenance.ObservingElement  ""
 		{
 		}
 
-		otype Instrument extends Provenance.ObservingElement  ""
+		otype Instrument -> Provenance.ObservingElement  ""
 		{
 		}
 
-		otype Detector extends Provenance.ObservingElement  ""
+		otype Detector -> Provenance.ObservingElement  ""
 		{
 		}
 
 		otype Proposal ""
 		{
 
-			identifier : string  "" ;
+			identifier : ivoa:string  "" ;
 		}
 	}
 
 	otype Observation ""
 	{
 
-		dataProductType : string  "Data product (file content) primary type" ;
-		dataProductSubtype : string  @? "Data product specific type" ;
-		calibLevel : integer "Calibration level of the observation: in {0, 1, 2, 3}" /*would have been nicer as an enum */;
+		dataProductType : ivoa:string  "Data product (file content) primary type" ;
+		dataProductSubtype : ivoa:string  @? "Data product specific type" ;
+		calibLevel : ivoa:integer "Calibration level of the observation: in {0, 1, 2, 3}" /*would have been nicer as an enum */;
 		target : Target  @? "" ;
 		dataID : DataID  "" ;
 		access : Access  "" ;
@@ -65,15 +65,15 @@ It is ported from the recommendation in http://www.ivoa.net/documents/ObsCore/in
 	otype Curation ""
 	{
 
-		CONTAINER : Obs  as composition "Reference to container in collection curation";
-		releaseDate : datetime  @? "" ;
-		publisherDID : string  "" ;
-		publisherId : string  @? "" ;
-		reference : string  @? "" ;
+		CONTAINER : Obs as composition "Reference to container in collection curation";
+		releaseDate : ivoa:datetime  @? "" ;
+		publisherDID : ivoa:string  "" ;
+		publisherId : ivoa:string  @? "" ;
+		reference : ivoa:string  @? "" ;
 		rights : Rights  @? "" ;
 	}
 
-	otype ObsCharacterisation extends Char  "" { 
+	otype ObsCharacterisation -> Char  "" { 
     CONTAINER : Obs  as
 	composition "Reference to container in collection characterisation";
 	 }
@@ -81,27 +81,27 @@ It is ported from the recommendation in http://www.ivoa.net/documents/ObsCore/in
 	dtype DataID ""
 	{
 
-		observationID : string  "" ;
-		title : string  @? "" ;
-		collection : string  "Name of the data collection" ;
-		creationDate : datetime  @? "" ;
-		creator : string  @? "" ;
-		creatorDID : string  @? "" ;
+		observationID : ivoa:string  "" ;
+		title : ivoa:string  @? "" ;
+		collection : ivoa:string  "Name of the data collection" ;
+		creationDate : ivoa:datetime  @? "" ;
+		creator : ivoa:string  @? "" ;
+		creatorDID : ivoa:string  @? "" ;
 	}
 
 	dtype Target ""
 	{
 
-		name : string  "" ;
-		classification : string  @? "" ;
+		name : ivoa:string  "" ;
+		classification : ivoa:string  @? "" ;
 	}
 
 	dtype Access ""
 	{
 
-		reference : anyURI  "" ;
+		reference : ivoa:anyURI  "" ;
 		format : FormatType  @? "" ;
-		size : integer  @? "" ;
+		size : ivoa:integer  @? "" ;
 	}
 	enum FormatType ""
 	{

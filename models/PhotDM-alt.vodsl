@@ -6,27 +6,27 @@ model photdm_alt ( 0.1 ) "This is an alternative version of the data model for P
 	otype Access ""
 	{
 
-		reference : string  "uri to the effective transmission curve
+		reference : ivoa:string  "uri to the effective transmission curve
 NB this description applies to the inherited access atttribute on TransmissionCurve, not really to the one on the base class." ;
-		format : string  "" ;
-		size : nonnegativeInteger  @? "" ;
+		format : ivoa:string  "" ;
+		size :ivoa:nonnegativeInteger   @? "" ;
 	}
 
-	otype AsinhZeroPoint extends ZeroPoint  ""
+	otype AsinhZeroPoint -> ZeroPoint  ""
 	{
 
-		softeningCoefficient : real  @? "" ;
+		softeningCoefficient : ivoa:real  @? "" ;
 	}
 
-	otype LinearFlux extends ZeroPoint  ""
+	otype LinearFlux -> ZeroPoint  ""
 	{
 	}
 
 	otype MagnitudeSystem ""
 	{
 
-		type : string  @? "" ;
-		referenceSpectrum : anyURI  @? "" ;
+		type : ivoa:string  @? "" ;
+		referenceSpectrum : ivoa:anyURI  @? "" ;
 		source : Source  @* as composition "";
 	}
 
@@ -41,36 +41,36 @@ NB this description applies to the inherited access atttribute on TransmissionCu
 	otype PhotometricSystem ""
 	{
 
-		description : string  @? "String representation Photometric system" constraint ;
-		detectorType : integer  "Type of detector (e.g energy or photon counter)" ;
+		description : ivoa:string  @? "String representation Photometric system" constraint ;
+		detectorType : ivoa:integer  "Type of detector (e.g energy or photon counter)" ;
 		photometryFilter : PhotometryFilter  @+ as composition "";
 	}
 
 	otype PhotometryFilter ""
 	{
 
-		fpsIdentifier : string  "IVOA identifier of the Filter Profile Service" ;
-		identifier : string  "" ;
-		name : string  "Filter Name in the instrumental configuration" ;
-		description : string  "Text description of the filter band" constraint ;
-		bandName : string  "" ;
-		dataValidityFrom : datetime  "" ;
-		dataValidityTo : datetime  "" ;
-		spectralLocation : quantity.RealQuantity  "" ;
+		fpsIdentifier : ivoa:string  "IVOA identifier of the Filter Profile Service" ;
+		identifier : ivoa:string  "" ;
+		name : ivoa:string  "Filter Name in the instrumental configuration" ;
+		description : ivoa:string  "Text description of the filter band" constraint ;
+		bandName : ivoa:string  "" ;
+		dataValidityFrom : ivoa:datetime  "" ;
+		dataValidityTo : ivoa:datetime  "" ;
+		spectralLocation : ivoa:quantity.RealQuantity  "" ;
 		bandWidth : S_Bounds  "" ;
 		transmissionPoint : TransmissionPoint  @* as composition "";
 		access : Access  @? as composition "";
 	}
 
-	otype PogsonZeroPoint extends ZeroPoint  ""
+	otype PogsonZeroPoint -> ZeroPoint  ""
 	{
 	}
 
 	abstract otype ZeroPoint ""
 	{
 
-		flux : quantity.RealQuantity  "" ;
-		referenceMagnitude : quantity.RealQuantity  "" ;
+		flux : ivoa:quantity.RealQuantity  "" ;
+		referenceMagnitude : ivoa:quantity.RealQuantity  "" ;
 	}
 
 	otype Source ""
@@ -80,16 +80,16 @@ NB this description applies to the inherited access atttribute on TransmissionCu
 	otype TransmissionPoint ""
 	{
 
-		spectral : quantity.RealQuantity  "" ;
-		spectralError : quantity.RealQuantity  "" ;
-		transmission : quantity.RealQuantity  "" ;
-		transmissionError : quantity.RealQuantity  "" ;
+		spectral : ivoa:quantity.RealQuantity  "" ;
+		spectralError : ivoa:quantity.RealQuantity  "" ;
+		transmission : ivoa:quantity.RealQuantity  "" ;
+		transmissionError : ivoa:quantity.RealQuantity  "" ;
 	}
 
 	dtype S_Bounds "Could be datatype"
 	{
 
-		extent : quantity.RealQuantity  @? "" ;
-		start : quantity.RealQuantity  "" ;
-		stop : quantity.RealQuantity  "" ;
+		extent : ivoa:quantity.RealQuantity  @? "" ;
+		start : ivoa:quantity.RealQuantity  "" ;
+		stop : ivoa:quantity.RealQuantity  "" ;
 	}

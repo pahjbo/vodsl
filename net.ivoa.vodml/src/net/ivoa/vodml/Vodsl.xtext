@@ -11,16 +11,17 @@ generate vodsl "http://www.ivoa.net/vodml/Vodsl"
 /**
  * The root model element, comprised of one optional include section
  * and the definition of any number of compound types.
+ * 
  */
 VoDataModel:
 	 model = ModelDeclaration
 	 ( includes += IncludeDeclaration ) *
-    elements += AbstractElement+
+    elements += (PackageDeclaration | DefinitionType)+
     ;
 
 
 ModelDeclaration:
-	'model' name=ID '(' version=VERSION ')' description=STRING? ('author' authors+=STRING)+
+	'model' name=ID '(' version=VERSION ')' description=STRING? ('author' authors+=STRING)*
 ;
 
 /* avoid terminals here as causes confusion in the LEXing which is greedy see http://www.eclipse.org/forums/index.php/t/263071/ */
@@ -30,8 +31,9 @@ IncludeDeclaration:
 	'include' importURI=STRING
 ;
 
-QualifiedName:
-  ValidID (=>'.' ValidID)*;
+
+QualifiedName: //IMPL have not got the : form to work - just dotted for each level at the moment
+  (ValidID ':')? ValidID (=>'.' ValidID)*;
 
 QualifiedNameWithWildcard:
 	 QualifiedName '.*'?
@@ -39,43 +41,49 @@ QualifiedNameWithWildcard:
 
 ValidID:
 	ID;
-	
-ValueType:
-	Enumeration | DataType | PrimitiveType
-;
 
-DefinitionType:
+   
+DefinitionType: // this is simply Type in VO-DML schema
 	ObjectType | ValueType
 ;
 
-AbstractElement:
-   PackageDeclaration| DefinitionType;
- 
+ValueType:
+	Enumeration | DataType | PrimitiveType
+;
+   
+   
 /*TODO - just call this package - semantically this is the whole package */
   PackageDeclaration:
   'package' name=ID description=STRING? '{'
-    elements+=AbstractElement+
+    elements+=(PackageDeclaration | DefinitionType)+
   '}';
 
 /**
- * Convenience meta type
- * (not actually referenced from anywhere in the grammar defn, but appear in the VODML spec! and makes code generation easier).
+ * Convenience meta types.
+ * (not actually referenced from anywhere in the grammar defn, but appear in the VODML specification and make code generation easier).
  */
 
-
+Role:
+	Attribute | Reference | Composition
+;
+ 
 ReferableElement :
-	AbstractElement | EnumLiteral | Attribute | Reference
-;  
+	PackageDeclaration | DefinitionType | EnumLiteral |  Role
+; 
+
 
 /**
  * Definition for a primitive type.
  * TODO not really sure that it captures the subsets idea from VODML really yet...
  */
 PrimitiveType:
-   'primitive' name=ID       
+   ( abstract?='abstract'? ) 'primitive' name=ID       
             ( '->' superType=[PrimitiveType|QualifiedName] )?
             description = STRING
+            ( constraints += Constraint )* 
+            
     ;
+
 
 /**
  * Definition of a data type complete with its constituent fields,
@@ -83,24 +91,37 @@ PrimitiveType:
  */
 DataType:
     ( abstract?='abstract'? ) 'dtype' name=ID 
-    ( 'extends' superType=[DataType|QualifiedName] )? 
+    ( '->' superType=[DataType|QualifiedName] )? 
     (description=STRING)?
+    ( constraints += Constraint )*
     
     '{'
-        ( attributes += Attribute )*
-        ( references += Reference ) *
-        ( constraints += Constraint )*
+        content+= (Attribute|Reference)*
     '}'
     ;
 
+    
+ObjectType:
+    ( abstract?='abstract'? ) 'otype' name=ID
+        ( '->' superType=[ObjectType|QualifiedName] )? (description=STRING)?
+        ( constraints += Constraint )*
+    '{'
+       content+= (Attribute|Reference|Composition)*
+    '}'
+    ;	
 
 /*
- * composition/referencing probably needs a better design.
+ * composition/referencing.
  * 
  */
 Attribute :
-    name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )? ('as' (ordered?='ordered')? composition?='composition')?  description=STRING ((semanticConcept=SemanticConcept)? & ( constraints += Constraint )* )';'
+    name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )?  description=STRING ((semanticConcept=SemanticConcept)? & ( constraints += Constraint )* )';'
     ;
+
+Composition :
+    name=ID ':' type=[ObjectType|QualifiedName] (multiplicity=Multiplicity )? 'as' (ordered?='ordered')? 'composition'  description=STRING ((semanticConcept=SemanticConcept)? & ( constraints += Constraint )* )';'
+    ;
+
 
 /*
  * the @ is not really necessary from a parsing/grammar point of view - just put in to make it stand out in the text
@@ -119,7 +140,10 @@ enum MultiplicityBound :
 
 
 Enumeration:
-    'enum' name=ID (description=STRING)?
+    ( abstract?='abstract'? ) 'enum' name=ID 
+    ( '->' superType=[Enumeration|QualifiedName] )? 
+    (description=STRING)?
+    ( constraints += Constraint )*    
     '{'
         literals += EnumLiteral (',' literals += EnumLiteral) *
     '}'
@@ -129,21 +153,12 @@ EnumLiteral:
     name=ID (description=STRING)?
     ;
 
-ObjectType:
-    ( abstract?='abstract'? ) 'otype' name=ID
-        ( 'extends' superType=[ObjectType|QualifiedName] )? (description=STRING)?
-    '{'
-        ( attributes += Attribute )*
-        ( references += Reference )*
-        ( constraints += Constraint )*
-    '}'
-    ;	
 
 /*
- * The reference to a definitionType is not quite allowed - allows reference to an attribute for instance - TODO need to custom scope this so that only DataTypes and ObjectTypes are allowed I think.
+ * The reference to a ObjectType .
  */
 Reference:
-	 name=ID (multiplicity=Multiplicity )? 'references' referenced=[DefinitionType|QualifiedName]  description=STRING ';'
+	 name=ID (multiplicity=Multiplicity )? 'references' referenced=[ObjectType|QualifiedName]  description=STRING ';'
 ;
 
 /*

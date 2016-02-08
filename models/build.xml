@@ -12,9 +12,10 @@
 	
 	<property name="vodmlbase" location="/Users/pharriso/Work/volute/projects/dm/"/>
     <target name="alltodsl"  description="description">
-<!--    	<todsl model="ivoa" sdir="vo-dml/ivoa"/> -->
+<!--    	<todsl model="IVOA" sdir="vo-dml/models/ivoa"/> -->
     	<todsl model="Characterization" sdir="vo-dml/models/characterization"/>
-    	<todsl model="SourceDM" sdir="vo-dml/models/source" />
+<!--    	<todsl model="SourceDM" sdir="vo-dml/models/source" /> -->
+    	<todsl model="SourceDM" sdir="vo-dml/models/source-prov" />
       <todsl model="DatasetMetadata-1.0-GL" sdir="DatasetMetadata-1.0/vo-dml"/>
     	<todsl model="PhotDM-alt" sdir="vo-dml/models/photdm-alt" />
     	<todsl model="STCPrototype-2.0" sdir="vo-dml/models/STC2/prototype"/>
@@ -31,7 +32,9 @@
           target: fewdsl              
          ================================= -->
     <target name="fewdsl"  description="do a few transformations">
-     	<todsl model="Cube2.4.1" sdir="vo-dml/models/cube" />
+    	<todsl model="IVOA" sdir="vo-dml/models/ivoa"/>
+    	<todsl model="SourceDM" sdir="vo-dml/models/source-prov" />
+
 
     </target>
 

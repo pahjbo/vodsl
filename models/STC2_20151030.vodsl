@@ -2,8 +2,8 @@
 model stc2 (2.0) "
           TODO : Missing description : please, update your UML model asap.
         "
-	   author "tbd"
-	  
+     
+ author "Arnold Rots"
        include "IVOA.vodsl"
      
 package coordsystem  ""
@@ -13,14 +13,12 @@ abstract dtype SpaceRefPosition  "Abstract Data Type SpaceRefPosition is used by
   {   
   }
 
-dtype StdSpaceRefPos 
-  extends coordsystem.SpaceRefPosition "The Standard Space Reference Position is derived from the abstract SpaceRefPosition and is specified by a value from the StdRefPos enumerator."
+dtype StdSpaceRefPos  -> coordsystem.SpaceRefPosition "The Standard Space Reference Position is derived from the abstract SpaceRefPosition and is specified by a value from the StdRefPos enumerator."
   {   
         location: stctypes.StdRefPos   "";
   }
 
-dtype CustomSpaceRefPos 
-  extends coordsystem.SpaceRefPosition "The Custom Space Reference Position is derived from the abstract SpaceRefPosition and is specified by a Position."
+dtype CustomSpaceRefPos  -> coordsystem.SpaceRefPosition "The Custom Space Reference Position is derived from the abstract SpaceRefPosition and is specified by a Position."
   {   
         location: coords.Position   "";
   }
@@ -30,28 +28,25 @@ abstract otype CoordFrame  "This is the abstract empty base class for all coordi
         mapping : frametransforms.FrameTransform @*  as composition "";
   }
 
-otype SpaceFrame 
-  extends coordsystem.CoordFrame "A Spatial Frame is specified by its Reference Frame (currently only standard reference frames are allowed), a Reference Position, and a Flavor; an Equinox is optional and only required for pre-ICRS reference frames. It is to be referenced by spatial coordinates (Position and Velocity)."
+otype SpaceFrame  -> coordsystem.CoordFrame "A Spatial Frame is specified by its Reference Frame (currently only standard reference frames are allowed), a Reference Position, and a Flavor; an Equinox is optional and only required for pre-ICRS reference frames. It is to be referenced by spatial coordinates (Position and Velocity)."
   {   
         spaceRefFrame: stctypes.SpaceStdRefFrame   "";
         refPosition: coordsystem.SpaceRefPosition   "";
         equinox: stctypes.Epoch  @?   "";
         flavor: stctypes.CoordFlavor   "";
-        ndim: nonnegativeInteger   "";
+        ndim: ivoa.nonnegativeInteger   "";
   }
 
-otype TimeFrame 
-  extends coordsystem.CoordFrame "A TimeFrame HAS to include a Time Scale and a Reference Position and MAY include a Reference Direction and/or a Time Origin (for elapsed time)."
+otype TimeFrame  -> coordsystem.CoordFrame "A TimeFrame HAS to include a Time Scale and a Reference Position and MAY include a Reference Direction and/or a Time Origin (for elapsed time)."
   {   
         timeScale: stctypes.TimeScale   "";
         refPosition: coordsystem.SpaceRefPosition   "";
         time0: stctypes.TimeStamp  @?   "";
   }
 
-otype AstroCoordSystem 
-  extends coordsystem.CoordSys "An AstroCoordSystem may contain any number of generic coordinate frames and one (or zero) of the following: TimeFrame, SpaceFrame, SpectralFrame, RedshiftFrame, PolarizationFrame. In addition, it may contain the name of a planetarry ephemeris."
+otype AstroCoordSystem  -> coordsystem.CoordSys "An AstroCoordSystem may contain any number of generic coordinate frames and one (or zero) of the following: TimeFrame, SpaceFrame, SpectralFrame, RedshiftFrame, PolarizationFrame. In addition, it may contain the name of a planetarry ephemeris."
   {   
-        planetaryEphem: string  @?   "";
+        planetaryEphem: ivoa.string  @?   "";
         timeFrame  @?  references coordsystem.TimeFrame "";
         spaceFrame  @?  references coordsystem.SpaceFrame "";
         spectralFrame  @?  references coordsystem.SpectralFrame "";
@@ -59,31 +54,26 @@ otype AstroCoordSystem
         polarizationFrame  @?  references coordsystem.PolarizationFrame "";
   }
 
-otype SpectralFrame 
-  extends coordsystem.SpectralLikeFrame "The Spectral Frame is identical to the SpectralLikeFrame, in that it is completely defined by its Reference Position. It is to be referenced by Spectral Coordinates."
+otype SpectralFrame  -> coordsystem.SpectralLikeFrame "The Spectral Frame is identical to the SpectralLikeFrame, in that it is completely defined by its Reference Position. It is to be referenced by Spectral Coordinates."
   {   
   }
 
-otype RedshiftFrame 
-  extends coordsystem.SpectralLikeFrame "A Redshoft Frame is defined, in addition to its Reference Position (inherited from SpectralLikeFrame) by a Doppler Definition. It is to be referenced by Redshift Coordinates (either Redshift or Doppler velocity)."
+otype RedshiftFrame  -> coordsystem.SpectralLikeFrame "A Redshoft Frame is defined, in addition to its Reference Position (inherited from SpectralLikeFrame) by a Doppler Definition. It is to be referenced by Redshift Coordinates (either Redshift or Doppler velocity)."
   {   
   }
 
-otype GenericFrame 
-  extends coordsystem.CoordFrame "A Generic Coordinate Frame contains the specification of its Handedness (default: left), number of axes (it remains to be seen whether >1 is really required), and Flavor. It allows coordinates other than Time, Space, Spectral, Redshift, and Polarization to the defined; e.g., flux, temperature, pressure, etc. It is to be referenced by Generic Coordinates."
+otype GenericFrame  -> coordsystem.CoordFrame "A Generic Coordinate Frame contains the specification of its Handedness (default: left), number of axes (it remains to be seen whether >1 is really required), and Flavor. It allows coordinates other than Time, Space, Spectral, Redshift, and Polarization to the defined; e.g., flux, temperature, pressure, etc. It is to be referenced by Generic Coordinates."
   {   
         handedness: stctypes.Handedness  @?   "";
-        naxes: nonnegativeInteger   "";
+        naxes: ivoa.nonnegativeInteger   "";
   }
 
-otype PolarizationFrame 
-  extends coordsystem.CoordFrame "A Polarization Frame is uniquely defined by its Polarization Type: Stokes, Circular, Linear, or Vector."
+otype PolarizationFrame  -> coordsystem.CoordFrame "A Polarization Frame is uniquely defined by its Polarization Type: Stokes, Circular, Linear, or Vector."
   {   
         polType: stctypes.PolarizationType   "";
   }
 
-abstract otype SpectralLikeFrame 
-  extends coordsystem.CoordFrame "SpectralLikeFrame is the abstract base class for SpectralFrame and RedshiftFrame. These are related in that they share the same set of Reference Positions - which need to be specified in phase space."
+abstract otype SpectralLikeFrame  -> coordsystem.CoordFrame "SpectralLikeFrame is the abstract base class for SpectralFrame and RedshiftFrame. These are related in that they share the same set of Reference Positions - which need to be specified in phase space."
   {   
   }
 
@@ -99,14 +89,13 @@ package frametransforms  ""
       
 dtype PixelCoordinate  ""
   {   
-        coordinateDomain: string  @?   "" semantic "pixel" in "CoordinateDomains";
-        naxes: nonnegativeInteger   "";
-        pixelCoord: quantity.RealQuantity @[3..3]  "";
+        coordinateDomain: ivoa.string  @?   "" semantic "pixel" in "CoordinateDomains";
+        naxes: ivoa.nonnegativeInteger   "";
+        pixelCoord: ivoa.quantity.RealQuantity @[3..3]  "";
         coordFrame  references frametransforms.PixelCoordSystem "";
   }
 
-otype TransformMatrix2D 
-  extends frametransforms.Xform2D ""
+otype TransformMatrix2D  -> frametransforms.Xform2D ""
   {   
         cdMatrix: stctypes.Matrix2x2   "";
   }
@@ -114,139 +103,121 @@ otype TransformMatrix2D
 abstract otype FrameTransform  ""
   {   
         handedness: stctypes.Handedness  @?   "";
-        naxes: nonnegativeInteger   "";
+        naxes: ivoa.nonnegativeInteger   "";
         transform : frametransforms.Xform @+  as composition "";
         targetFrame  references coordsystem.CoordFrame "";
   }
 
-otype Scale2D 
-  extends frametransforms.Xform2D ""
+otype Scale2D  -> frametransforms.Xform2D ""
   {   
-        scale: real @[2..2]  "";
+        scale: ivoa.real @[2..2]  "";
   }
 
-otype Xlate1D 
-  extends frametransforms.Xform1D ""
+otype Xlate1D  -> frametransforms.Xform1D ""
   {   
-        nativeRefVal: quantity.RealQuantity   "";
+        nativeRefVal: ivoa.quantity.RealQuantity   "";
   }
 
-otype Xlate2D 
-  extends frametransforms.Xform2D ""
+otype Xlate2D  -> frametransforms.Xform2D ""
   {   
         nativeRefVal: stctypes.RealDoublet   "";
   }
 
-otype Xlate3D 
-  extends frametransforms.Xform3D ""
+otype Xlate3D  -> frametransforms.Xform3D ""
   {   
         nativeRefVal: stctypes.RealTriplet   "";
   }
 
-otype Scale3D 
-  extends frametransforms.Xform3D ""
+otype Scale3D  -> frametransforms.Xform3D ""
   {   
-        scale: real @[3..3]  "";
+        scale: ivoa.real @[3..3]  "";
   }
 
-otype TransformMatrix3D 
-  extends frametransforms.Xform3D ""
+otype TransformMatrix3D  -> frametransforms.Xform3D ""
   {   
         cdMatrix: stctypes.Matrix3x3   "";
   }
 
-otype PolStokes 
-  extends frametransforms.PolFrameTransform ""
+otype PolStokes  -> frametransforms.PolFrameTransform ""
   {   
-        npix: nonnegativeInteger   "";
+        npix: ivoa.nonnegativeInteger   "";
         pixelType: stctypes.PolStokes @[3..3]  "";
   }
 
-otype PolCircular 
-  extends frametransforms.PolFrameTransform ""
+otype PolCircular  -> frametransforms.PolFrameTransform ""
   {   
-        npix: nonnegativeInteger   "";
+        npix: ivoa.nonnegativeInteger   "";
         pixelType: stctypes.PolCircular @[3..3]  "";
   }
 
-otype PolLinear 
-  extends frametransforms.PolFrameTransform ""
+otype PolLinear  -> frametransforms.PolFrameTransform ""
   {   
-        npix: nonnegativeInteger   "";
+        npix: ivoa.nonnegativeInteger   "";
         pixelType: stctypes.PolLinear @[3..3]  "";
   }
 
-otype PolVector 
-  extends frametransforms.PolFrameTransform ""
+otype PolVector  -> frametransforms.PolFrameTransform ""
   {   
-        npix: nonnegativeInteger   "";
+        npix: ivoa.nonnegativeInteger   "";
         pixelType: stctypes.PolVector @[3..3]  "";
   }
 
-otype EnumScalar 
-  extends frametransforms.Xform1D ""
+otype EnumScalar  -> frametransforms.Xform1D ""
   {   
-        npix: nonnegativeInteger   "";
-        ec: quantity.RealQuantity @[3..3]  "";
+        npix: ivoa.nonnegativeInteger   "";
+        ec: ivoa.quantity.RealQuantity @[3..3]  "";
   }
 
-otype Enum2D 
-  extends frametransforms.Xform2D ""
+otype Enum2D  -> frametransforms.Xform2D ""
   {   
-        npix: nonnegativeInteger   "";
+        npix: ivoa.nonnegativeInteger   "";
         ec: stctypes.RealDoublet @[3..3]  "";
   }
 
-otype Enum3D 
-  extends frametransforms.Xform3D ""
+otype Enum3D  -> frametransforms.Xform3D ""
   {   
-        npix: nonnegativeInteger   "";
+        npix: ivoa.nonnegativeInteger   "";
         ec: stctypes.RealTriplet @[3..3]  "";
   }
 
-abstract otype PolFrameTransform 
-  extends frametransforms.Xform1D ""
+abstract otype PolFrameTransform  -> frametransforms.Xform1D ""
   {   
   }
 
-otype Polynomial2D 
-  extends frametransforms.Xform2D ""
+otype Polynomial2D  -> frametransforms.Xform2D ""
   {   
-        order: nonnegativeInteger   "";
-        coeff: real @[3..3]  "";
+        order: ivoa.nonnegativeInteger   "";
+        coeff: ivoa.real @[3..3]  "";
   }
 
-otype Polynomial1D 
-  extends frametransforms.Xform1D ""
+otype Polynomial1D  -> frametransforms.Xform1D ""
   {   
-        order: nonnegativeInteger   "";
-        coeff: real @[3..3]  "";
+        order: ivoa.nonnegativeInteger   "";
+        coeff: ivoa.real @[3..3]  "";
   }
 
-otype Scale1D 
-  extends frametransforms.Xform1D ""
+otype Scale1D  -> frametransforms.Xform1D ""
   {   
-        scale: real   "";
+        scale: ivoa.real   "";
   }
 
 otype PixelAxis  ""
   {   
-        naxis: nonnegativeInteger   "";
-        numpix: nonnegativeInteger   "";
+        naxis: ivoa.nonnegativeInteger   "";
+        numpix: ivoa.nonnegativeInteger   "";
   }
 
 otype PixelSpace  ""
   {   
-        naxes: nonnegativeInteger   "";
+        naxes: ivoa.nonnegativeInteger   "";
         pixelAxes : frametransforms.PixelAxis@[1..3] as composition "";
   }
 
-otype PixelFrame 
-  extends coordsystem.CoordFrame "A PixelFrame forms the Coordinate Frame for a 1-D, 2-D, or 3-D pixel space, It contains a PixelFrameTransform, specifies the order of the axes from pixel space as they relate to the transform, and is included in the PixelCoordSystem."
+otype PixelFrame  -> coordsystem.CoordFrame "A PixelFrame forms the Coordinate Frame for a 1-D, 2-D, or 3-D pixel space, It contains a PixelFrameTransform, specifies the order of the axes from pixel space as they relate to the transform, and is included in the PixelCoordSystem."
   {   
-        nativeAxis1: nonnegativeInteger   "";
-        nativeAxis2: nonnegativeInteger  @?   "";
-        nativeAxis3: nonnegativeInteger  @?   "";
+        nativeAxis1: ivoa.nonnegativeInteger   "";
+        nativeAxis2: ivoa.nonnegativeInteger  @?   "";
+        nativeAxis3: ivoa.nonnegativeInteger  @?   "";
   }
 
 otype PixelCoordSystem  ""
@@ -258,50 +229,42 @@ otype PixelCoordSystem  ""
 
 abstract otype Xform  ""
   {   
-        naxes: nonnegativeInteger   "";
+        naxes: ivoa.nonnegativeInteger   "";
   }
 
-abstract otype Xform1D 
-  extends frametransforms.Xform ""
+abstract otype Xform1D  -> frametransforms.Xform ""
   {   
   }
 
-abstract otype Xform2D 
-  extends frametransforms.Xform ""
+abstract otype Xform2D  -> frametransforms.Xform ""
   {   
   }
 
-otype Rotate2D 
-  extends frametransforms.Xform2D ""
+otype Rotate2D  -> frametransforms.Xform2D ""
   {   
-        rotationAngle: real   "";
+        rotationAngle: ivoa.real   "";
   }
 
-abstract otype Xform3D 
-  extends frametransforms.Xform ""
+abstract otype Xform3D  -> frametransforms.Xform ""
   {   
   }
 
-otype Rotate3D 
-  extends frametransforms.Xform3D ""
+otype Rotate3D  -> frametransforms.Xform3D ""
   {   
-        rotationAngles: real @[2..2]  "";
+        rotationAngles: ivoa.real @[2..2]  "";
   }
 
-otype Projection1D 
-  extends frametransforms.Xform1D ""
+otype Projection1D  -> frametransforms.Xform1D ""
   {   
         projection: stctypes.Projection   "";
   }
 
-otype Projection3D 
-  extends frametransforms.Xform3D ""
+otype Projection3D  -> frametransforms.Xform3D ""
   {   
         projection: stctypes.Projection   "";
   }
 
-otype Projection2D 
-  extends frametransforms.Xform2D ""
+otype Projection2D  -> frametransforms.Xform2D ""
   {   
         projection: stctypes.Projection   "";
   }
@@ -311,42 +274,36 @@ otype Projection2D
 package region  ""
 {
       
-dtype Region 
-  extends coordarea.SpatialArea ""
+dtype Region  -> coordarea.SpatialArea ""
   {   
-        area: quantity.RealQuantity  @?   "";
+        area: ivoa.quantity.RealQuantity  @?   "";
   }
 
-dtype Allsky 
-  extends region.Region ""
+dtype Allsky  -> region.Region ""
   {   
   }
 
-dtype Box 
-  extends region.Region ""
+dtype Box  -> region.Region ""
   {   
         center: coords.Position   "";
         size: stctypes.RealDoublet   "";
   }
 
-dtype Circle 
-  extends region.Region ""
+dtype Circle  -> region.Region ""
   {   
         center: coords.Position   "";
         size: stctypes.RealDoublet   "";
   }
 
-dtype Ellipse 
-  extends region.Region ""
+dtype Ellipse  -> region.Region ""
   {   
         center: coords.Position   "";
-        semiMajorAxis: quantity.RealQuantity   "";
-        semiMinorAxis: quantity.RealQuantity   "";
-        positionAngle: quantity.RealQuantity   "";
+        semiMajorAxis: ivoa.quantity.RealQuantity   "";
+        semiMinorAxis: ivoa.quantity.RealQuantity   "";
+        positionAngle: ivoa.quantity.RealQuantity   "";
   }
 
-dtype Polygon 
-  extends region.Region ""
+dtype Polygon  -> region.Region ""
   {   
         vertex: region.Vertex @[3..-1]  "";
   }
@@ -357,8 +314,7 @@ dtype Vertex  ""
         smallCirclePole: coords.Position  @?   "";
   }
 
-dtype Convex 
-  extends region.Region ""
+dtype Convex  -> region.Region ""
   {   
         halfSpace: region.HalfSpace  @+   "";
   }
@@ -366,56 +322,48 @@ dtype Convex
 dtype HalfSpace  ""
   {   
         vector: coords.Position   "";
-        offset: real   "";
+        offset: ivoa.real   "";
   }
 
-dtype ConvexHull2D 
-  extends region.Region ""
+dtype ConvexHull2D  -> region.Region ""
   {   
         point: coords.Position @[3..-1]  "";
   }
 
-dtype ConvexHull3D 
-  extends region.Region ""
+dtype ConvexHull3D  -> region.Region ""
   {   
         point: coords.Position @[3..-1]  "";
   }
 
-dtype Sector 
-  extends region.Region ""
+dtype Sector  -> region.Region ""
   {   
         vertex: coords.Position   "";
-        positionAngle1: quantity.RealQuantity   "";
-        positionAngle2: quantity.RealQuantity   "";
+        positionAngle1: ivoa.quantity.RealQuantity   "";
+        positionAngle2: ivoa.quantity.RealQuantity   "";
   }
 
-dtype SkyIndex 
-  extends region.Region ""
+dtype SkyIndex  -> region.Region ""
   {   
   }
 
-dtype Union 
-  extends region.Region ""
+dtype Union  -> region.Region ""
   {   
         region1: region.Region   "";
         region2: region.Region   "";
   }
 
-dtype Intersection 
-  extends region.Region ""
+dtype Intersection  -> region.Region ""
   {   
         region1: region.Region   "";
         region2: region.Region   "";
   }
 
-dtype Negation 
-  extends region.Region ""
+dtype Negation  -> region.Region ""
   {   
         region: region.Region   "";
   }
 
-dtype Difference 
-  extends region.Region ""
+dtype Difference  -> region.Region ""
   {   
         region1: region.Region   "";
         region2: region.Region   "";
@@ -428,49 +376,43 @@ package coordarea  ""
       
 abstract dtype CoordInterval  ""
   {   
-        lo_Include: quantity.BooleanValue  @?   "";
-        hi_Include: quantity.BooleanValue  @?   "";
-        fillFactor: real  @?   "";
+        lo_Include: ivoa.quantity.BooleanValue  @?   "";
+        hi_Include: ivoa.quantity.BooleanValue  @?   "";
+        fillFactor: ivoa.real  @?   "";
   }
 
-dtype GenericCoordInterval 
-  extends coordarea.CoordInterval ""
+dtype GenericCoordInterval  -> coordarea.CoordInterval ""
   {   
-        lo_Lim: quantity.RealQuantity  @?   "";
-        hi_Lim: quantity.RealQuantity  @?   "";
+        lo_Lim: ivoa.quantity.RealQuantity  @?   "";
+        hi_Lim: ivoa.quantity.RealQuantity  @?   "";
   }
 
-dtype PositionInterval 
-  extends coordarea.SpatialArea ""
+dtype PositionInterval  -> coordarea.SpatialArea ""
   {   
         lo_Lim: coords.Position  @?   "";
         hi_Lim: coords.Position  @?   "";
   }
 
-dtype VelocityInterval 
-  extends coordarea.CoordInterval ""
+dtype VelocityInterval  -> coordarea.CoordInterval ""
   {   
         epoch: stctypes.Epoch  @?   "";
         lo_Lim: coords.Velocity  @?   "";
         hi_Lim: coords.Velocity  @?   "";
   }
 
-dtype SpectralInterval 
-  extends coordarea.CoordInterval ""
+dtype SpectralInterval  -> coordarea.CoordInterval ""
   {   
         lo_Lim: coords.SpectralCoord  @?   "";
         hi_Lim: coords.SpectralCoord  @?   "";
   }
 
-dtype RedshiftInterval 
-  extends coordarea.CoordInterval ""
+dtype RedshiftInterval  -> coordarea.CoordInterval ""
   {   
         lo_Lim: coords.Redshift  @?   "";
         hi_Lim: coords.Redshift  @?   "";
   }
 
-dtype TimeInterval 
-  extends coordarea.CoordInterval ""
+dtype TimeInterval  -> coordarea.CoordInterval ""
   {   
         tstart: coords.Time  @?   "";
         tstop: coords.Time  @?   "";
@@ -478,24 +420,22 @@ dtype TimeInterval
 
 dtype PolCover  ""
   {   
-        npix: nonnegativeInteger   "";
+        npix: ivoa.nonnegativeInteger   "";
         polCoord: coords.PolCoord @[3..3]  "";
   }
 
-abstract dtype SpatialArea 
-  extends coordarea.CoordInterval ""
+abstract dtype SpatialArea  -> coordarea.CoordInterval ""
   {   
         epoch: stctypes.Epoch  @?   "";
   }
 
 otype CoordArea  ""
   {   
-        name: string  @?   "";
+        name: ivoa.string  @?   "";
         coordSys  references coordsystem.CoordSys "";
   }
 
-otype AstroCoordArea 
-  extends coordarea.CoordArea ""
+otype AstroCoordArea  -> coordarea.CoordArea ""
   {   
   }
 
@@ -504,10 +444,9 @@ otype AstroCoordArea
 package coords  ""
 {
       
-dtype Time 
-  extends coords.Coordinate ""
+dtype Time  -> coords.Coordinate ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "time" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "time" in "CoordinateDomains";
         value: stctypes.TimeStamp  @?   "";
         error: stctypes.MultiStruct  @?   "";
         sysError: stctypes.MultiStruct  @?   "";
@@ -518,15 +457,14 @@ dtype Time
 
 abstract dtype Coordinate  ""
   {   
-        coordinateDomain: string   "" semantic "coordinate" in "CoordinateDomains";
+        coordinateDomain: ivoa.string   "" semantic "coordinate" in "CoordinateDomains";
         coordFrame  references coordsystem.CoordFrame "";
   }
 
-abstract dtype GenericRedshiftCoord 
-  extends coords.Coordinate ""
+abstract dtype GenericRedshiftCoord  -> coords.Coordinate ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "redshift" in "CoordinateDomains";
-        value: quantity.RealQuantity  @?   "";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "redshift" in "CoordinateDomains";
+        value: ivoa.quantity.RealQuantity  @?   "";
         error: stctypes.MultiStruct  @?   "";
         sysError: stctypes.MultiStruct  @?   "";
         ranError: stctypes.MultiStruct  @?   "";
@@ -534,17 +472,15 @@ abstract dtype GenericRedshiftCoord
         coordFrame  @?  references coordsystem.RedshiftFrame "";
   }
 
-dtype DopplerVelocity 
-  extends coords.GenericRedshiftCoord ""
+dtype DopplerVelocity  -> coords.GenericRedshiftCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "doppler" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "doppler" in "CoordinateDomains";
   }
 
-abstract dtype SpectralCoord 
-  extends coords.Coordinate ""
+abstract dtype SpectralCoord  -> coords.Coordinate ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "spectral" in "CoordinateDomains";
-        value: quantity.RealQuantity  @?   "";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "spectral" in "CoordinateDomains";
+        value: ivoa.quantity.RealQuantity  @?   "";
         error: stctypes.MultiStruct  @?   "";
         sysError: stctypes.MultiStruct  @?   "";
         ranError: stctypes.MultiStruct  @?   "";
@@ -552,36 +488,31 @@ abstract dtype SpectralCoord
         coordFrame  @?  references coordsystem.SpectralFrame "";
   }
 
-dtype Frequency 
-  extends coords.SpectralCoord ""
+dtype Frequency  -> coords.SpectralCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "frequency" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "frequency" in "CoordinateDomains";
   }
 
-dtype Energy 
-  extends coords.SpectralCoord ""
+dtype Energy  -> coords.SpectralCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "energy" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "energy" in "CoordinateDomains";
   }
 
-dtype Wavelength 
-  extends coords.SpectralCoord ""
+dtype Wavelength  -> coords.SpectralCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "wavelength" in "CoordinateDomains";
-        refrIndex: real  @?   "";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "wavelength" in "CoordinateDomains";
+        refrIndex: ivoa.real  @?   "";
   }
 
-dtype Redshift 
-  extends coords.GenericRedshiftCoord ""
+dtype Redshift  -> coords.GenericRedshiftCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "z" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "z" in "CoordinateDomains";
   }
 
-dtype GenericCoord 
-  extends coords.Coordinate ""
+dtype GenericCoord  -> coords.Coordinate ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "genericCoord" in "CoordinateDomains";
-        value: quantity.RealQuantity  @?   "";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "genericCoord" in "CoordinateDomains";
+        value: ivoa.quantity.RealQuantity  @?   "";
         error: stctypes.MultiStruct  @?   "";
         sysError: stctypes.MultiStruct  @?   "";
         ranError: stctypes.MultiStruct  @?   "";
@@ -589,12 +520,11 @@ dtype GenericCoord
         coordFrame  @?  references coordsystem.GenericFrame "";
   }
 
-abstract dtype SpatialCoord 
-  extends coords.Coordinate ""
+abstract dtype SpatialCoord  -> coords.Coordinate ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "spatial" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "spatial" in "CoordinateDomains";
         epoch: stctypes.Epoch  @?   "";
-        ndim: nonnegativeInteger   "";
+        ndim: ivoa.nonnegativeInteger   "";
         value: stctypes.QuantityVector   "";
         error: stctypes.MultiStruct  @?   "";
         sysError: stctypes.MultiStruct  @?   "";
@@ -603,55 +533,47 @@ abstract dtype SpatialCoord
         coordFrame  @?  references coordsystem.SpaceFrame "";
   }
 
-abstract dtype Position 
-  extends coords.SpatialCoord ""
+abstract dtype Position  -> coords.SpatialCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "position" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "position" in "CoordinateDomains";
   }
 
-abstract dtype Velocity 
-  extends coords.SpatialCoord ""
+abstract dtype Velocity  -> coords.SpatialCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "velocity" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "velocity" in "CoordinateDomains";
   }
 
-abstract dtype PolCoord 
-  extends coords.Coordinate ""
+abstract dtype PolCoord  -> coords.Coordinate ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "polarization" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "polarization" in "CoordinateDomains";
         coordFrame  @?  references coordsystem.PolarizationFrame "";
   }
 
-dtype Stokes 
-  extends coords.PolCoord ""
+dtype Stokes  -> coords.PolCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "polStokes" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "polStokes" in "CoordinateDomains";
         stokes: stctypes.PolStokes  @?   "";
   }
 
-dtype Circular 
-  extends coords.PolCoord ""
+dtype Circular  -> coords.PolCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "polCircular" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "polCircular" in "CoordinateDomains";
         circularPol: stctypes.PolCircular  @?   "";
   }
 
-dtype Linear 
-  extends coords.PolCoord ""
+dtype Linear  -> coords.PolCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "polLinear" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "polLinear" in "CoordinateDomains";
         linearPol: stctypes.PolLinear  @?   "";
   }
 
-dtype Vector 
-  extends coords.PolCoord ""
+dtype Vector  -> coords.PolCoord ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "polVector" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "polVector" in "CoordinateDomains";
         polVector: stctypes.PolVector  @?   "";
   }
 
-otype AstroCoords 
-  extends coords.Coords ""
+otype AstroCoords  -> coords.Coords ""
   {   
         time: coords.Time  @?   "";
         position: coords.Position  @?   "";
@@ -861,73 +783,65 @@ GeV  ""
 dtype Epoch  ""
   {   
         type: stctypes.EpochType   "";
-        year: decimal   "";
+        year: ivoa.decimal   "";
   }
 
-dtype RealDoublet 
-  extends stctypes.QuantityVector ""
+dtype RealDoublet  -> stctypes.QuantityVector ""
   {   
-        v1: quantity.RealQuantity   "";
-        v2: quantity.RealQuantity   "";
+        v1: ivoa.quantity.RealQuantity   "";
+        v2: ivoa.quantity.RealQuantity   "";
   }
 
-dtype Matrix2x2 
-  extends stctypes.Matrix ""
+dtype Matrix2x2  -> stctypes.Matrix ""
   {   
-        m11: real   "";
-        m12: real   "";
-        m21: real   "";
-        m22: real   "";
+        m11: ivoa.real   "";
+        m12: ivoa.real   "";
+        m21: ivoa.real   "";
+        m22: ivoa.real   "";
   }
 
-dtype RealTriplet 
-  extends stctypes.QuantityVector ""
+dtype RealTriplet  -> stctypes.QuantityVector ""
   {   
-        v1: quantity.RealQuantity   "";
-        v2: quantity.RealQuantity   "";
-        v3: quantity.RealQuantity   "";
+        v1: ivoa.quantity.RealQuantity   "";
+        v2: ivoa.quantity.RealQuantity   "";
+        v3: ivoa.quantity.RealQuantity   "";
   }
 
-dtype Matrix3x3 
-  extends stctypes.Matrix ""
+dtype Matrix3x3  -> stctypes.Matrix ""
   {   
-        m11: real   "";
-        m12: real   "";
-        m21: real   "";
-        m22: real   "";
-        m13: real   "";
-        m31: real   "";
-        m23: real   "";
-        m32: real   "";
-        m33: real   "";
+        m11: ivoa.real   "";
+        m12: ivoa.real   "";
+        m21: ivoa.real   "";
+        m22: ivoa.real   "";
+        m13: ivoa.real   "";
+        m31: ivoa.real   "";
+        m23: ivoa.real   "";
+        m32: ivoa.real   "";
+        m33: ivoa.real   "";
   }
 
 abstract dtype TimeStamp  ""
   {   
   }
 
-dtype ISOtime 
-  extends stctypes.TimeStamp ""
+dtype ISOtime  -> stctypes.TimeStamp ""
   {   
-        time: datetime   "";
+        time: ivoa.datetime   "";
   }
 
-dtype JD 
-  extends stctypes.TimeStamp ""
+dtype JD  -> stctypes.TimeStamp ""
   {   
-        time: real   "";
+        time: ivoa.real   "";
   }
 
-dtype MJD 
-  extends stctypes.TimeStamp ""
+dtype MJD  -> stctypes.TimeStamp ""
   {   
-        time: real   "";
+        time: ivoa.real   "";
   }
 
-dtype TimeOffset 
-  extends stctypes.TimeStamp ""
+dtype TimeOffset  -> stctypes.TimeStamp ""
   {   
-        offset: real   "";
+        offset: ivoa.real   "";
   }
 
 abstract dtype Matrix  ""
@@ -938,45 +852,39 @@ abstract dtype QuantityVector  ""
   {   
   }
 
-dtype RealScalar 
-  extends stctypes.QuantityVector ""
+dtype RealScalar  -> stctypes.QuantityVector ""
   {   
-        v1: quantity.RealQuantity   "";
+        v1: ivoa.quantity.RealQuantity   "";
   }
 
 abstract dtype MultiStruct  ""
   {   
-        ndim: nonnegativeInteger   "";
+        ndim: ivoa.nonnegativeInteger   "";
   }
 
-dtype Symmetrical 
-  extends stctypes.MultiStruct ""
+dtype Symmetrical  -> stctypes.MultiStruct ""
   {   
-        radius: quantity.RealQuantity   "";
+        radius: ivoa.quantity.RealQuantity   "";
   }
 
-dtype Bounds 
-  extends stctypes.MultiStruct ""
+dtype Bounds  -> stctypes.MultiStruct ""
   {   
         loLimit: stctypes.QuantityVector   "";
         hiLimit: stctypes.QuantityVector   "";
   }
 
-dtype Box 
-  extends stctypes.MultiStruct ""
+dtype Box  -> stctypes.MultiStruct ""
   {   
         boxSize: stctypes.QuantityVector   "";
   }
 
-dtype Ellipse 
-  extends stctypes.MultiStruct ""
+dtype Ellipse  -> stctypes.MultiStruct ""
   {   
         semiAxes: stctypes.QuantityVector   "";
         positionAngles: stctypes.QuantityVector   "";
   }
 
-dtype MSMatrix 
-  extends stctypes.MultiStruct ""
+dtype MSMatrix  -> stctypes.MultiStruct ""
   {   
         matrix: stctypes.Matrix   "";
   }
@@ -986,18 +894,20 @@ dtype MSMatrix
 package Specialized  ""
 {
       
-dtype SkyPosition 
-  extends coords.Position ""
+dtype SkyPosition  -> coords.Position ""
   {   
-        coordinateDomain: string  @?   "" subsets semantic "spherical" in "CoordinateDomains";
+        coordinateDomain: ivoa.string  @?   "" subsets semantic "spherical" in "CoordinateDomains";
         coordFrame  @?  references Specialized.ICRSsky "";
   }
 
-otype ICRSsky 
-  extends coordsystem.SpaceFrame ""
+otype ICRSsky  -> coordsystem.SpaceFrame ""
   {   
   }
 
-}  
-
+//package Specialized.SkyExample  ""
+//{
+//      
+//}
+  
+}
   

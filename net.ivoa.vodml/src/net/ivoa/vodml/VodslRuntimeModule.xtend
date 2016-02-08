@@ -3,9 +3,33 @@
  */
 package net.ivoa.vodml
 
+import org.eclipse.xtext.scoping.impl.ImportUriGlobalScopeProvider
+import net.ivoa.vodml.scoping.VodslQualifiedNameProvider
+import com.google.inject.Binder
+import org.eclipse.xtext.scoping.IScopeProvider
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import com.google.inject.name.Names
+import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider
+import org.eclipse.xtext.naming.IQualifiedNameConverter
+import net.ivoa.vodml.scoping.VodslQualifiedNameConverter
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 class VodslRuntimeModule extends AbstractVodslRuntimeModule {
+	
+	override bindIGlobalScopeProvider() {
+		return ImportUriGlobalScopeProvider
+	}
+	
+	override bindIQualifiedNameProvider() {
+		return VodslQualifiedNameProvider
+	}
+	
+	override configureIScopeProviderDelegate(Binder binder) {
+		binder.bind(IScopeProvider).annotatedWith(
+                Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(ImportedNamespaceAwareLocalScopeProvider); // perhaps SimpleLocalScopeProvider - need to understand difference to get exacly what is desired
+      binder.bind(IQualifiedNameConverter).to(VodslQualifiedNameConverter)
+	}
+	
 }

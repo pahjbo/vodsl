@@ -22,36 +22,36 @@ package cube  ""
 {
       
 otype NDImageDataset 
-  extends ds.ObsDataset ""
+  -> ds.ObsDataset ""
   {   
         image  @*  references cube.NDImage "";
   }
 
 otype NDImage 
-  extends cube.PixelatedData ""
+  -> cube.PixelatedData ""
   {   
         data : cube.Voxel @*  as composition "";
   }
 
 otype CoordSys 
-  extends coordsystem.AstroCoordSystem ""
+  -> stc2.coordsystem.AstroCoordSystem ""
   {   
   }
 
 otype PixelCoordSys 
-  extends frametransforms.PixelCoordSystem ""
+  -> stc2.frametransforms.PixelCoordSystem ""
   {   
   }
 
 otype FrameMappings 
-  extends frametransforms.PixelFrameTransform ""
+  -> stc2.frametransforms.PixelFrameTransform ""
   {   
   }
 
 otype Voxel  ""
   {   
-        pixelAxes: frametransforms.PixelCoordinate  @?   "";
-        dependentAxis: coords.Coordinate  @?   "";
+        pixelAxes: stc2.frametransforms.PixelCoordinate  @?   "";
+        dependentAxis: stc2.coords.Coordinate  @?   "";
   }
 
 abstract otype PixelatedData  ""
@@ -61,26 +61,26 @@ abstract otype PixelatedData  ""
 
 abstract otype PointData  ""
   {   
-        customAxes: coords.GenericCoord  @*   "";
+        customAxes: stc2.coords.GenericCoord  @*   "";
   }
 
 otype SparseCube 
-  extends cube.PointData ""
+  -> cube.PointData ""
   {   
         data : cube.NDPoint @*  as composition "";
   }
 
 otype NDPoint  ""
   {   
-        spaceAxis: coords.SpatialCoord  @?   "";
-        timeAxis: coords.Time  @?   "";
-        spectralAxis: coords.SpectralCoord  @?   "";
-        redshiftAxis: coords.GenericRedshiftCoord  @?   "";
-        polarizationAxis: coords.PolCoord  @?   "";
+        spaceAxis: stc2.coords.SpatialCoord  @?   "";
+        timeAxis: stc2.coords.Time  @?   "";
+        spectralAxis: stc2.coords.SpectralCoord  @?   "";
+        redshiftAxis: stc2.coords.GenericRedshiftCoord  @?   "";
+        polarizationAxis: stc2.coords.PolCoord  @?   "";
   }
 
 otype SparseCubeDataset 
-  extends ds.ObsDataset ""
+  -> ds.ObsDataset ""
   {   
         cube  @*  references cube.SparseCube "";
   }

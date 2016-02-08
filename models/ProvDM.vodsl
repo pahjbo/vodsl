@@ -1,15 +1,21 @@
 model ProvDM (0.1) "This is the data model for the provenance of observations. It contains the IVOA UML Profile and imports the IVOA_Profile data model with primitive types."
-	   author "tbd"
-	  
-       include "IVOA.vodsl"
-      otype Activity  "An Activity is any kind of link between input and result data."
+author "Kristin Riebe"
+author "Florian Rothmaier"
+author "Markus Demleitner"
+author "Gerard Lemson"
+author "Mireille Louys"
+author "Adrian Partl"
+
+include "IVOA.vodsl"
+
+otype Activity  "An Activity is any kind of link between input and result data."
   { 
      
-        id:string    "A unique id for the Activity so that it can be referred to.";
-        name:string   @*   "String for naming an Activity. There could be multiple alternative names. ";
-        executionDate:datetime    "Date/time when the Activity was executed (start time)";
-        executionDuration:datetime   @?   "Can provide the duration of the execution, i.e. could also contain exposure time for observation (or is this characterisation??) or how long the pipeline needed to process the image/data set.";
-        executionState:string    "String that specifies the execution state of an activity. Values for that string could be something like PROCESSING, COMPLETED, etc.
+        id:ivoa:string    "A unique id for the Activity so that it can be referred to.";
+        name:ivoa:string   @*   "String for naming an Activity. There could be multiple alternative names. ";
+        executionDate:ivoa:datetime    "Date/time when the Activity was executed (start time)";
+        executionDuration:ivoa:datetime   @?   "Can provide the duration of the execution, i.e. could also contain exposure time for observation (or is this characterisation??) or how long the pipeline needed to process the image/data set.";
+        executionState:ivoa:string    "String that specifies the execution state of an activity. Values for that string could be something like PROCESSING, COMPLETED, etc.
 Default could be COMPLETED.";
         method references Method  "An instance of the Method class which describes how an activity is executed. For one activity there is exactly one description, i.e. the multiplicity is set to 1.";
         agent references Agent  "The collection of contacts for an activity. Though is not required to specify a contact, this is a very useful piece of information. Zero-to-many instances are allowed.";
@@ -20,37 +26,37 @@ Default could be COMPLETED.";
  otype Method  "The Method describes how an Activity is performed. This could be, for instance, the name of the code of a processing pipeline."
   { 
      
-        id:string    "Unique id for the Method for referencing.";
-        name:string   @*   "String to specify the name of a method (e.g. 'Flatfielding', 'Creating the master bias', name of the code for a pipeline or post-processing)";
-        description:string   @*   "Free text to shortly describe the method used. (Like 'Protocol' in SimDM.)";
+        id:ivoa:string    "Unique id for the Method for referencing.";
+        name:ivoa:string   @*   "String to specify the name of a method (e.g. 'Flatfielding', 'Creating the master bias', name of the code for a pipeline or post-processing)";
+        description:ivoa:string   @*   "Free text to shortly describe the method used. (Like 'Protocol' in SimDM.)";
         inputDataDescription references DataDescription  "A set of type specifications for the zero-to-many input data components.";
         resultDataDescription references DataDescription  "A specification of the output data component(s),";
   }
  otype Processing 
-  extends Activity  "Processing inherits from Activity. All processing steps like flat-fielding or astrometric calibration are covered by this class."
+  -> Activity  "Processing inherits from Activity. All processing steps like flat-fielding or astrometric calibration are covered by this class."
   { 
      
-        operatingSystem:string   @*   "Details about the operating system on which the processing was executed.";
+        operatingSystem:ivoa:string   @*   "Details about the operating system on which the processing was executed.";
         processingMethod references ProcessingMethod  "An instance of the Processor class used to describe the processing pipeline.";
   }
  otype ProcessingMethod 
-  extends Method  "Processor which inherits from Method describes all activities that belong to the Processing sub-class.
+  -> Method  "Processor which inherits from Method describes all activities that belong to the Processing sub-class.
 General description for e.g. flatfielding, astrometric calibration, imageStacking etc."
   { 
      
-        author:string   @+   "Author of the code/processing algorithm/,,, used";
-        version:string   @*   "Version of the processor (code, algorithm, ...), if applicable.
+        ^author:ivoa:string   @+   "Author of the code/processing algorithm/,,, used";
+        version:ivoa:string   @*   "Version of the processor (code, algorithm, ...), if applicable.
 Not mandatory.";
   }
  otype Observation 
-  extends Activity  "Observation inherits from Activity covering all cases in which the result data have been acquired by an (astronomical) observation."
+  -> Activity  "Observation inherits from Activity covering all cases in which the result data have been acquired by an (astronomical) observation."
   { 
      
-        target:string   @*   "The target of an observation, e.g. M31, Star xxx, ...";
+        target:ivoa:string   @*   "The target of an observation, e.g. M31, Star xxx, ...";
         observationMethod references ObservationMethod  "An instance of an ObservationMethod class used to describe how the observation has been done.";
   }
  otype ObservationMethod 
-  extends Method  "ObservationMethod which inherits from Method describes all activities that are considered observations."
+  -> Method  "ObservationMethod which inherits from Method describes all activities that are considered observations."
   { 
      
   }
@@ -59,26 +65,26 @@ Details like address etc. could be useful, but at least the current affiliation 
 People change affiliations, but it is likely that someone from the old affiliation knows where a person was going to or who else is in charge now. "
   { 
      
-        name:string   @+   "Name of a person, can also be omitted, if an affiliation or project is given instead.";
-        affiliation:string   @*   "A string giving the affiliation of the contact for a certain activity.";
-        role:string   @*   "role of the contact, e.g. owner, publisher, ...";
+        name:ivoa:string   @+   "Name of a person, can also be omitted, if an affiliation or project is given instead.";
+        affiliation:ivoa:string   @*   "A string giving the affiliation of the contact for a certain activity.";
+        role:ivoa:string   @*   "role of the contact, e.g. owner, publisher, ...";
   }
  otype DataComponent  "This class is the central component of our composite design pattern. This concept aims at treating the two major groups of data, files and parameter values on the one hand, and complete data set on the other hand, in the same way. The DataComponent class includes the basic properties and functionality (i.e. mainly the interface) for both groups of data.
 "
   { 
      
-        id:string    "An id for the data component, could be a DAL-identififier or so. 
+        id:ivoa:string    "An id for the data component, could be a DAL-identififier or so. 
 ";
-        name:string   @*   "The name for a DataComponent. Multiple alternative names are also allowed.";
-        creationDate:datetime    "Date/time when the data component (individual data element or the complete set) was created.";
-        validity:datetime   @?   "The validity gives an expiration date (or a timespan?) to indicate the time range in which the data (values) are valid.
+        name:ivoa:string   @*   "The name for a DataComponent. Multiple alternative names are also allowed.";
+        creationDate:ivoa:datetime    "Date/time when the data component (individual data element or the complete set) was created.";
+        validity:ivoa:datetime   @?   "The validity gives an expiration date (or a timespan?) to indicate the time range in which the data (values) are valid.
 This is mainly important for ambient conditions (seeing, moon light, etc.) and instrument characteristics, since these are functions of time.";
         createdFromActivity references Activity  "Link from the result data to the activity by which it has been produced.";
         parentDataSet references DataSet  "Link to the data set to which a component belongs.";
         dataDescription references DataDescription  "An instance of the DataDescription class that describes the form/structure of a data item.";
   }
  otype DataSet 
-  extends DataComponent  "This class covers data sets like RAVE-DR4 with its databases and database tables.
+  -> DataComponent  "This class covers data sets like RAVE-DR4 with its databases and database tables.
 "
   { 
      
@@ -88,60 +94,60 @@ This is mainly important for ambient conditions (seeing, moon light, etc.) and i
  otype Storage  "Storage specifies where the (original) data produced by an activity can be found. This is not part of the Provenance Data Model (therefore the different coloring)."
   { 
      
-        referenceURI:anyURI   @*   "A reference to a file path, URL resource, .... where a description of the DataComponent (or the DataComponent itself??) can be found. Is this covered already by 'Storage'?";
+        referenceURI:ivoa:anyURI   @*   "A reference to a file path, URL resource, .... where a description of the DataComponent (or the DataComponent itself??) can be found. Is this covered already by 'Storage'?";
   }
  otype DataDescription  "This class describes the form/structure of a data item."
   { 
      
-        id:string    "Unique id for the DataDescription.";
-        description:string   @*   "A free text describing the data format.";
+        id:ivoa:string    "Unique id for the DataDescription.";
+        description:ivoa:string   @*   "A free text describing the data format.";
         createdFromMethod references Method  "A DataDescription contains  a link to the Method that describes the Activity that generated the data.";
   }
  otype TransientData 
-  extends DataComponent  "Data components which are not data sets are either represented as parameters or structured data. The Parameter sub-class of DataComponent contains a set of key-value pairs, for instance from a configuration or a log file."
+  -> DataComponent  "Data components which are not data sets are either represented as parameters or structured data. The Parameter sub-class of DataComponent contains a set of key-value pairs, for instance from a configuration or a log file."
   { 
      
-        name:string    "Name of a parameter";
-        numericValue:quantity.RealQuantity   @*   "The value of a Parameter instance of type real.";
-        stringValue:string   @*   "The value of a Parameter instance of string type.";
+        name:ivoa:string    "Name of a parameter";
+        numericValue:ivoa:quantity.RealQuantity   @*   "The value of a Parameter instance of type real.";
+        stringValue:ivoa:string   @*   "The value of a Parameter instance of string type.";
         transientDataDescription references TransientDataDescription  "The data type underlying a parameter.";
   }
  otype StoredData 
-  extends DataComponent  "StoredData are stored somewhere on disk, e.g. as a file or a database table. This is the 'usual' type of data."
+  -> DataComponent  "StoredData are stored somewhere on disk, e.g. as a file or a database table. This is the 'usual' type of data."
   { 
      
         storedDataDescription references StoredDataDescription  "The format in which an instance of the StructuredData class is present.";
         storage references Storage  "An instance of the Storage class which tells where to locate a certain data component.";
   }
  otype TransientDataDescription 
-  extends DataDescription  "Describes the type of transient data, e.g. by using ucds."
+  -> DataDescription  "Describes the type of transient data, e.g. by using ucds."
   { 
      
-        ucd:string   @*   "A string giving the data type as a ucd.";
+        ucd:ivoa:string   @*   "A string giving the data type as a ucd.";
   }
  otype StoredDataDescription 
-  extends DataDescription  "Describes the type/structure of stored data, e.g. a description of the file format (fits), the parameters of an input file or the table columns in the database."
+  -> DataDescription  "Describes the type/structure of stored data, e.g. a description of the file format (fits), the parameters of an input file or the table columns in the database."
   { 
      
-        format:string   @*   "A string giving the format of a structured data element (e.g. description of the file format (fits, ascii, ...) or description of a database table)";
+        format:ivoa:string   @*   "A string giving the format of a structured data element (e.g. description of the file format (fits, ascii, ...) or description of a database table)";
   }
  otype Quality  "A class for describing the quality of an Activity or DataComponent. The Quality object could just contain a list of possible keywords."
   { 
      
   }
  otype TemporaryData 
-  extends DataComponent  "This class can be used to specify data that existed only for a certain time and was deleted already, but is still usefull to describe the provenance of an activity/another data set. E.g. a telescope pipeline may produce images in between after each processing step, but only the final image is stored permanently."
+  -> DataComponent  "This class can be used to specify data that existed only for a certain time and was deleted already, but is still usefull to describe the provenance of an activity/another data set. E.g. a telescope pipeline may produce images in between after each processing step, but only the final image is stored permanently."
   { 
      
         temporaryDataDescription references TemporaryDataDescription  "Link to the description of the temporary data";
   }
  otype TemporaryDataDescription 
-  extends DataDescription  "Describes the type/structure of temporary data."
+  -> DataDescription  "Describes the type/structure of temporary data."
   { 
      
   }
  otype DataSetDescription 
-  extends DataDescription  "Description of a data set as a whole, contains references to descriptions of the individual parts."
+  -> DataDescription  "Description of a data set as a whole, contains references to descriptions of the individual parts."
   { 
      
         dataDescription references DataDescription  "Link to the description of the components of a DataSet.";
@@ -149,7 +155,7 @@ This is mainly important for ambient conditions (seeing, moon light, etc.) and i
  otype Project  "This is the project responsible for executing an Activity (e.g. the RAVE collaboration). There could also be more than one project involved in an Activity."
   { 
      
-        id:string    "A unique id of the project for referencing it from different Activities.";
-        name:string   @+   "Name(s) of the project. Alternative names can also be given.";
+        id:ivoa:string    "A unique id of the project for referencing it from different Activities.";
+        name:ivoa:string   @+   "Name(s) of the project. Alternative names can also be given.";
         projectLeader references Agent  "A string to specify the person in charge of the project which has performed a certain activity.";
   }

@@ -30,15 +30,14 @@ import net.ivoa.vodml.vodsl.ModelDeclaration
  * @version $Revision$ $date$
  */
 class ParserTest {
-	
-	
+		
 @Inject
 ParseHelper<VoDataModel> parser
  
 @Test 
 def void parseVodmlmodel() {
   val model = parser.parse(
-    "model test (1.0) 'this is a test'")
+    "model test (1.x) 'this is a test'")
   val moddecl = model.model as ModelDeclaration
   assertNotNull(moddecl)
 }

@@ -18,12 +18,12 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: net.ivoa.vodml,
  net.ivoa.vodml.formatting,
  net.ivoa.vodml.generator,
+ net.ivoa.vodml.parser.antlr,
+ net.ivoa.vodml.parser.antlr.internal,
  net.ivoa.vodml.scoping,
  net.ivoa.vodml.serializer,
  net.ivoa.vodml.services,
  net.ivoa.vodml.validation,
  net.ivoa.vodml.vodsl,
- net.ivoa.vodml.vodsl.util,
- net.ivoa.vodml.parser.antlr.internal,
  net.ivoa.vodml.vodsl.impl,
- net.ivoa.vodml.parser.antlr
+ net.ivoa.vodml.vodsl.util

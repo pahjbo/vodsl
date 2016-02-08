@@ -188,7 +188,7 @@ PA  ""
 dtype Epoch  ""
   {   
         type: EpochType   "";
-        year: decimal   "";
+        year: ivoa:decimal   "";
   }
 
 abstract dtype Coordinate  ""
@@ -198,7 +198,7 @@ abstract dtype Coordinate  ""
   }
 
 dtype GenericCoord 
-  extends Coordinate ""
+  -> Coordinate ""
   {   
         coord: quantity.RealQuantity  @?   "";
         statError: MultiStruct  @?   "";
@@ -208,7 +208,7 @@ dtype GenericCoord
   }
 
 abstract dtype SpatialCoord 
-  extends Coordinate ""
+  -> Coordinate ""
   {   
         ndim: nonnegativeInteger   "";
         coord: QuantityVector   "";
@@ -220,17 +220,17 @@ abstract dtype SpatialCoord
   }
 
 dtype Position 
-  extends SpatialCoord ""
+  -> SpatialCoord ""
   {   
   }
 
 dtype Velocity 
-  extends SpatialCoord ""
+  -> SpatialCoord ""
   {   
   }
 
 dtype Time 
-  extends Coordinate ""
+  -> Coordinate ""
   {   
         coord: TimeStamp  @?   "";
         statError: MultiStruct  @?   "";
@@ -240,7 +240,7 @@ dtype Time
   }
 
 abstract dtype SpectralCoord 
-  extends Coordinate ""
+  -> Coordinate ""
   {   
         coord: quantity.RealQuantity  @?   "";
         statError: MultiStruct  @?   "";
@@ -250,22 +250,22 @@ abstract dtype SpectralCoord
   }
 
 dtype Frequency 
-  extends SpectralCoord ""
+  -> SpectralCoord ""
   {   
   }
 
 dtype Energy 
-  extends SpectralCoord ""
+  -> SpectralCoord ""
   {   
   }
 
 dtype Wavelength 
-  extends SpectralCoord ""
+  -> SpectralCoord ""
   {   
   }
 
 abstract dtype GenericRedshiftCoord 
-  extends Coordinate ""
+  -> Coordinate ""
   {   
         coord: quantity.RealQuantity  @?   "";
         statError: MultiStruct  @?   "";
@@ -275,40 +275,40 @@ abstract dtype GenericRedshiftCoord
   }
 
 dtype DopplerVelocity 
-  extends GenericRedshiftCoord ""
+  -> GenericRedshiftCoord ""
   {   
   }
 
 dtype Redshift 
-  extends GenericRedshiftCoord ""
+  -> GenericRedshiftCoord ""
   {   
   }
 
 abstract dtype PolarizationCoord 
-  extends Coordinate ""
+  -> Coordinate ""
   {   
   }
 
 dtype Stokes 
-  extends PolarizationCoord ""
+  -> PolarizationCoord ""
   {   
         coord: PolStokes   "";
   }
 
 dtype Circular 
-  extends PolarizationCoord ""
+  -> PolarizationCoord ""
   {   
         coord: PolCircular   "";
   }
 
 dtype Linear 
-  extends PolarizationCoord ""
+  -> PolarizationCoord ""
   {   
         coord: PolLinear   "";
   }
 
 dtype Vector 
-  extends PolarizationCoord ""
+  -> PolarizationCoord ""
   {   
         coord: PolVector   "";
   }
@@ -329,40 +329,40 @@ abstract dtype MultiStruct  ""
   }
 
 dtype Symmetrical 
-  extends MultiStruct ""
+  -> MultiStruct ""
   {   
         radius: quantity.RealQuantity   "";
   }
 
 dtype Asymmetrical 
-  extends MultiStruct ""
+  -> MultiStruct ""
   {   
         plus: quantity.RealQuantity   "";
         minus: quantity.RealQuantity   "";
   }
 
 dtype Bounds 
-  extends MultiStruct ""
+  -> MultiStruct ""
   {   
         loLimit: QuantityVector   "";
         hiLimit: QuantityVector   "";
   }
 
 dtype Box 
-  extends MultiStruct ""
+  -> MultiStruct ""
   {   
         boxSize: QuantityVector   "";
   }
 
 dtype Ellipse 
-  extends MultiStruct ""
+  -> MultiStruct ""
   {   
         semiAxes: QuantityVector   "";
         positionAngles: QuantityVector   "";
   }
 
 dtype MSMatrix 
-  extends MultiStruct ""
+  -> MultiStruct ""
   {   
         matrix: Matrix   "";
   }
@@ -378,7 +378,7 @@ abstract dtype Matrix  ""
   }
 
 dtype Matrix2x2 
-  extends Matrix ""
+  -> Matrix ""
   {   
         m11: real   "";
         m12: real   "";
@@ -387,7 +387,7 @@ dtype Matrix2x2
   }
 
 dtype Matrix3x3 
-  extends Matrix ""
+  -> Matrix ""
   {   
         m11: real   "";
         m12: real   "";
@@ -401,20 +401,20 @@ dtype Matrix3x3
   }
 
 dtype RealScalar 
-  extends QuantityVector ""
+  -> QuantityVector ""
   {   
         d1: quantity.RealQuantity   "";
   }
 
 dtype RealDoublet 
-  extends QuantityVector ""
+  -> QuantityVector ""
   {   
         d1: quantity.RealQuantity   "";
         d2: quantity.RealQuantity   "";
   }
 
 dtype RealTriplet 
-  extends QuantityVector ""
+  -> QuantityVector ""
   {   
         d1: quantity.RealQuantity   "";
         d2: quantity.RealQuantity   "";
@@ -426,25 +426,25 @@ abstract dtype TimeStamp  ""
   }
 
 dtype ISOtime 
-  extends TimeStamp ""
+  -> TimeStamp ""
   {   
         time: datetime   "";
   }
 
 dtype JD 
-  extends TimeStamp ""
+  -> TimeStamp ""
   {   
         time: real   "";
   }
 
 dtype MJD 
-  extends TimeStamp ""
+  -> TimeStamp ""
   {   
         time: real   "";
   }
 
 dtype TimeOffset 
-  extends TimeStamp ""
+  -> TimeStamp ""
   {   
         offset: real   "";
   }
@@ -454,13 +454,13 @@ abstract dtype SpaceRefPosition  ""
   }
 
 dtype StdSpaceRefPos 
-  extends SpaceRefPosition ""
+  -> SpaceRefPosition ""
   {   
         location: StdRefPosition   "";
   }
 
 dtype CustomSpaceRefPos 
-  extends SpaceRefPosition ""
+  -> SpaceRefPosition ""
   {   
         location: Position   "";
   }
@@ -475,7 +475,7 @@ abstract otype CoordFrame  ""
   }
 
 otype GenericFrame 
-  extends CoordFrame ""
+  -> CoordFrame ""
   {   
         handedness: Handedness  @?   "";
         naxes: nonnegativeInteger   "";
@@ -483,7 +483,7 @@ otype GenericFrame
   }
 
 otype SpaceFrame 
-  extends CoordFrame ""
+  -> CoordFrame ""
   {   
         spaceRefFrame: StdSpaceRefFrame   "";
         refPosition: SpaceRefPosition   "";
@@ -492,7 +492,7 @@ otype SpaceFrame
   }
 
 otype TimeFrame 
-  extends CoordFrame ""
+  -> CoordFrame ""
   {   
         timeScale: TimeScale   "";
         refPosition: SpaceRefPosition   "";
@@ -501,24 +501,24 @@ otype TimeFrame
   }
 
 abstract otype SpectralLikeFrame 
-  extends CoordFrame ""
+  -> CoordFrame ""
   {   
         refPosition: StdRefPosition   "";
   }
 
 otype SpectralFrame 
-  extends SpectralLikeFrame ""
+  -> SpectralLikeFrame ""
   {   
   }
 
 otype RedshiftFrame 
-  extends SpectralLikeFrame ""
+  -> SpectralLikeFrame ""
   {   
         dopplerDefinition: DopplerDefinition   "";
   }
 
 otype PolarizationFrame 
-  extends CoordFrame ""
+  -> CoordFrame ""
   {   
         polType: PolarizationType   "";
   }
@@ -529,7 +529,7 @@ otype CoordSys  ""
   }
 
 otype AstroCoordSystem 
-  extends CoordSys ""
+  -> CoordSys ""
   {   
         planetaryEphemeris: string  @?   "";
         spaceFrame  @?  references SpaceFrame "";
@@ -547,7 +547,7 @@ otype PixelCoordSystem  ""
   }
 
 otype PixelFrame 
-  extends CoordFrame ""
+  -> CoordFrame ""
   {   
         nativeAxis1: nonnegativeInteger   "";
         nativeAxis2: nonnegativeInteger  @?   "";
@@ -578,32 +578,32 @@ abstract otype Transform  ""
   }
 
 otype TUnit 
-  extends Transform ""
+  -> Transform ""
   {   
   }
 
 otype TScale 
-  extends Transform ""
+  -> Transform ""
   {   
         ndim: nonnegativeInteger   "";
         factor: real   "";
   }
 
 otype TRotate 
-  extends Transform ""
+  -> Transform ""
   {   
         ndim: nonnegativeInteger   "";
         angle: real   "";
   }
 
 otype TMatrix 
-  extends Transform ""
+  -> Transform ""
   {   
         matrix: Matrix   "";
   }
 
 otype TProjection 
-  extends Transform ""
+  -> Transform ""
   {   
         algorithm: Projection   "";
         ndim: nonnegativeInteger   "";
@@ -612,20 +612,20 @@ otype TProjection
   }
 
 abstract otype TLookup 
-  extends Transform ""
+  -> Transform ""
   {   
         nvals: nonnegativeInteger   "";
   }
 
 otype TLookup1D 
-  extends TLookup ""
+  -> TLookup ""
   {   
         nativeValue1: real   "";
         targetValue1: real   "";
   }
 
 otype TLookup2D 
-  extends TLookup ""
+  -> TLookup ""
   {   
         nativeValue1: real   "";
         nativeValue2: real   "";
@@ -634,44 +634,44 @@ otype TLookup2D
   }
 
 otype TPolarization 
-  extends TLookup ""
+  -> TLookup ""
   {   
         nativeValue1: integer   "";
   }
 
 otype TPolStokes 
-  extends TPolarization ""
+  -> TPolarization ""
   {   
         polType: PolStokes   "";
   }
 
 otype TPolLinear 
-  extends TPolarization ""
+  -> TPolarization ""
   {   
         polType: PolLinear   "";
   }
 
 otype TPolCircular 
-  extends TPolarization ""
+  -> TPolarization ""
   {   
         polType: PolCircular   "";
   }
 
 otype TPolVector 
-  extends TPolarization ""
+  -> TPolarization ""
   {   
         polType: PolVector   "";
   }
 
 otype TPolynomial 
-  extends Transform ""
+  -> Transform ""
   {   
         order: nonnegativeInteger   "";
         coeff: real   "";
   }
 
 otype TShift 
-  extends Transform ""
+  -> Transform ""
   {   
         shift: real   "";
         ndim: nonnegativeInteger   "";

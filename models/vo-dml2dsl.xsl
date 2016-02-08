@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 This XSLT script transforms a data model from the
-official VODML XML representation to the dsl representation.
+official VODML XML representation to the VODSL representation.
+
+Paul Harrison
  -->
 
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -63,6 +65,7 @@ model <xsl:value-of select="$modname"/> (<xsl:value-of select="version"/>) "<xsl
 <xsl:template match="author">
    <xsl:value-of select="concat($nl,' author ',$dq,.,$dq)"/>
 </xsl:template>
+
   <xsl:template match="package">
 package <xsl:value-of select="concat(vodml-id,' ')"/> <xsl:apply-templates select= "description"/>
 {
@@ -75,7 +78,15 @@ package <xsl:value-of select="concat(vodml-id,' ')"/> <xsl:apply-templates selec
   </xsl:template>  
   
   <xsl:template match='vodml-ref'> <!-- remove the local namespace -->
-     <xsl:value-of select="substring-after(.,':')"/>
+     <xsl:choose>
+        <xsl:when test="substring-before( .,':') = $modname">
+           <xsl:value-of select="substring-after(.,':')"/>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:value-of select="translate(.,':','.')"/>
+        </xsl:otherwise>
+     </xsl:choose>
+     
   </xsl:template>
 
 <xsl:template match="objectType">
@@ -176,7 +187,7 @@ enum <xsl:value-of select="name"/><xsl:text> </xsl:text>
 
 
 <xsl:template match="extends">
-  extends <xsl:apply-templates/>
+  <xsl:text> -&gt; </xsl:text><xsl:apply-templates/>
 </xsl:template>
 
 <xsl:template match="semanticconcept">
@@ -215,9 +226,6 @@ enum <xsl:value-of select="name"/><xsl:text> </xsl:text>
 </xsl:template>
 
 
-<xsl:template match="author">
-  <!-- ignore for now -->
-</xsl:template>
 <xsl:template match="*"> <!-- catchall to indicate where there might be missed element to highlight when VODML might have changed-->
   <xsl:value-of select="concat('***',name(.),'*** ')"/>
    <xsl:apply-templates/>

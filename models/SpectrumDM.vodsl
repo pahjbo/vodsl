@@ -37,14 +37,14 @@ model spectral (1.0) ""
 
 	}
 
-	otype GenericCorr extends CorrectionItem ""
+	otype GenericCorr -> CorrectionItem ""
 	{
 
 		value : string "" ;
 
 	}
 
-	otype ApFrac extends CorrectionItem ""
+	otype ApFrac -> CorrectionItem ""
 	{
 
 		value : string "" ;
@@ -60,7 +60,7 @@ model spectral (1.0) ""
 
 	}
 
-	otype SpectralResolution extends char.Resolution ""
+	otype SpectralResolution -> char.Resolution ""
 	{
 
 		resolPower : ResolPower @? "" ;
@@ -137,7 +137,7 @@ model spectral (1.0) ""
 
 	}
 
-	otype CharacterisationAxis extends char.CharacterisationAxis ""
+	otype CharacterisationAxis -> char.CharacterisationAxis ""
 	{
 
 		qualityDefs : QualityDefs @? "" ;
@@ -151,30 +151,30 @@ model spectral (1.0) ""
 
 	}
 
-	otype FluxDataAxis extends DataAxis ""
+	otype FluxDataAxis -> DataAxis ""
 	{
 	}
 
-	otype SpectralDataAxis extends DataAxis ""
+	otype SpectralDataAxis -> DataAxis ""
 	{
 	}
 
-	otype SpatialDataAxis extends DataAxis ""
+	otype SpatialDataAxis -> DataAxis ""
 	{
 	}
 
-	otype TimeDataAxis extends DataAxis ""
+	otype TimeDataAxis -> DataAxis ""
 	{
 	}
 
-	otype Spectrum extends SpectralDataset ""
+	otype Spectrum -> SpectralDataset ""
 	{
 
 		data : SPPoint @* "" ;
 
 	}
 
-	otype PhotometryPoint extends SpectralDataset ""
+	otype PhotometryPoint -> SpectralDataset ""
 	{
 
 		data : SPPoint @? "" ;
@@ -351,19 +351,19 @@ model spectral (1.0) ""
 
 		}
 
-		otype FluxCharAxis extends char.CharacterisationAxis ""
+		otype FluxCharAxis -> char.CharacterisationAxis ""
 		{
 		}
 
-		otype SpectralCharAxis extends char.CharacterisationAxis ""
+		otype SpectralCharAxis -> char.CharacterisationAxis ""
 		{
 		}
 
-		otype SpatialCharAxis extends char.CharacterisationAxis ""
+		otype SpatialCharAxis -> char.CharacterisationAxis ""
 		{
 		}
 
-		otype TimeCharAxis extends char.CharacterisationAxis ""
+		otype TimeCharAxis -> char.CharacterisationAxis ""
 		{
 		}
 

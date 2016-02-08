@@ -1,135 +1,158 @@
-	<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">	<!-- file generated from VODSL -->
       <name>example</name>
       <description>an example model</description> 
       <title>TBD</title>
-      <author>TBD</author>
+      <author>Paul Harrison</author>
       <version>0.1</version>
-      <lastModified>2016-02-03T14:49:50Z</lastModified>
+      <lastModified>2016-03-07T08:46:31Z</lastModified>
       <import>
-        <prefix>notyetknown</prefix>
+        <name>tbd</name><!--should be able to work out from the included model -->
         <url>IVOA.vodsl</url>
         <documentationURL>not known</documentationURL>
       </import>
       <primitiveType>
-        <name>float</name>
+        <vodml-id>angle</vodml-id>
+        <name>angle</name>
         <description>a new primitive</description>	    
       </primitiveType>
-      <package>
-         <name>apackage</name>
-         <description>example package</description>	    
-            <dataType  >
-              <name>fq</name>
-              <description></description>	    
-               <extends>
-                  <vodml-id>ivoa:AtomicValue</vodml-id>
-               </extends>
-               <attribute>
-                 <name>value</name>
-                 <description>a new float</description>	    
-                 <datatype>
-                    <vodml-id>example:float</vodml-id>
-                 </datatype>
-                 <multiplicity>
-                   <minOccurs>1</minOccurs>
-                   <maxOccurs>1</maxOccurs>
-                 </multiplicity>
-               </attribute>
-            </dataType>
-            <objectType  abstract='true'>
-               <name>base</name>
-               <description></description>	    
-               <attribute>
-                 <name>bv</name>
-                 <description>Description</description>	    
-                 <datatype>
-                    <vodml-id>ivoa:boolean</vodml-id>
-                 </datatype>
-                 <multiplicity>
-                   <minOccurs>1</minOccurs>
-                   <maxOccurs>1</maxOccurs>
-                 </multiplicity>
-               </attribute>
-               
-               
-            </objectType>
-            <objectType >
-               <name>derived</name>
-               <description></description>	    
-               <extends>
-                  <vodml-id>example:base</vodml-id>
-               </extends>
-               <attribute>
-                 <name>sv</name>
-                 <description></description>	    
-                 <datatype>
-                    <vodml-id>ivoa:RealQuantity</vodml-id>
-                 </datatype>
-                 <multiplicity>
-                   <minOccurs>1</minOccurs>
-                   <maxOccurs>1</maxOccurs>
-                 </multiplicity>
-               </attribute>
-               
-               
-            </objectType>
-            <objectType >
-               <name>another</name>
-               <description></description>	    
-               <attribute>
-                 <name>f1</name>
-                 <description>an array</description>	    
-                 <datatype>
-                    <vodml-id>example:fq</vodml-id>
-                 </datatype>
-                 <multiplicity>
-                   <minOccurs>6</minOccurs>
-                   <maxOccurs>0</maxOccurs>
-                 </multiplicity>
-               </attribute>
-               <collection>
-                 <name>f2</name>
-                 <description></description>	    
-                 <datatype>
-                    <vodml-id>example:derived</vodml-id>
-                 </datatype>
-                 <multiplicity>
-                   <minOccurs>1</minOccurs>
-                   <maxOccurs>1</maxOccurs>
-                 </multiplicity>
-               </collection>
-               
-               
-            </objectType>
             <package>
-               <name>nestedpackage</name>
-               <description></description>	    
-                  <objectType >
-                     <name>another</name>
-                     <description>different package</description>	    
-                     <collection>
-                       <name>cc</name>
-                       <description></description>	    
-                       <datatype>
-                          <vodml-id>example:another</vodml-id>
-                       </datatype>
-                       <multiplicity>
-                         <minOccurs>1</minOccurs>
-                         <maxOccurs>1</maxOccurs>
-                       </multiplicity>
-                     </collection>
-                     <reference>
-                       <name>rf</name>
-                       <description>a reference</description>	    
-                       <datatype>
-                         <vodml-id>example:derived</vodml-id>
-                       <datatype>
-                     </reference>
-                     
-                     
-                  </objectType>
+               <vodml-id>apackage</vodml-id>
+               <name>apackage</name>
+               <description>example package</description>	    
+                        <dataType>
+                          <vodml-id>apackage.fq</vodml-id>
+                          <name>fq</name>
+                          <description></description>	    
+                           <extends>
+                              <vodml-ref>ivoa:quantity.AtomicValue</vodml-ref>
+                           </extends>
+                        <attribute>
+                          <vodml-id>apackage.fq.value</vodml-id>
+                          <name>value</name>
+                          <description>a new float</description>	    
+                          <datatype>
+                             <vodml-ref>ivoa:boolean</vodml-ref>
+                          </datatype>
+                          <multiplicity>
+                            <minOccurs>1</minOccurs>
+                            <maxOccurs>1</maxOccurs>
+                          </multiplicity>
+                        </attribute>
+                        </dataType>
+                        <objectType abstract='true'>
+                           <vodml-id>apackage.base</vodml-id>
+                           <name>base</name>
+                           <description></description>	    
+                           <attribute>
+                             <vodml-id>apackage.base.bv</vodml-id>
+                             <name>bv</name>
+                             <description>Description</description>	    
+                             <datatype>
+                                <vodml-ref>ivoa:boolean</vodml-ref>
+                             </datatype>
+                             <multiplicity>
+                               <minOccurs>1</minOccurs>
+                               <maxOccurs>1</maxOccurs>
+                             </multiplicity>
+                           </attribute>
+                           <attribute>
+                             <vodml-id>apackage.base.author</vodml-id>
+                             <name>author</name>
+                             <description>author</description>	    
+                             <datatype>
+                                <vodml-ref>ivoa:string</vodml-ref>
+                             </datatype>
+                             <multiplicity>
+                               <minOccurs>0</minOccurs>
+                               <maxOccurs>1</maxOccurs>
+                             </multiplicity>
+                           </attribute>
+                        </objectType>
+                        <objectType>
+                           <vodml-id>apackage.derived</vodml-id>
+                           <name>derived</name>
+                           <description></description>	    
+                           <extends>
+                              <vodml-ref>example:apackage.base</vodml-ref>
+                           </extends>
+                           <attribute>
+                             <vodml-id>apackage.derived.sv</vodml-id>
+                             <name>sv</name>
+                             <description></description>	    
+                             <datatype>
+                                <vodml-ref>ivoa:quantity.RealQuantity</vodml-ref>
+                             </datatype>
+                             <multiplicity>
+                               <minOccurs>1</minOccurs>
+                               <maxOccurs>1</maxOccurs>
+                             </multiplicity>
+                           </attribute>
+                        </objectType>
+                        <objectType>
+                           <vodml-id>apackage.another</vodml-id>
+                           <name>another</name>
+                           <description></description>	    
+                           <attribute>
+                             <vodml-id>apackage.another.f1</vodml-id>
+                             <name>f1</name>
+                             <description>an array</description>	    
+                             <datatype>
+                                <vodml-ref>example:apackage.fq</vodml-ref>
+                             </datatype>
+                             <multiplicity>
+                               <minOccurs>6</minOccurs>
+                               <maxOccurs>0</maxOccurs>
+                             </multiplicity>
+                           </attribute>
+                           <collection>
+                             <vodml-id>apackage.another.f2</vodml-id>
+                             <name>f2</name>
+                             <description></description>	    
+                             <datatype>
+                                <vodml-ref>example:apackage.nestedpackage.another</vodml-ref>
+                             </datatype>
+                             <multiplicity>
+                               <minOccurs>1</minOccurs>
+                               <maxOccurs>1</maxOccurs>
+                             </multiplicity>
+                           </collection>
+                        </objectType>
+                        <package>
+                           <vodml-id>apackage.nestedpackage</vodml-id>
+                           <name>nestedpackage</name>
+                           <description></description>	    
+                                    <objectType>
+                                       <vodml-id>apackage.nestedpackage.another</vodml-id>
+                                       <name>another</name>
+                                       <description></description>	    
+                                       <collection>
+                                         <vodml-id>apackage.nestedpackage.another.cc</vodml-id>
+                                         <name>cc</name>
+                                         <description></description>	    
+                                         <datatype>
+                                            <vodml-ref>example:apackage.derived</vodml-ref>
+                                         </datatype>
+                                         <multiplicity>
+                                           <minOccurs>1</minOccurs>
+                                           <maxOccurs>1</maxOccurs>
+                                         </multiplicity>
+                                       </collection>
+                                       <reference>
+                                         <vodml-id>apackage.nestedpackage.another.rf</vodml-id>
+                                         <name>rf</name>
+                                         <description>a reference</description>	    
+                                         <datatype>
+                                           <vodml-ref>example:apackage.another</vodml-ref>
+                                         </datatype>
+                                         <multiplicity>
+                                           <minOccurs>1</minOccurs>
+                                           <maxOccurs>1</maxOccurs>
+                                         </multiplicity>
+                                       </reference>
+                                    </objectType>
+                        </package>
             </package>
-      </package>
-   </vo-dml:model>
+</vo-dml:model>

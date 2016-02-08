@@ -4,11 +4,7 @@
 package net.ivoa.vodml.generator
 
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IGenerator
-import org.eclipse.xtext.generator.IFileSystemAccess
-import net.ivoa.vodml.vodsl.ModelDeclaration
 import net.ivoa.vodml.vodsl.IncludeDeclaration
-import net.ivoa.vodml.vodsl.AbstractElement
 import net.ivoa.vodml.vodsl.PackageDeclaration
 import net.ivoa.vodml.vodsl.ObjectType
 import net.ivoa.vodml.vodsl.Enumeration
@@ -24,11 +20,15 @@ import java.util.TimeZone
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
-import org.eclipse.emf.ecore.EObject
 import net.ivoa.vodml.vodsl.Reference
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.eclipse.xtext.generator.IFileSystemAccess2
+import net.ivoa.vodml.vodsl.Composition
+import java.util.List
+import com.google.inject.Inject
+import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.eclipse.xtext.naming.IQualifiedNameConverter
 
 /**
  * Generates code from your model files on save.
@@ -36,7 +36,9 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
 class VodslGenerator extends AbstractGenerator  {
-	
+
+    @Inject extension IQualifiedNameProvider	
+    @Inject IQualifiedNameConverter converter 
 	 static val TimeZone tz = TimeZone.getTimeZone("UTC")
     static val DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
     new()
@@ -53,7 +55,7 @@ class VodslGenerator extends AbstractGenerator  {
 	
 	
 	def vodml(VoDataModel e)'''
-	<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">	<!-- file generated from VODSL -->
@@ -68,22 +70,20 @@ class VodslGenerator extends AbstractGenerator  {
       «FOR f:e.includes»
       	«f.vodml»
       «ENDFOR» 
-      «FOR f: e.elements»
-         «f.vodml»
-      «ENDFOR»
-   </vo-dml:model>
+      «e.elements.vodml»
+</vo-dml:model>
 	'''
 	
 	
 	def vodml(IncludeDeclaration e) '''
 	<import>
-	  <prefix>notyetknown</prefix>
+	  <name>tbd</name><!--should be able to work out from the included model -->
 	  <url>«e.importURI»</url>
 	  <documentationURL>not known</documentationURL>
 	</import>
 	'''
 	
-	def vodml(AbstractElement e)
+	def vodml(ReferableElement e)
 	{
       //shame that xtend does not do dynamic dispatch - at least not in the way that I thought....
       switch  e {
@@ -92,6 +92,7 @@ class VodslGenerator extends AbstractGenerator  {
       	Enumeration : (e as Enumeration).vodml
       	DataType : (e as DataType).vodml
       	PrimitiveType: (e as PrimitiveType).vodml
+      	Attribute: (e as Attribute).vodml
       	default: "unknown type " + e.class
       }
       		
@@ -99,94 +100,96 @@ class VodslGenerator extends AbstractGenerator  {
 	}
 	
 	def preamble(ReferableElement e) '''
+	   <vodml-id>«e.fullyQualifiedName.skipFirst(1)»</vodml-id>
 	   <name>«e.name»</name>
 	   <description>«e.description»</description>	    
 	'''
 	
+	
+	def vodml(List<ReferableElement> e) '''
+	   «FOR f: e.filter(PrimitiveType)»
+         «(f as PrimitiveType).vodml»
+      «ENDFOR»
+      «FOR f: e.filter(Enumeration)»
+         «(f as Enumeration).vodml»
+      «ENDFOR»
+      «FOR f: e.filter(DataType)»
+         «(f as DataType).vodml»
+      «ENDFOR»
+      «FOR f: e.filter(ObjectType)»
+         «(f as ObjectType).vodml»
+      «ENDFOR»
+      «FOR f: e.filter(PackageDeclaration)»
+         «(f as PackageDeclaration).vodml»
+      «ENDFOR»		
+'''	
+	
 	def vodml (PackageDeclaration e)'''
 	<package>
 	   «e.preamble»
-      «FOR f: e.elements»
-         «f.vodml»
-      «ENDFOR»
+      «e.elements.vodml»
 	</package>
 	'''
 	def vodml (ObjectType e)'''
-	<objectType «IF e.abstract» abstract='true'«ENDIF»>
+	<objectType«IF e.abstract» abstract='true'«ENDIF»>
 	   «e.preamble»
 	   «IF e.superType != null»
 	   <extends>
-	      «(e.superType as ReferableElement).vodml»
+	      «(e.superType as ReferableElement).ref»
 	   </extends>
 	   «ENDIF»
 	   «FOR f: e.constraints»
 	   	«f.vodml»
 	   «ENDFOR»
-	   «FOR f: e.attributes»
-	   	«f.vodml»
+	   «FOR f: e.content.filter(Attribute)»
+	   	«(f as Attribute).vodml»
 	   «ENDFOR»
-	   «FOR f: e.references»
-	   	«f.vodml»
-	   «ENDFOR»
-	   
-	   
+	   «FOR f: e.content.filter(Composition)»
+	   	«(f as Composition).vodml»
+	   «ENDFOR»	   
+	   «FOR f: e.content.filter(Reference)»
+	   	«(f as Reference).vodml»
+	   «ENDFOR»	   
 	</objectType>
 	'''
 	def vodml (Attribute e)'''
-	«val atstr = e.attrType»
-	<«atstr»>
+	<attribute>
 	  «e.preamble»
 	  <datatype>
-	     «(e.type as ReferableElement).vodml»
+	     «(e.type as ReferableElement).ref»
 	  </datatype>
 	  «vodml(e.multiplicity)»
-	</«atstr»>
+	</attribute>
 	'''
 	
-	def attrType(Attribute attribute)
-	{
-		if(attribute.composition)
-		{
-			"collection"
-		}
-		else
-		{
-			"attribute"
-		}
-		
-	}
+	def vodml (Composition e)
+	'''
+	<collection>
+	  «e.preamble»
+	  <datatype>
+	     «(e.type as ReferableElement).ref»
+	  </datatype>
+	  «vodml(e.multiplicity)»
+	  «IF e.isOrdered»<isOrdered>true</isOrdered>«ENDIF»
+	</collection>
+	'''
 	
 
-   def vodml(ReferableElement e)'''
-   <vodml-id>«e.UType»</vodml-id>
+   def ref(ReferableElement e)'''
+   <vodml-ref>«converter.toString(e.fullyQualifiedName)»</vodml-ref>
    '''
 
-/**
- * this should give the full UType name. TODO this is not really working - the scoping of the types should fill this in, as the rules are a bit tricky
- */
-   def UType(ReferableElement e)
-   {
-   	//hunt for the containing VODatModelImpl (is there a better way to do this?)
-   	var cont = e as EObject
-   	while (cont.eContainer != null)
-   	{
-   		cont = cont.eContainer
-   	}
-   	(cont as VoDataModel).model.name +":"+e.name
-   }
-
-
-//No multiplicity
    def vodml(Reference e)'''
    <reference>
      «e.preamble»
      <datatype>
-       «(e.referenced as ReferableElement).vodml»
-     <datatype>
+       «(e.referenced as ReferableElement).ref»
+     </datatype>
+     «vodml(e.multiplicity)»
    </reference>
    '''
    
-// this is not really doing correct thing for attributes yet...
+// FIXME this is not really doing correct thing for attributes yet...
    def vodml(Constraint e)'''
    <constraint>
       «IF e.expr != null»
@@ -205,20 +208,24 @@ class VodslGenerator extends AbstractGenerator  {
       «ENDFOR»
 	</enumeration>
 	'''
-	def vodml (DataType e)'''
-	<dataType  «IF e.abstract» abstract='true'«ENDIF»>
+	def vodml (DataType e)
+	'''
+	<dataType«IF e.abstract» abstract='true'«ENDIF»>
 	  «e.preamble»
 	   «IF e.superType != null»
 	   <extends>
-	      «(e.superType as ReferableElement).vodml»
+	      «(e.superType as ReferableElement).ref»
 	   </extends>
 	   «ENDIF»
 	   «FOR f: e.constraints»
 	   	«f.vodml»
 	   «ENDFOR»
-	   «FOR f: e.attributes»
-	   	«f.vodml»
+      «FOR f: e.content.filter(Attribute)»
+	   	«(f as Attribute).vodml»
 	   «ENDFOR»
+	   «FOR f: e.content.filter(Reference)»
+	   	«(f as Reference).vodml»
+	   «ENDFOR»	   	
 	</dataType>
 	'''
 	

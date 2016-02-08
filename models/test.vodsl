@@ -1,69 +1,80 @@
 model testingscope ( 1.0 ) "Testing the scope of types"
-	 author "tbd"
-	include "IVOA.vodsl"
-  
-	primitive Identity "should this mask the included or be an error?"
-	primitive float "floating point number at top level in this model"
-	package topl "top level package"
-	{
+author "tbd"
+include "IVOA.vodsl"
+    primitive Identity "overriding the ivoa type"
+	primitive real "floating point number at top level in this model"
+
+package topl "top level package"
+{
+		dtype fq -> ivoa:quantity.AtomicValue {
+		value : real "a new float";
+		value2 : ivoa:real "ivoa float - fully qualified"; 
+		}
 		primitive primtop "a test primitive"
 
-		package p1 
+		package p1
 		{
-
-			dtype scopes
+				dtype scopes {
+					f0 : real "from the uppermost level in the namespace";
+					f1 : primtop "in scope without qualification as nested";
+					f2 : ivoa:quantity.IntegerQuantity "an example from included sub namespace";
+					f3 : ivoa:Identity "from the imported ivoa namespace";
+					f3b: Identity "from local definition";
+					f4 : daft "not a proper type anywhere - should be an error";
+					f5 : ivoa:quantity.AtomicValue "this is an abstract type";
+					f6 : sprim "should be an error as needs a package reference";
+					f7 : topl.p2.sprim  "this is how it should be referred to";
+					f8 : obscore:Access "should not be in scope (not imported)";
+				}
+				otype multiplicities "the @ sign is not really syntactically necessary"
 			{
-				f0 : integer "from the top level in the imported namespace - want to avoid the ivoa:prefix?";
-				f1 : topl.primtop "perhaps would like this to be in scope as nested without qualification?";
-				f2 : quantity.IntegerQuantity "an example from included namespace";
-				f3 : Identity "from the top level here or in the imported ivoa namespace?";
-				f4 : daft "not a proper type anywhere - should be an error";
-				f5 : quantity.AtomicValue "this is an abstract type - so should be an error";
-				f6 : sprim "should be an error as needs a package reference";
-				f7 : topl.p2.sprim  "would be nicer without needing full reference? however what should the partial pa";
-
-			}
-			otype multiplicities "the @ sign is not really syntactically necessary"
-			{
-				m1 : integer @? "0 or 1";
-				m2 : integer @* "0 or many ** not allowed for attribute";
-				m3 : integer @+ "1 or many ** not allowed for attribute";
-				m4 : integer @[2] "two (as an array?)";
-				m5 : integer @[2 .. 2] "any semantic difference to above? perhaps indicates not implemented as array?";
-				m6 : integer @[3 .. 2] "should be an error for anything";
+				m1 : ivoa:integer @? "0 or 1";
+				m2 : ivoa:integer @* "0 or many ** not advised for attribute";
+				m3 : ivoa:integer @+ "1 or many ** not advised for attribute";
+				m4 : ivoa:integer @[2] "two (as an array?)";
+				m5 : ivoa:integer @[2 .. 2] "any semantic difference to above? perhaps indicates not implemented as array?";
+				m6 : ivoa:integer @[3 .. 2] "should be an error for anything";
 				
 			}
-			
-			otype sample ""
+
+				otype osample ""
 			{
-				i: integer "";
-				f: float "";
+				i: ivoa:integer "";
+				f:real  "";
 			}
-			
-			dtype derived extends quantity.AtomicValue
-			{
-				d1 : integer "";
-				s1 : topl.p1.scopes "again as in same package - would be nice not to need the full scoped name";
-			}
-			
-			dtype derived2 extends topl.p1.scopes " would be nice not to have full reference here too"{}
-			
-			dtype badderivation extends topl.p1.multiplicities "this should be an error extending wrong type - is not suggested by auto completion, however error message says type not found rather than wrong type"{}
-			
-			dtype derived3 extends topl.p1.derived2 "references to self in attributes"
-			{
-				
-				d1: topl.p1.derived3 "is this allowable not specifically as a reference?";
-				d2 references  topl.p1.sample "this should be ok - but does not appear in the auto complete list" ;
-			}
-			otype refers
+
+				dtype dsample "" {
+					i: ivoa:integer "";
+					f: real "";
+				}
+
+				dtype derived -> ivoa:quantity.AtomicValue {
+					d1 : ivoa:integer "";
+					s1 : scopes "in same package - does not need qualification";
+				}
+
+				dtype derived2 -> scopes "in same package - does not need qualification" {
+				}
+
+				dtype badderivation ->  topl.p1.multiplicities "this should be an error extending wrong type - is not suggested by auto completion, however error message says type not found rather than wrong type" {
+				}
+
+				dtype badderivation2 -> osample "deriving from otype - again poor message - though auto-complete only suggests correct types" {
+				}
+
+				dtype derived3 -> topl.p1.derived2 /*note that a fully qualified name is ok */ "references to self in attributes" {
+					d1: derived3 "is this allowable not specifically as a reference?";
+					d2 references  osample "this should be ok" ;
+					d3 references  dsample "this should be error" ;
+				}
+				otype refers
 			{
 				r1 references /*complete syntax error here */;
 			}
 		}
+
 		package p2 "nested at the same level as p1 "
 		{
-			primitive sprim "another primitive"
-			
+				primitive sprim "another primitive"
 		}
-	}
+}
