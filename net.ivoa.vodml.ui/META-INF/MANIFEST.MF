@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: VODSL UI
 Bundle-Vendor: JBO, University of Manchester
-Bundle-Version: 0.1.1.20160125
+Bundle-Version: 0.2.0.20160308
 Bundle-SymbolicName: net.ivoa.vodml.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: net.ivoa.vodml,
