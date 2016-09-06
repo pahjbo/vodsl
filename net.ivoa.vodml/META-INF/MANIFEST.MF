@@ -26,4 +26,5 @@ Export-Package: net.ivoa.vodml,
  net.ivoa.vodml.validation,
  net.ivoa.vodml.vodsl,
  net.ivoa.vodml.vodsl.impl,
- net.ivoa.vodml.vodsl.util
+ net.ivoa.vodml.vodsl.util,
+ net.ivoa.vodml.formatting2
