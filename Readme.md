@@ -19,7 +19,7 @@ Subdirectories
  3. net.ivoa.vodml.tests - tests for the VODSL
  4. net.ivoa.vodml.ui - eclipse custom editor for the VODSL
  
- there is also a (git submodule)[models] which contains some example models expressed
+ there is also a [git submodule](./models) which contains some example models expressed
  in VODSL.
  
 Development 
@@ -30,7 +30,7 @@ There are tutorials and reference documents to guide development on the
 
 The essential steps to modifying this code and creating a plugin build
 
-  1. edit the [grammar](./src/net/ivoa/vodml/Vodsl.xtext) to add new features if desired
+  1. edit the [grammar](./net.ivoa.vodml/src/net/ivoa/vodml/Vodsl.xtext) to add new features if desired
   2. [generate Xtext artifacts](https://eclipse.org/Xtext/documentation/102_domainmodelwalkthrough.html#generate-language-artifacts)
      by right clicking on the grammar and selecting "generate Xtext Artifacts" from the "Run As" menu.
   3. changing other behaviour of the plug-in in either the [grammar](./net.ivoa.vodml)
