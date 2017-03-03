@@ -9,7 +9,11 @@ The aims of the serialization are
  - more constrained and specific than UML
  - focused editors via eclipse [Xtext](https://eclipse.org/Xtext).
  
- Some background information can be found in [this presentation](VODSL_VODML_PAH.pdf)
+ Some background information and demonstation of how to use the editor can be found in [this presentation](VODSL_VODML_PAH.pdf)
+ 
+It is possible to use the parser machinery in a stand-alone fashion (i.e. without 
+having to work in eclipse) by using the jar file that is produced in the `vodsl.standalone`
+sub-directory.
   
 Subdirectories
 --------------
@@ -18,11 +22,27 @@ Subdirectories
  2. net.ivoa.vodml.sdk - eclipse package for distributing the VODSL editor
  3. net.ivoa.vodml.tests - tests for the VODSL
  4. net.ivoa.vodml.ui - eclipse custom editor for the VODSL
+ 5. vodsl.standalone - a stand-alone validating parser that will convert VODSL files to VO-DML
  
  there is also a [git submodule](./models) which contains some example models expressed
  in VODSL.
  
-Development 
+Using the stand-alone parser
+-------------------------------
+
+The stand-alone parser is built using (maven)[http://maven.apache.org]. All that is necessary 
+after installing maven is to run
+
+    mvn install
+    
+in the top-level directory and a jar file will be produced in `vodsl.standalone/target` which can then
+be run with
+
+    java -jar vodslparser-1.0.0.jar model.vodsl
+
+which will produce a file `model.vo-dml.xml` of the equivalent VO-DML.
+ 
+Developing VODSL 
 -----------
 
 There are tutorials and reference documents to guide development on the 

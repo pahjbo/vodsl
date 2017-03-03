@@ -3,3 +3,4 @@
 /xtend-gen/
 /.launch
 /plugin.xml_gen
+/target/
