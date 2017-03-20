@@ -30,7 +30,7 @@ class VodslValidator extends AbstractVodslValidator {
 	def checkAttributeType(Attribute attr) {
 		if (!(attr.type instanceof ValueType)) {
 
-			error('Attribute ' + attr.name + ' should be a value type', VodslPackage.Literals.ATTRIBUTE__TYPE)
+			error("Attribute '" + attr.name + "' should be a value type", VodslPackage.Literals.ATTRIBUTE__TYPE)
 		}
 	}
 
@@ -119,11 +119,11 @@ class VodslValidator extends AbstractVodslValidator {
 		if (mul.multiplicitySpec != null) {
 			switch mul.multiplicitySpec {
 				case ATLEASTONE: {
-					warning("multiplicity '+' not advised for attribute " + typ.name,
+					warning("multiplicity '+' strongly discouraged for attribute " + typ.name,
 						VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 				}
 				case MANY: {
-					warning("multiplicity '*' not advised for attribute " + typ.name,
+					warning("multiplicity '*' strongly discouraged for attribute " + typ.name,
 						VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 				}
 				case OPTIONAL: {

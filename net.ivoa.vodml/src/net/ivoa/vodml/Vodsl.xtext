@@ -21,7 +21,7 @@ VoDataModel:
 
 
 ModelDeclaration:
-	'model' name=ID '(' version=VERSION ')' description=STRING? ('author' authors+=STRING)*
+	'model' name=ID '(' version=VERSION ')' description=STRING? identifier=STRING? ('author' authors+=STRING)*
 ;
 
 /* avoid terminals here as causes confusion in the LEXing which is greedy see http://www.eclipse.org/forums/index.php/t/263071/ */
@@ -32,14 +32,14 @@ IncludeDeclaration:
 ;
 
 
-QualifiedName: //IMPL have not got the : form to work - just dotted for each level at the moment
+QualifiedName: //IMPL it can be just dotted for each level at the moment - it is interpreted in the same way as : for the first level
   (ValidID ':')? ValidID (=>'.' ValidID)*;
 
 QualifiedNameWithWildcard:
 	 QualifiedName '.*'?
 ;
 
-ValidID:
+ValidID: //IMPL the underlying ID terminal does not allow "." in the name which is legal
 	ID;
 
    
@@ -128,11 +128,11 @@ Composition :
  * when not present it is assumed that the multiplicity is @[1..1]
  */
 Multiplicity :
-	'@' ( ('[' (minOccurs=MInt) ('..' maxOccurs=MInt)? ']' ) | ( multiplicitySpec = MultiplicityBound ) )
+	'@' ( ('[' (minOccurs=INT) ('..' maxOccurs=SINT)? ']' ) | ( multiplicitySpec = MultiplicityBound ) )
 ;
 		
-/* need this because of problems with the terminal INT rule in different contexts  */		
-MInt returns ecore::EInt : INT ;
+/* need this because of problems with the terminal INT rule in different contexts  FIXME - still having problems with @[2..-1] */		
+SINT returns ecore::EInt : '-'? INT ;
   
 /*shortcut representation of common multiplicities - the ONE is a bit ugly - but first is the what will get bound to multiplicitySpec by default */
 enum MultiplicityBound :

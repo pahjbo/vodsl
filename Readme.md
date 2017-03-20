@@ -9,7 +9,7 @@ The aims of the serialization are
  - more constrained and specific than UML
  - focused editors via eclipse [Xtext](https://eclipse.org/Xtext).
  
- Some background information and demonstation of how to use the editor can be found in [this presentation](VODSL_VODML_PAH.pdf)
+ Some background information and demonstration of how to use the editor can be found in [this presentation](VODSL_VODML_PAH.pdf)
  
 It is possible to use the parser machinery in a stand-alone fashion (i.e. without 
 having to work in eclipse) by using the jar file that is produced in the `vodsl.standalone`
@@ -30,7 +30,7 @@ Subdirectories
 Using the stand-alone parser
 -------------------------------
 
-The stand-alone parser is built using (maven)[http://maven.apache.org]. All that is necessary 
+The stand-alone parser is built using [maven](http://maven.apache.org). All that is necessary 
 after installing maven is to run
 
     mvn install
@@ -43,7 +43,7 @@ be run with
 which will produce a file `model.vo-dml.xml` of the equivalent VO-DML.
  
 Developing VODSL 
------------
+----------------
 
 There are tutorials and reference documents to guide development on the 
 [Xtext site](https://eclipse.org/Xtext/documentation/102_domainmodelwalkthrough.html)
@@ -70,7 +70,7 @@ The essential steps to modifying this code and creating a plugin build
 Prebuilt Plugins
 -----------------
 
-The VODSL editor feature is available pre-built from download site
+The VODSL editor feature is available pre-built from the author on request if the above is too much effort.
 
 It is necessary to have  http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/
 as an additional download site configured to resolve missing dependencies if starting

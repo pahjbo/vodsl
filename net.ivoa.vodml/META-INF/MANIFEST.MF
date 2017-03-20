@@ -16,7 +16,6 @@ Require-Bundle: org.eclipse.xtext,
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: net.ivoa.vodml,
- net.ivoa.vodml.formatting,
  net.ivoa.vodml.generator,
  net.ivoa.vodml.parser.antlr,
  net.ivoa.vodml.parser.antlr.internal,

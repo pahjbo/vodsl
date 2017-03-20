@@ -164,14 +164,14 @@ class VodslGenerator extends AbstractGenerator  {
 	
 	def vodml (Composition e)
 	'''
-	<collection>
+	<composition>
 	  «e.preamble»
 	  <datatype>
 	     «(e.type as ReferableElement).ref»
 	  </datatype>
 	  «vodml(e.multiplicity)»
 	  «IF e.isOrdered»<isOrdered>true</isOrdered>«ENDIF»
-	</collection>
+	</composition>
 	'''
 	
 
