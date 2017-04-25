@@ -5,12 +5,12 @@ package net.ivoa.vodml.tests
 
 import com.google.inject.Inject
 import net.ivoa.vodml.vodsl.VoDataModel
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
 
 import static org.junit.Assert.*
 import net.ivoa.vodml.vodsl.VodslPackage

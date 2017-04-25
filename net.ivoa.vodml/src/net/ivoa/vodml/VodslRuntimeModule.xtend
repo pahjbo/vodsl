@@ -12,6 +12,8 @@ import com.google.inject.name.Names
 import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider
 import org.eclipse.xtext.naming.IQualifiedNameConverter
 import net.ivoa.vodml.scoping.VodslQualifiedNameConverter
+import org.eclipse.xtext.parser.antlr.ISyntaxErrorMessageProvider
+import net.ivoa.vodml.validation.VodslSyntaxErrorMessageProvider
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -21,6 +23,8 @@ class VodslRuntimeModule extends AbstractVodslRuntimeModule {
 	override bindIGlobalScopeProvider() {
 		return ImportUriGlobalScopeProvider
 	}
+	
+	
 	
 	override bindIQualifiedNameProvider() {
 		return VodslQualifiedNameProvider
@@ -32,4 +36,7 @@ class VodslRuntimeModule extends AbstractVodslRuntimeModule {
       binder.bind(IQualifiedNameConverter).to(VodslQualifiedNameConverter)
 	}
 	
+	 def Class<? extends ISyntaxErrorMessageProvider> bindISyntaxErrorMessageProvider() {
+        return VodslSyntaxErrorMessageProvider
+    }
 }

@@ -1,0 +1,5 @@
+**/src-gen
+**/bin
+**/xtend-gen
+**/plugin.xml_gen
+**/target

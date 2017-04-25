@@ -13,10 +13,10 @@
 package net.ivoa.vodml.tests
 
 import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
 import com.google.inject.Inject
-import org.eclipse.xtext.junit4.formatter.FormatterTester
+import org.eclipse.xtext.testing.formatter.FormatterTestHelper
 import org.junit.Test
 
 /**
@@ -28,7 +28,7 @@ import org.junit.Test
 @InjectWith(VodslInjectorProvider)
 class FormattingTest extends BaseTest {
 	
-@Inject extension FormatterTester
+@Inject extension FormatterTestHelper
 	
 @Test	def formexample1()
 	{

@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: VODML DSL
+Bundle-Name: VODSL core
 Bundle-Vendor: JBO, University of Manchester
-Bundle-Version: 0.2.0.20160308
-Bundle-SymbolicName: net.ivoa.vodml; singleton:=true
+Bundle-Version: 0.3.0.qualifier
+Bundle-SymbolicName: net.ivoa.vodsl;singleton:=true
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common;bundle-version="3.5.0",
@@ -14,16 +14,40 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.emf.common,
  org.eclipse.xtext.xbase.lib
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: net.ivoa.vodml,
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: net.ivoa.vodml;uses:="com.google.inject,org.eclipse.xtext.service,org.eclipse.xtext",
+ net.ivoa.vodml.formatting2,
  net.ivoa.vodml.generator,
- net.ivoa.vodml.parser.antlr,
- net.ivoa.vodml.parser.antlr.internal,
- net.ivoa.vodml.scoping,
- net.ivoa.vodml.serializer,
- net.ivoa.vodml.services,
- net.ivoa.vodml.validation,
- net.ivoa.vodml.vodsl,
- net.ivoa.vodml.vodsl.impl,
- net.ivoa.vodml.vodsl.util,
- net.ivoa.vodml.formatting2
+ net.ivoa.vodml.parser.antlr;uses:="org.eclipse.xtext.parser.antlr,net.ivoa.vodml.parser.antlr.internal,net.ivoa.vodml.services",
+ net.ivoa.vodml.parser.antlr.internal;
+  uses:="org.eclipse.emf.ecore,
+   org.eclipse.emf.common.util,
+   org.eclipse.xtext.parser.antlr,
+   org.antlr.runtime,
+   net.ivoa.vodml.services",
+ net.ivoa.vodml.scoping;uses:="org.eclipse.xtext.scoping.impl",
+ net.ivoa.vodml.serializer;
+  uses:="org.eclipse.emf.ecore,
+   org.eclipse.xtext.nodemodel,
+   net.ivoa.vodml.vodsl,
+   org.eclipse.xtext.serializer.analysis,
+   net.ivoa.vodml.services,
+   org.eclipse.xtext.serializer.sequencer,
+   org.eclipse.xtext,
+   org.eclipse.xtext.serializer",
+ net.ivoa.vodml.services;uses:="org.eclipse.xtext.common.services,org.eclipse.xtext.service,org.eclipse.xtext",
+ net.ivoa.vodml.validation;uses:="org.eclipse.xtext.validation",
+ net.ivoa.vodml.vodsl;uses:="org.eclipse.emf.ecore,org.eclipse.emf.common.util",
+ net.ivoa.vodml.vodsl.impl;
+  uses:="org.eclipse.emf.ecore,
+   org.eclipse.emf.ecore.impl,
+   org.eclipse.emf.common.util,
+   net.ivoa.vodml.vodsl,
+   org.eclipse.emf.common.notify",
+ net.ivoa.vodml.vodsl.util;
+  uses:="org.eclipse.emf.ecore,
+   net.ivoa.vodml.vodsl,
+   org.eclipse.emf.common.notify,
+   org.eclipse.emf.common.notify.impl,
+   org.eclipse.emf.ecore.util"
+Bundle-ActivationPolicy: lazy

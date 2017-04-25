@@ -19,10 +19,12 @@ Subdirectories
 --------------
 
  1. net.ivoa.vodml - an eclipse project for the XText grammar for the DSL
- 2. net.ivoa.vodml.sdk - eclipse package for distributing the VODSL editor
+ 2. net.ivoa.vodml.sdk - eclipse feature defintion the VODSL editor
  3. net.ivoa.vodml.tests - tests for the VODSL
  4. net.ivoa.vodml.ui - eclipse custom editor for the VODSL
  5. vodsl.standalone - a stand-alone validating parser that will convert VODSL files to VO-DML
+ 6. eclipse.target - a directory that defines the target eclipse installation
+ 7. eclipse.repository - the installable VODSL editor feature update site will be created in this directory.
  
  there is also a [git submodule](./models) which contains some example models expressed
  in VODSL.
@@ -31,14 +33,14 @@ Using the stand-alone parser
 -------------------------------
 
 The stand-alone parser is built using [maven](http://maven.apache.org). All that is necessary 
-after installing maven is to run
+after installing maven is to run (after building the editor plugin in the top level directory)
 
     mvn install
     
-in the top-level directory and a jar file will be produced in `vodsl.standalone/target` which can then
+in the `vodsl.standalone/` directory and a jar file will be produced in `target/` which can then
 be run with
 
-    java -jar vodslparser-1.0.0.jar model.vodsl
+    java -jar vodslparser-0.3.0-SNAPSHOT.jar model.vodsl
 
 which will produce a file `model.vo-dml.xml` of the equivalent VO-DML.
  
@@ -55,9 +57,13 @@ The essential steps to modifying this code and creating a plugin build
      by right clicking on the grammar and selecting "generate Xtext Artifacts" from the "Run As" menu.
   3. changing other behaviour of the plug-in in either the [grammar](./net.ivoa.vodml)
      or [editor ui](./net.ivoa.vodml.ui) sub-projects.
-  4. creating the installable feature with  file -> export -> plug-in development -> deployable features
-     on the [sdk](./vodsl/net.ivoa.vodml.sdk) sub-project.
   
+All of the projects have now been converted to use maven tycho and so that all of the 
+editors can be build by running the following in the top level directory. 
+
+    mvn install
+    
+which will produce an installable feature update site in `eclipse.repository/target/repository`
 
 ### Hints
 
@@ -70,7 +76,7 @@ The essential steps to modifying this code and creating a plugin build
 Prebuilt Plugins
 -----------------
 
-The VODSL editor feature is available pre-built from the author on request if the above is too much effort.
+The VODSL editor feature is available pre-built in an update site at http://astrogrid.jb.man.ac.uk/eclipse/vodsl/ if all you want to do is use the editor rather than develop it.
 
 It is necessary to have  http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/
 as an additional download site configured to resolve missing dependencies if starting
@@ -88,7 +94,6 @@ Known issues with the Eclipse editor
 * some of the VO-DML validation rules are not yet implemented  
   - the "unique composition" rule, where an object type cannot be the target of 
       two compositions.
-  - the subset rules.
    
 
     

@@ -4,9 +4,18 @@
 package net.ivoa.vodml.ui.contentassist
 
 import net.ivoa.vodml.ui.contentassist.AbstractVodslProposalProvider
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.Assignment
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
 
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
  */
 class VodslProposalProvider extends AbstractVodslProposalProvider {
+	
+	override completeSubSet_Ref(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		super.completeSubSet_Ref(model, assignment, context, acceptor)
+	}
+	
 }

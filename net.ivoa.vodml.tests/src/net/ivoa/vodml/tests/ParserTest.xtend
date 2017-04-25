@@ -12,11 +12,11 @@
 
 package net.ivoa.vodml.tests
 
-import org.eclipse.xtext.junit4.util.ParseHelper
+import org.eclipse.xtext.testing.util.ParseHelper
 import static org.junit.Assert.*
-import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.testing.XtextRunner
 import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.InjectWith
+import org.eclipse.xtext.testing.InjectWith
 import com.google.inject.Inject
 import org.junit.Test
 import net.ivoa.vodml.vodsl.VoDataModel

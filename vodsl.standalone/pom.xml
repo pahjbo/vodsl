@@ -5,7 +5,8 @@
    <parent>
       <groupId>org.javastro.vodsl</groupId>
       <artifactId>vodsl.parent</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>0.3.0-SNAPSHOT</version>
+      
    </parent>
    <artifactId>vodslparser</artifactId>
    <name>VO-DSL parser</name>
@@ -13,8 +14,32 @@
    <dependencies>
       <dependency>
          <groupId>org.javastro.vodsl</groupId>
-         <artifactId>vodsl.implementation</artifactId>
-         <version>1.0.0-SNAPSHOT</version>
+      	<artifactId>net.ivoa.vodsl</artifactId>
+         <version>0.3.0-SNAPSHOT</version>
+      </dependency>
+      
+      
+      <dependency>
+         <groupId>org.eclipse.xtext</groupId>
+         <artifactId>org.eclipse.xtext</artifactId>
+         <version>${xtextVersion}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.xtext</groupId>
+         <artifactId>org.eclipse.xtext.xbase</artifactId>
+         <version>${xtextVersion}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.xtext</groupId>
+         <artifactId>org.eclipse.xtext.common.types</artifactId>
+         <version>${xtextVersion}</version>
+         <optional>true</optional>
+      </dependency>
+      <dependency>
+         <groupId>org.eclipse.xtext</groupId>
+         <artifactId>org.eclipse.xtext.xtext.generator</artifactId>
+         <version>${xtextVersion}</version>
+         <optional>true</optional>
       </dependency>
    </dependencies>
    <build>

@@ -1,3 +1,4 @@
 [submodule "models"]
 	path = models
-	url = git@github.com:pahjbo/vodsl-models.git
+	url = git@github.com:ivoa/vodsl-models.git
+	branch = .

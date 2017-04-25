@@ -21,8 +21,10 @@ VoDataModel:
 
 
 ModelDeclaration:
-	'model' name=ID '(' version=VERSION ')' description=STRING? identifier=STRING? ('author' authors+=STRING)*
+	'model' name=ID '(' version=VERSION ')' description=STRING? (identifier =  '<' STRING '>'
+	 )? ('author' authors+=STRING)*
 ;
+
 
 /* avoid terminals here as causes confusion in the LEXing which is greedy see http://www.eclipse.org/forums/index.php/t/263071/ */
 VERSION returns ecore::EString : INT ('.' INT)?;
@@ -63,7 +65,7 @@ ValueType:
  * (not actually referenced from anywhere in the grammar defn, but appear in the VODML specification and make code generation easier).
  */
 
-Role:
+Role returns Role:
 	Attribute | Reference | Composition
 ;
  
@@ -74,7 +76,6 @@ ReferableElement :
 
 /**
  * Definition for a primitive type.
- * TODO not really sure that it captures the subsets idea from VODML really yet...
  */
 PrimitiveType:
    ( abstract?='abstract'? ) 'primitive' name=ID       
@@ -96,6 +97,7 @@ DataType:
     ( constraints += Constraint )*
     
     '{'
+        subsets+= SubSet*
         content+= (Attribute|Reference)*
     '}'
     ;
@@ -106,6 +108,7 @@ ObjectType:
         ( '->' superType=[ObjectType|QualifiedName] )? (description=STRING)?
         ( constraints += Constraint )*
     '{'
+       subsets+= SubSet*
        content+= (Attribute|Reference|Composition)*
     '}'
     ;	
@@ -158,7 +161,7 @@ EnumLiteral:
  * The reference to a ObjectType .
  */
 Reference:
-	 name=ID (multiplicity=Multiplicity )? 'references' referenced=[ObjectType|QualifiedName]  description=STRING ';'
+	 name=ID (multiplicity=Multiplicity )? 'references' type=[ObjectType|QualifiedName]  description=STRING ';'
 ;
 
 /*
@@ -177,5 +180,11 @@ enum ConstraintLanguage:
 ;
 
 SemanticConcept:
-	(subset?='subsets')? 'semantic' (broadestConcept=STRING)? 'in' vocabularyURI=STRING
+	'semantic' (broadestConcept=STRING)? 'in' vocabularyURI=STRING
 ;
+
+SubSet:
+	'subset' ref=[Role|QualifiedName] 'as' type=[DefinitionType|QualifiedName] ';'
+;
+
+

@@ -29,6 +29,7 @@ import java.util.List
 import com.google.inject.Inject
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.naming.IQualifiedNameConverter
+import net.ivoa.vodml.vodsl.SubSet
 
 /**
  * Generates code from your model files on save.
@@ -141,6 +142,9 @@ class VodslGenerator extends AbstractGenerator  {
 	   «FOR f: e.constraints»
 	   	«f.vodml»
 	   «ENDFOR»
+	   «FOR f: e.subsets»
+	   	«f.vodml»
+	   «ENDFOR»	   
 	   «FOR f: e.content.filter(Attribute)»
 	   	«(f as Attribute).vodml»
 	   «ENDFOR»
@@ -183,7 +187,7 @@ class VodslGenerator extends AbstractGenerator  {
    <reference>
      «e.preamble»
      <datatype>
-       «(e.referenced as ReferableElement).ref»
+       «(e.type as ReferableElement).ref»
      </datatype>
      «vodml(e.multiplicity)»
    </reference>
@@ -291,4 +295,14 @@ class VodslGenerator extends AbstractGenerator  {
    </literal>	
 	'''
 	
+	def vodml(SubSet e)'''
+	<constraint xsi:type="vo-dml:SubsettedRole">
+	   <role>
+	      «(e.ref as ReferableElement).ref»
+	   </role>
+	   <datatype>
+	      «(e.type as ReferableElement).ref»
+	   </datatype>
+	</constraint>
+	'''
 }

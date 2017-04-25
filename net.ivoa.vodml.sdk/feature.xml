@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- this feature needs to include the antlr 3 runtime for ease of install, but not depend on it -->
 <feature
-      id="net.ivoa.vodml.sdk"
+      id="net.ivoa.vodsl.feature"
       label="VODSL  Feature"
-      version="0.2.0.20160308"
+      version="0.3.0.qualifier"
       provider-name="JBO, University of Manchester">
 
    <description>
@@ -18,53 +18,22 @@
       <discovery label="latest xtext releases" url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
    </url>
 
-   <requires>
-      <import plugin="org.eclipse.xtext"/>
-      <import plugin="org.eclipse.xtext.xbase"/>
-      <import plugin="org.eclipse.equinox.common" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.xtext.util"/>
-      <import plugin="org.eclipse.xtend.lib"/>
-      <import plugin="org.eclipse.emf.common"/>
-      <import plugin="org.eclipse.xtext.xbase.lib"/>
-      <import plugin="org.apache.log4j"/>
-      <import plugin="org.eclipse.xtext.ui"/>
-      <import plugin="org.eclipse.xtext.ui.shared"/>
-      <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
-      <import plugin="org.eclipse.ui.editors" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.compare"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.xtext.builder"/>
-      <import plugin="org.eclipse.e4.tools.emf.ui"/>
-      <import plugin="org.eclipse.xtext.ide"/>
-      <import plugin="org.eclipse.xtext.xbase.ide"/>
-      <import plugin="org.eclipse.platform" version="4.5.0" match="greaterOrEqual"/>
-   </requires>
-
    <plugin
-         id="net.ivoa.vodml"
+         id="net.ivoa.vodsl"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="net.ivoa.vodml.ui"
+         id="net.ivoa.vodsl.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="net.ivoa.vodml.ide"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.antlr.runtime"
+         id="net.ivoa.vodsl.ide"
          download-size="0"
          install-size="0"
          version="0.0.0"
