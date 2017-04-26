@@ -149,7 +149,7 @@
                   <timestampProvider>jgit</timestampProvider>
                   <jgit.ignore> pom.xml 
                   </jgit.ignore>
-                  <format>'v'yyyyMMdd</format>
+<!--                   <format>'v'yyyyMMdd</format> -->
                   <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree><!-- set to error to prevent build continuing -->
                </configuration>
             </plugin>
