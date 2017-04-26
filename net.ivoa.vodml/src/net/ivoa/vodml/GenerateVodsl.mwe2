@@ -47,6 +47,9 @@ Workflow {
 			scopeProvider ={
 				generateXtendStub = false
 			}
+			codeTemplates = {
+				
+			}
 		}
 	}
 }
