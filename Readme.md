@@ -9,7 +9,8 @@ The aims of the serialization are
  - more constrained and specific than UML
  - focused editors via eclipse [Xtext](https://eclipse.org/Xtext).
  
- Some background information and demonstration of how to use the editor can be found in [this presentation](VODSL_VODML_PAH.pdf)
+ Some background information and demonstration of how to use the editor can be found in [this presentation](VODSL_VODML_PAH.pdf) 
+ and there is a [screencast](https://youtu.be/xzSk413raLY) showing installation and simple use of the editor.
  
 It is possible to use the parser machinery in a stand-alone fashion (i.e. without 
 having to work in eclipse) by using the jar file that is produced in the `vodsl.standalone`
