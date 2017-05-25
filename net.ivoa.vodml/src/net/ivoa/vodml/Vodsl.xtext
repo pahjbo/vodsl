@@ -161,7 +161,7 @@ EnumLiteral:
  * The reference to a ObjectType .
  */
 Reference:
-	 name=ID (multiplicity=Multiplicity )? 'references' type=[ObjectType|QualifiedName]  description=STRING ';'
+	 name=ID (multiplicity=Multiplicity )? 'references' type=[ObjectType| QualifiedName]  description=STRING ';'
 ;
 
 /*

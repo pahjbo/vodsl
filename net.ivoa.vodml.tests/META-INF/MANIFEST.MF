@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: VODSL tests
 Bundle-Vendor: My Company
-Bundle-Version: 0.3.0.20170421
+Bundle-Version: 0.4.0.qualifier
 Bundle-SymbolicName: net.ivoa.vodsl.tests;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: net.ivoa.vodsl,

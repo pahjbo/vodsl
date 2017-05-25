@@ -40,7 +40,7 @@ after installing maven is to run (after building the editor plugin in the top le
 in the `vodsl.standalone/` directory and a jar file will be produced in `target/` which can then
 be run with
 
-    java -jar vodslparser-0.3.0-SNAPSHOT.jar model.vodsl
+    java -jar vodslparser-0.4.0-SNAPSHOT.jar model.vodsl
 
 which will produce a file `model.vo-dml.xml` of the equivalent VO-DML.
  
