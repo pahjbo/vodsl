@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.javastro.vodsl</groupId>
     <artifactId>vodsl.parent</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.4.0-SNAPSHOT</version>
   </parent>
   <artifactId>vodsl.repository</artifactId>
   <name>vodsl eclipse plugin repository</name>
@@ -67,6 +67,7 @@
                   <configuration>
                      <associateSites>
                         <associateSite>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</associateSite>
+                        <associateSite>http://dl.bintray.com/jankoehnlein/FXDiagram</associateSite>
                      </associateSites>
                   </configuration>
                </execution>

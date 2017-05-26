@@ -3,7 +3,7 @@
 <feature
       id="net.ivoa.vodsl.feature"
       label="VODSL  Feature"
-      version="0.3.0.qualifier"
+      version="0.4.0.qualifier"
       provider-name="JBO, University of Manchester">
 
    <description>
@@ -15,9 +15,13 @@
    </copyright>
 
    <url>
-      <!-- this does not seem to be used - set up in category.xml file in repository instead -->
       <discovery label="latest xtext releases" url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
    </url>
+
+   <includes
+         id="org.eclipse.fx.runtime.min.feature"
+         version="0.0.0"
+         search-location="both"/>
 
    <plugin
          id="net.ivoa.vodsl"

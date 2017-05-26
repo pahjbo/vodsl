@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="eclipse.vodsl.target" sequenceNumber="1">
+<?pde version="3.8"?><target name="eclipse.vodsl.target" sequenceNumber="2">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
@@ -19,6 +19,24 @@
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
 <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.11.0/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="de.cau.cs.kieler.kiml.formats" version="0.2.4.201506231527"/>
+<unit id="de.cau.cs.kieler.core.kgraph" version="0.7.2.201506231527"/>
+<unit id="de.fxdiagram.sdk.feature.feature.group" version="0.35.1.201705101730"/>
+<unit id="org.eclipse.xtext.example.fowlerdsl.ui" version="2.8.4.201508041756"/>
+<unit id="de.cau.cs.kieler.core" version="0.14.1.201506231527"/>
+<unit id="de.cau.cs.kieler.kiml.graphviz.dot" version="0.7.1.201612130921"/>
+<unit id="de.cau.cs.kieler.kiml.service" version="0.8.0.201506231527"/>
+<unit id="org.eclipse.xtext.example.domainmodel" version="2.8.4.201508041756"/>
+<unit id="de.cau.cs.kieler.kiml.graphviz.layouter" version="0.7.0.201506231527"/>
+<unit id="de.fxdiagram.sdk.feature.source.feature.group" version="0.35.1.201705101730"/>
+<unit id="org.eclipse.fx.ide.basic.feature.feature.group" version="2.4.0.201605112122"/>
+<unit id="de.fxdiagram.eclipse.examples.feature.feature.group" version="0.35.1.201705101730"/>
+<unit id="org.eclipse.xtext.example.domainmodel.ui" version="2.8.4.201508041756"/>
+<unit id="org.eclipse.xtext.example.fowlerdsl" version="2.8.4.201508041756"/>
+<unit id="de.cau.cs.kieler.kiml" version="0.18.0.201506231527"/>
+<repository location="http://dl.bintray.com/jankoehnlein/FXDiagram"/>
 </location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>

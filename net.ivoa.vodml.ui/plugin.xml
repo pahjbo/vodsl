@@ -392,5 +392,12 @@
             extensions="vodsl">
     </provider>
   </extension>
-
-</plugin>
+  <extension
+        point="de.fxdiagram.mapping.fxDiagramConfig">
+     <config
+           class="net.ivoa.vodml.ui.VodslExecutableExtensionFactory:net.ivoa.vodml.ui.fxdiagram.VodslDiagramConfig"
+           id="net.ivoa.vodml.ui.VODSLDiagramConfig"
+           label="VODSLDiagram">
+     </config>
+  </extension>
+ </plugin>

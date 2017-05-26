@@ -235,9 +235,9 @@ class VodslGenerator extends AbstractGenerator  {
 	
 	def vodml (Multiplicity e)
 	{
-		if (e != null)
+		if (e !== null)
 		{
-			if(e.multiplicitySpec != null)
+			if(e.multiplicitySpec !== null)
 			{
 				switch e.multiplicitySpec {
 					case ATLEASTONE: {
