@@ -64,6 +64,11 @@
                   <goals>
                      <goal>source-feature</goal>
                   </goals>
+                  <configuration>
+                     <excludes>
+                        <feature id="org.eclipse.fx.runtime.min.feature"/>
+                     </excludes>
+                  </configuration>
                </execution>
             </executions>
          </plugin>
@@ -269,6 +274,16 @@
             <enabled>false</enabled>
          </snapshots>
       </repository>
+      <repository>
+        <id>fxdiagram</id>
+        <url>http://dl.bintray.com/jankoehnlein/FXDiagram</url>
+        <releases>
+           <enabled>true</enabled>
+        </releases>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+     </repository>
    </repositories>
    <pluginRepositories>
       <pluginRepository>

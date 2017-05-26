@@ -15,9 +15,13 @@
    </copyright>
 
    <url>
-      <!-- this does not seem to be used - set up in category.xml file in repository instead -->
       <discovery label="latest xtext releases" url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
    </url>
+
+   <includes
+         id="org.eclipse.fx.runtime.min.feature"
+         version="0.0.0"
+         search-location="both"/>
 
    <plugin
          id="net.ivoa.vodsl"

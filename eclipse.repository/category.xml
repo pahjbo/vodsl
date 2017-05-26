@@ -8,6 +8,6 @@
    </feature>
    <category-def name="main" label="VODSL"/>
    <category-def name="main.source" label="VODSL (Sources)"/>
-   <!-- This is currently ignored by Tycho, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=453708 -->
    <repository-reference location="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/" enabled="true" />
+   <repository-reference location="http://dl.bintray.com/jankoehnlein/FXDiagram" enabled="true" />
 </site>
