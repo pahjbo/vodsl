@@ -172,7 +172,7 @@ Reference:
 Constraint:
 	{Constraint}
     '<' (expr=STRING 'as' language=ConstraintLanguage)? (('min=' min=STRING)? & ('max=' max=STRING)? & ('minlen=' minlen=INT)? 
-    & ('maxlen=' maxlen=INT)? & ('len=' len=INT)? & ((unique?='unique' )|(gunique?='unique globally'))?) '>'
+    & ('maxlen=' maxlen=INT)? & ('len=' len=INT)? & ((unique?='unique' ) (gunique?='globally')?)?) '>'
     ;
 
 enum ConstraintLanguage:

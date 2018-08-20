@@ -1,37 +1,35 @@
 package net.ivoa.vodml.ui.fxdiagram
 
+import com.google.inject.Inject
 import de.fxdiagram.eclipse.xtext.mapping.AbstractXtextDiagramConfig
-import de.fxdiagram.mapping.MappingAcceptor
+import de.fxdiagram.mapping.ConnectionLabelMapping
 import de.fxdiagram.mapping.DiagramMapping
-import net.ivoa.vodml.vodsl.ModelDeclaration
-import net.ivoa.vodml.vodsl.PackageDeclaration
-import de.fxdiagram.mapping.NodeMapping
-import de.fxdiagram.mapping.NodeHeadingMapping
-import de.fxdiagram.mapping.shapes.BaseDiagramNode
 import de.fxdiagram.mapping.IMappedElementDescriptor
-import de.fxdiagram.mapping.shapes.BaseContainerNode
+import de.fxdiagram.mapping.MappingAcceptor
+import de.fxdiagram.mapping.NodeHeadingMapping
+import de.fxdiagram.mapping.NodeLabelMapping
+import de.fxdiagram.mapping.NodeMapping
+import java.util.ArrayList
+import java.util.List
+import net.ivoa.vodml.vodsl.Attribute
+import net.ivoa.vodml.vodsl.Composition
+import net.ivoa.vodml.vodsl.DataType
+import net.ivoa.vodml.vodsl.EnumLiteral
+import net.ivoa.vodml.vodsl.Enumeration
+import net.ivoa.vodml.vodsl.Multiplicity
 import net.ivoa.vodml.vodsl.ObjectType
-import de.fxdiagram.mapping.shapes.BaseClassNode
+import net.ivoa.vodml.vodsl.PackageDeclaration
+import net.ivoa.vodml.vodsl.PrimitiveType
+import net.ivoa.vodml.vodsl.Reference
 import net.ivoa.vodml.vodsl.VoDataModel
-
-
-import static de.fxdiagram.mapping.shapes.BaseNode.*
+import org.eclipse.xtext.naming.IQualifiedNameConverter
+import org.eclipse.xtext.naming.IQualifiedNameProvider
 
 import static extension net.ivoa.vodml.ui.fxdiagram.ButtonExtensions.*
 import static extension org.eclipse.xtext.EcoreUtil2.*
-import net.ivoa.vodml.vodsl.DataType
-import de.fxdiagram.mapping.NodeLabelMapping
-import net.ivoa.vodml.vodsl.Attribute
-import net.ivoa.vodml.vodsl.Multiplicity
+import de.fxdiagram.mapping.shapes.BaseDiagramNode
 import de.fxdiagram.mapping.shapes.BaseNode
-import net.ivoa.vodml.vodsl.PrimitiveType
-import org.eclipse.xtext.naming.IQualifiedNameConverter
-import com.google.inject.Inject
-import org.eclipse.xtext.naming.IQualifiedNameProvider
 import net.ivoa.vodml.vodsl.ReferableElement
-import net.ivoa.vodml.vodsl.Composition
-import de.fxdiagram.mapping.ConnectionLabelMapping
-import net.ivoa.vodml.vodsl.Reference
 
 /**
  * Configuration for VODSL FX diagram
@@ -44,30 +42,67 @@ class VodslDiagramConfig extends AbstractXtextDiagramConfig {
     @Inject extension IQualifiedNameProvider	
     @Inject IQualifiedNameConverter converter 
 
+
+    private def <T> List<T> packageRecursiveFilter (Iterable<?> unfiltered, Class<T> type , List<T> acc) {
+    	//IMPL could not see how to make nested iterators work -  so did by accumulating into a list     	
+        acc.addAll(unfiltered.filter(type))	
+        val pkg = unfiltered.filter(PackageDeclaration)
+        if (!pkg.isEmpty)
+            pkg.map[it.elements].forEach[packageRecursiveFilter(type,acc)]          
+        acc
+    }
+    
+    def <T> Iterable<T> packageFilter (Iterable<?> unfiltered, Class<T> type) {
+    	
+    	 
+    	 unfiltered.packageRecursiveFilter(type, new ArrayList<T>())
+    	
+    }
+    
 	val vodslDiagram = new DiagramMapping<VoDataModel>(this, 'vodslDiagram', 'VODSL model') {
+	
+		
+      override calls() {
+			// when adding a model diagram
+			packageNode.nodeForEach[elements.filter(PackageDeclaration)]
+			
+			primitiveNode.nodeForEach[elements.packageFilter(PrimitiveType)]
+			enumNode.nodeForEach[elements.packageFilter(Enumeration)]
+			objectNode.nodeForEach[elements.packageFilter(ObjectType)]
+			dataNode.nodeForEach[elements.packageFilter(DataType)]
+			eagerly(superTypeConnection, dsuperTypeConnection, psuperTypeConnection, compositionConnection, referenceConnection)
+		}
+		
+	}
+	
+	
+    val packageDiagram = new DiagramMapping<PackageDeclaration>(this, 'packageDiagram', 'VODSL package') {
 		override calls() {
 			// when adding a model diagram
-//			packageNode.nodeForEach[elements.filter(PackageDeclaration)]
+			packageNode.nodeForEach[elements.filter(PackageDeclaration)]
 			primitiveNode.nodeForEach[elements.filter(PrimitiveType)]
+			enumNode.nodeForEach[elements.filter(Enumeration)]
 			objectNode.nodeForEach[elements.filter(ObjectType)]
 			dataNode.nodeForEach[elements.filter(DataType)]
 			eagerly(superTypeConnection, dsuperTypeConnection, psuperTypeConnection, compositionConnection, referenceConnection)
 		}
 	}
+	
 
 	val packageNode = new NodeMapping<PackageDeclaration>(this, 'packageNode', 'Package') {
 		override createNode(IMappedElementDescriptor<PackageDeclaration> descriptor) {
-			new BaseContainerNode(descriptor)
+			new BaseDiagramNode(descriptor)
 		}
 
 		override protected calls() {
 			packageNodeName.labelFor[it]
+			packageDiagram.nestedDiagramFor[it].onOpen
 
 		}
 
 	}
 
-	val packageNodeName = new NodeHeadingMapping<PackageDeclaration>(this, BaseContainerNode.NODE_HEADING) {
+	val packageNodeName = new NodeHeadingMapping<PackageDeclaration>(this, BaseDiagramNode.NODE_HEADING) {
 		override getText(PackageDeclaration it) {
 			name; // might want to manipulate slightly
 		}
@@ -75,11 +110,11 @@ class VodslDiagramConfig extends AbstractXtextDiagramConfig {
 
 	val objectNode = new NodeMapping<ObjectType>(this, 'objectNode', 'Object Type') {
 		override createNode(IMappedElementDescriptor<ObjectType> descriptor) {
-			new BaseClassNode(descriptor)
+			new VODMLNode(descriptor)
 		}
 		
 		override protected calls() {
-			objectNodeName.labelFor[it]
+			nodeName.labelFor[it]
 			attribute.labelForEach[content.filter(Attribute)]
 			
 			superTypeConnection.outConnectionFor[if (superType !== null) new SourceTarget(it, it.superType)
@@ -94,19 +129,21 @@ class VodslDiagramConfig extends AbstractXtextDiagramConfig {
 		}
 		
 	}
-
-	val objectNodeName = new NodeHeadingMapping<ObjectType>(this, BaseClassNode.CLASS_NAME) {
-		override getText(ObjectType it) {
+	
+	val nodeName = new NodeHeadingMapping<ReferableElement>(this, VODMLNode.CLASS_NAME) {
+		override getText(ReferableElement it) {
 			name
 		}
 	}
 	
+
 	val dataNode = new NodeMapping<DataType>(this, 'dataNode', 'Data Type') {
 		override createNode(IMappedElementDescriptor<DataType> descriptor) {
-			new BaseClassNode(descriptor)
+			new VODMLNode(descriptor)
 		}
 		override protected calls() {
-			dataNodeName.labelFor[it]
+			nodeName.labelFor[it]
+			dataNodeType.labelFor[it]
 			attribute.labelForEach[content.filter(Attribute)]
 			
 			dsuperTypeConnection.outConnectionFor[if (superType !== null) new SourceTarget(it, it.superType)
@@ -115,12 +152,12 @@ class VodslDiagramConfig extends AbstractXtextDiagramConfig {
 		}
 	}
 	
-	val dataNodeName = new NodeHeadingMapping<DataType>(this, BaseClassNode.CLASS_NAME) {
+	val dataNodeType = new NodeLabelMapping<DataType>(this, VODMLNode.STEREOTYPE) {
 		override getText(DataType it) {
-			'''<<dataType>>
-«name»'''
+			'''<<dataType>>'''
 		}
 	}
+	
 	
 	val primitiveNode = new NodeMapping<PrimitiveType>(this, 'primNode', 'Primitive'){
 		
@@ -144,12 +181,46 @@ class VodslDiagramConfig extends AbstractXtextDiagramConfig {
 		
 	}
 	
+	val enumNode = new NodeMapping<Enumeration>(this, 'enumNode', 'Enumeration'){
+		override createNode(IMappedElementDescriptor<Enumeration> descriptor) {
+			new VODMLNode(descriptor)
+		}
+		
+		override protected calls() {
+			nodeName.labelFor[it]
+			enumNodeType.labelFor[it]
+			enumLiteral.labelForEach[literals]		
+			
+			psuperTypeConnection.outConnectionFor[ if (superType !== null) new SourceTarget(it, it.superType)
+				].asButton[getSupertypeButton("Add supertype")]
+					
+		}
+		
+	}
+	
+	val enumNodeType = new NodeLabelMapping<Enumeration>(this, VODMLNode.STEREOTYPE)
+	{
+		
+		override getText(Enumeration it) {
+			'''<<enumeration>>'''
+		}
+		
+	}
+	
+	
 
-   	val attribute = new NodeLabelMapping<Attribute>(this, BaseClassNode.ATTRIBUTE) {
+   	val attribute = new NodeLabelMapping<Attribute>(this, VODMLNode.ATTRIBUTE) {
 		override getText(Attribute it) {
 			'''«name»: «converter.toString(type.fullyQualifiedName)» «multiplicity?.mrep»''' // might want to make this less qualified
 		}
 	}
+	
+   	val enumLiteral = new NodeLabelMapping<EnumLiteral>(this, VODMLNode.ATTRIBUTE) {
+		override getText(EnumLiteral it) {
+			'''«name»'''
+		}
+	}
+	
    
     def mrep(Multiplicity e)
 	{
@@ -267,6 +338,12 @@ class VodslDiagramConfig extends AbstractXtextDiagramConfig {
 				add(vodslDiagram)
 
 			}
+			
+			PackageDeclaration: {
+				add(packageNode)
+				add(vodslDiagram, [domainArgument.getContainerOfType(VoDataModel)])
+			}
+			
 			ObjectType:{
 				add(objectNode, [domainArgument])
 				add(vodslDiagram, [domainArgument.getContainerOfType(VoDataModel)])
@@ -274,6 +351,10 @@ class VodslDiagramConfig extends AbstractXtextDiagramConfig {
 			
 			DataType:{
 				add(dataNode, [domainArgument])
+				add(vodslDiagram, [domainArgument.getContainerOfType(VoDataModel)])
+			}
+			Enumeration:{
+				add(enumNode, [domainArgument])
 				add(vodslDiagram, [domainArgument.getContainerOfType(VoDataModel)])
 			}
 		

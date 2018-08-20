@@ -50,18 +50,20 @@ class VodslGenerator extends AbstractGenerator  {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val vodecl = resource.allContents.filter(typeof(VoDataModel)).head // surely there must be a better way of getting this one....
 		val modelDecl = vodecl.model
-		val filename = modelDecl.name + '.vo-dml.xml'
+		val filenameFull = resource.URI.lastSegment
+		val filename = filenameFull.substring(0,filenameFull.lastIndexOf('.')) +  '.vo-dml.xml'
 		fsa.generateFile(filename, vodecl.vodml)
 	}
 	
 	
 	def vodml(VoDataModel e)'''
 <?xml version="1.0" encoding="UTF-8"?>
-<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1.0"
+<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1" version="1.0"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1.0 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">	<!-- file generated from VODSL -->
+              xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">	<!-- file generated from VODSL -->
       <name>«e.model.name»</name>
       <description>«e.model.description»</description> 
+      <uri/>
       <title>TBD</title>
       «FOR a:e.model.authors»
         <author>«a»</author>
@@ -79,7 +81,7 @@ class VodslGenerator extends AbstractGenerator  {
 	def vodml(IncludeDeclaration e) '''
 	<import>
 	  <name>tbd</name><!--should be able to work out from the included model -->
-	  <url>«e.importURI»</url>
+	  <url>«e.importURI.substring(0,e.importURI.lastIndexOf('.')) +'.vo-dml.xml'»</url>
 	  <documentationURL>not known</documentationURL>
 	</import>
 	'''

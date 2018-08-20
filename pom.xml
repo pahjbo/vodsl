@@ -7,9 +7,9 @@
    <artifactId>vodsl.parent</artifactId>
    <packaging>pom</packaging>
    <properties>
-      <tycho-version>1.0.0</tycho-version>
-      <tycho-extras-version>1.0.0</tycho-extras-version>
-      <xtextVersion>2.11.0</xtextVersion>
+      <tycho-version>1.2.0</tycho-version>
+      <tycho-extras-version>1.2.0</tycho-extras-version>
+      <xtextVersion>2.14.0</xtextVersion>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>
       <maven.compiler.target>1.8</maven.compiler.target>
@@ -22,6 +22,7 @@
       <module>net.ivoa.vodml.sdk</module>
       <module>eclipse.repository</module>
       <!-- <module>vodsl.standalone</module> -->
+      <!-- <module>javaparser</module> -->
    </modules>
    <build>
       <plugins>
