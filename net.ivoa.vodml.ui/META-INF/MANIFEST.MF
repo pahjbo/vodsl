@@ -21,6 +21,6 @@ Require-Bundle: net.ivoa.vodsl,
  org.eclipse.xtext.builder,
  org.eclipse.xtend.lib;resolution:=optional,
  org.eclipse.xtext.xbase.lib,
- de.fxdiagram.eclipse.xtext;bundle-version="0.35.0"
+ de.fxdiagram.eclipse.xtext;bundle-version="0.36.1"
 Import-Package: org.apache.log4j
 Bundle-ActivationPolicy: lazy

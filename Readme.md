@@ -22,6 +22,18 @@ Prebuilt Plugins
 The VODSL editor feature is available pre-built in an update site at http://astrogrid.jb.man.ac.uk/eclipse/vodsl/ if all you want to do is use the editor rather than develop it.  In this case there is also a [git submodule](./models) which contains some example models expressed in VODSL.
  
 
+Building the plug-in from the command-line
+------------------------------------------
+
+All of the projects have now been converted to use maven tycho and so that all of the 
+editors can be built outside eclipse by running the following in the top level directory. 
+
+    mvn install
+    
+which will produce an installable feature update site in `eclipse.repository/target/repository`.
+
+The plug-in can then be installed in the usual fashion for eclipse by adding the above directory as a "local repository"
+
    
 Using the stand-alone parser
 -------------------------------
@@ -31,7 +43,7 @@ having to work in eclipse) by using the jar file that is produced in the `vodsl.
 sub-directory.
 
 The stand-alone parser is built using [maven](http://maven.apache.org). All that is necessary 
-after installing maven is to run (after building the editor plugin in the top level directory)
+after installing maven is to run (after building the editor plugin in the top level directory as described in the previous section)
 
     mvn install
     
@@ -41,6 +53,7 @@ be run with
     java -jar vodslparser-0.4.0-SNAPSHOT.jar model.vodsl
 
 which will produce a file `model.vo-dml.xml` of the equivalent VO-DML.
+
  
 Developing VODSL 
 ----------------
@@ -68,13 +81,8 @@ The essential steps to modifying this code and creating a plugin build
      by right clicking on the grammar and selecting "generate Xtext Artifacts" from the "Run As" menu.
   3. changing other behaviour of the plug-in in either the [grammar](./net.ivoa.vodml)
      or [editor ui](./net.ivoa.vodml.ui) sub-projects.
-  
-All of the projects have now been converted to use maven tycho and so that all of the 
-editors can be build by running the following in the top level directory. 
 
-    mvn install
-    
-which will produce an installable feature update site in `eclipse.repository/target/repository`
+  
 
 ### Hints
 
