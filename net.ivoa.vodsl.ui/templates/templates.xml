@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- note that this file has had an id element added to each template after the export - see https://www.eclipse.org/forums/index.php/t/452900/-->
+<templates>
+<template autoinsert="true" context="net.ivoa.vodsl.Vodsl.IncludeDeclaration"  deleted="false" description="include base IVOA definitions from github location" enabled="true" name="IVOA include" id="ivoainclude">include "https://github.com/ivoa/vodsl-models/raw/master/IVOA.vodsl"
+</template>
+<template autoinsert="true" context="net.ivoa.vodsl.Vodsl.ModelDeclaration"   deleted="false" description="new model template" enabled="true" name="newmodel" id="newmodel">/*
+ *  created on ${date} 
+ */
+ 
+ model ${cursor} (0.1) "description" author "${user}"</template>
+ </templates>

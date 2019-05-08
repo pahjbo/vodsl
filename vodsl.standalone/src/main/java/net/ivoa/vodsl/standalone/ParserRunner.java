@@ -29,7 +29,7 @@ import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 
-import net.ivoa.vodml.VodslStandaloneSetup;
+import net.ivoa.vodsl.VodslStandaloneSetup;
 
 /**
  * A standalone parser for reading VO-DSL files and converting to VO-DML.

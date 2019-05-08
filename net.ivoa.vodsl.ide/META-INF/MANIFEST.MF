@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VODSL IDE
+Bundle-Vendor: JBO, University of Manchester
+Bundle-Version: 0.4.0.qualifier
+Bundle-SymbolicName: net.ivoa.vodsl.ide;singleton:=true
+Require-Bundle: net.ivoa.vodsl,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: net.ivoa.vodsl.ide.contentassist.antlr,
+ net.ivoa.vodsl.ide.contentassist.antlr.internal
+Bundle-ActivationPolicy: lazy
+

@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VODSL UI
+Bundle-Vendor: JBO,
+  University of Manchester
+Bundle-Version: 0.4.0.qualifier
+Bundle-SymbolicName: net.ivoa.vodsl.ui;singleton:=true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: net.ivoa.vodsl.ui,
+ net.ivoa.vodsl.ui.contentassist,
+ net.ivoa.vodsl.ui.fxdiagram,
+ net.ivoa.vodsl.ui.internal;x-internal:=true,
+ net.ivoa.vodsl.ui.labeling,
+ net.ivoa.vodsl.ui.outline,
+ net.ivoa.vodsl.ui.quickfix,
+ net.ivoa.vodsl.ui.wizard,
+ net.ivoa.vodsl.validation
+Bundle-Activator: net.ivoa.vodsl.ui.internal.VodslActivator
+Require-Bundle: net.ivoa.vodsl,
+ net.ivoa.vodsl.ide,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ org.eclipse.ui.editors;bundle-version="3.5.0",
+ org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.ui,
+ org.eclipse.compare,
+ org.eclipse.xtext.builder,
+ org.eclipse.xtend.lib;bundle-version="2.14.0";resolution:=optional,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ de.fxdiagram.eclipse.xtext;bundle-version="0.36.1"
+Import-Package: org.apache.log4j
+Bundle-ActivationPolicy: lazy

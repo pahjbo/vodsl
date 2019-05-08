@@ -1,0 +1,190 @@
+grammar net.ivoa.vodsl.Vodsl with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate vodsl "http://www.ivoa.net/vodml/Vodsl"
+
+/*
+ * DSL for VODML - Paul Harrison, Apr 2014.
+ */
+
+/**
+ * The root model element, comprised of one optional include section
+ * and the definition of any number of compound types.
+ * 
+ */
+VoDataModel:
+	 model = ModelDeclaration
+	 ( includes += IncludeDeclaration ) *
+    elements += (PackageDeclaration | DefinitionType)+
+    ;
+
+
+ModelDeclaration:
+	'model' name=ID '(' version=VERSION ')' description=STRING? (identifier =  '<' STRING '>'
+	 )? ('author' authors+=STRING)*
+;
+
+
+/* avoid terminals here as causes confusion in the LEXing which is greedy see http://www.eclipse.org/forums/index.php/t/263071/ */
+VERSION returns ecore::EString : INT ('.' INT)?;
+
+IncludeDeclaration:
+	'include' importURI=STRING
+;
+
+
+QualifiedName: //IMPL it can be just dotted for each level at the moment - it is interpreted in the same way as : for the first level
+  (ValidID ':')? ValidID (=>'.' ValidID)*;
+
+QualifiedNameWithWildcard:
+	 QualifiedName '.*'?
+;
+
+ValidID: //IMPL the underlying ID terminal does not allow "." in the name which is legal
+	ID;
+
+   
+DefinitionType: // this is simply Type in VO-DML schema
+	ObjectType | ValueType
+;
+
+ValueType:
+	Enumeration | DataType | PrimitiveType
+;
+   
+   
+/*TODO - just call this package - semantically this is the whole package */
+  PackageDeclaration:
+  'package' name=ID description=STRING? '{'
+    elements+=(PackageDeclaration | DefinitionType)+
+  '}';
+
+/**
+ * Convenience meta types.
+ * (not actually referenced from anywhere in the grammar defn, but appear in the VODML specification and make code generation easier).
+ */
+
+Role returns Role:
+	Attribute | Reference | Composition
+;
+ 
+ReferableElement :
+	PackageDeclaration | DefinitionType | EnumLiteral |  Role
+; 
+
+
+/**
+ * Definition for a primitive type.
+ */
+PrimitiveType:
+   ( abstract?='abstract'? ) 'primitive' name=ID       
+            ( '->' superType=[PrimitiveType|QualifiedName] )?
+            description = STRING
+            ( constraints += Constraint )* 
+            
+    ;
+
+
+/**
+ * Definition of a data type complete with its constituent fields,
+ * constraints
+ */
+DataType:
+    ( abstract?='abstract'? ) 'dtype' name=ID 
+    ( '->' superType=[DataType|QualifiedName] )? 
+    (description=STRING)?
+    ( constraints += Constraint )*
+    
+    '{'
+        subsets+= SubSet*
+        content+= (Attribute|Reference)*
+    '}'
+    ;
+
+    
+ObjectType:
+    ( abstract?='abstract'? ) 'otype' name=ID
+        ( '->' superType=[ObjectType|QualifiedName] )? (description=STRING)?
+        ( constraints += Constraint )*
+    '{'
+       subsets+= SubSet*
+       content+= (Attribute|Reference|Composition)*
+    '}'
+    ;	
+
+/*
+ * composition/referencing.
+ * 
+ */
+Attribute :
+    name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )?  description=STRING ((semanticConcept=SemanticConcept)? & ( constraints += Constraint )* )';'
+    ;
+
+Composition :
+    name=ID ':' type=[ObjectType|QualifiedName] (multiplicity=Multiplicity )? 'as' (ordered?='ordered')? 'composition'  description=STRING ((semanticConcept=SemanticConcept)? & ( constraints += Constraint )* )';'
+    ;
+
+
+/*
+ * the @ is not really necessary from a parsing/grammar point of view - just put in to make it stand out in the text
+ * when not present it is assumed that the multiplicity is @[1..1]
+ */
+Multiplicity :
+	'@' ( ('[' (minOccurs=INT) ('..' maxOccurs=SINT)? ']' ) | ( multiplicitySpec = MultiplicityBound ) )
+;
+		
+/* need this because of problems with the terminal INT rule in different contexts  FIXME - still having problems with @[2..-1] */		
+SINT returns ecore::EInt : '-'? INT ;
+  
+/*shortcut representation of common multiplicities - the ONE is a bit ugly - but first is the what will get bound to multiplicitySpec by default */
+enum MultiplicityBound :
+	ONE | MANY='*' | OPTIONAL='?' | ATLEASTONE='+' ;
+
+
+Enumeration:
+    ( abstract?='abstract'? ) 'enum' name=ID 
+    ( '->' superType=[Enumeration|QualifiedName] )? 
+    (description=STRING)?
+    ( constraints += Constraint )*    
+    '{'
+        literals += EnumLiteral (',' literals += EnumLiteral) *
+    '}'
+    ;
+
+EnumLiteral:
+    name=ID (description=STRING)?
+    ;
+
+
+/*
+ * The reference to a ObjectType .
+ */
+Reference:
+	 name=ID (multiplicity=Multiplicity )? 'references' type=[ObjectType| QualifiedName]  description=STRING ';'
+;
+
+/*
+ * The constraint is just the same as the XML definition - TODO min/max datatypes are not well specified any longer in VODML - they are all strings 
+ * 
+ * perhaps could have constraints expressions that were more like traditional logical expressions
+ */
+Constraint:
+	{Constraint}
+    '<' (expr=STRING 'as' language=ConstraintLanguage)? (('min=' min=STRING)? & ('max=' max=STRING)? & ('minlen=' minlen=INT)? 
+    & ('maxlen=' maxlen=INT)? & ('len=' len=INT)? & ((unique?='unique' ) (gunique?='globally')?)?) '>'
+    ;
+
+enum ConstraintLanguage:
+    XSD | Java | OCL | Natural
+;
+
+SemanticConcept:
+	'semantic' (broadestConcept=STRING)? 'in' vocabularyURI=STRING
+;
+
+SubSet:
+	'subset' ref=[Role|QualifiedName] 'as' type=[DefinitionType|QualifiedName] ';'
+;
+
+
