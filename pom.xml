@@ -9,20 +9,22 @@
    <properties>
       <tycho-version>1.2.0</tycho-version>
       <tycho-extras-version>1.2.0</tycho-extras-version>
-      <xtextVersion>2.14.0</xtextVersion>
+      <xtextVersion>2.16.0</xtextVersion>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>
       <maven.compiler.target>1.8</maven.compiler.target>
    </properties>
    <modules>
       <module>net.ivoa.vodml</module>
-      <module>net.ivoa.vodml.ui</module>
-      <module>net.ivoa.vodml.ide</module>
       <module>eclipse.target</module>
+      <module>vodsl.standalone</module>
+<!--
+      <module>net.ivoa.vodml.ide</module>
+      <module>net.ivoa.vodml.ui</module>
       <module>net.ivoa.vodml.sdk</module>
       <module>eclipse.repository</module>
-      <!-- <module>vodsl.standalone</module> -->
-      <!-- <module>javaparser</module> -->
+      <module>javaparser</module>
+-->
    </modules>
    <build>
       <plugins>
