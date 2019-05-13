@@ -255,7 +255,7 @@ class VodslGenerator extends AbstractGenerator  {
 					{
 						if(e.minOccurs != 0)
 						{
-							vodml(e.minOccurs, e.maxOccurs)
+							vodml(e.minOccurs, e.minOccurs)
 						}
 						else
 						{
