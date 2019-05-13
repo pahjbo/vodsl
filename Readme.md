@@ -25,7 +25,7 @@ The VODSL editor feature is available pre-built in an update site at http://astr
 Building the plug-in from the command-line
 ------------------------------------------
 
-All of the projects have now been converted to use [maven](http://maven.apache.org) [tycho](https://www.eclipse.org/tycho/) and so that  the 
+All of the projects have now been converted to use [maven](http://maven.apache.org) [tycho](https://www.eclipse.org/tycho/)  so that  the 
 editors can be built outside eclipse by running the following in the top level directory. 
 
     mvn install
