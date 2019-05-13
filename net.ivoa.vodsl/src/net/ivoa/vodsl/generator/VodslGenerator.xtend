@@ -3,6 +3,7 @@
  */
 package net.ivoa.vodsl.generator
 
+
 import org.eclipse.emf.ecore.resource.Resource
 import net.ivoa.vodsl.vodsl.IncludeDeclaration
 import net.ivoa.vodsl.vodsl.PackageDeclaration
@@ -42,6 +43,8 @@ class VodslGenerator extends AbstractGenerator  {
     @Inject IQualifiedNameConverter converter 
 	 static val TimeZone tz = TimeZone.getTimeZone("UTC")
     static val DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+    var Date modDate
+    
     new()
     {
     	df.setTimeZone(tz)
@@ -50,8 +53,9 @@ class VodslGenerator extends AbstractGenerator  {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val vodecl = resource.allContents.filter(typeof(VoDataModel)).head // surely there must be a better way of getting this one....
 		val modelDecl = vodecl.model
-		val filenameFull = resource.URI.lastSegment
-		val filename = filenameFull.substring(0,filenameFull.lastIndexOf('.')) +  '.vo-dml.xml'
+		val filenameOnly = resource.URI.lastSegment		
+		modDate = new Date(resource.timeStamp)
+		val filename = filenameOnly.substring(0,filenameOnly.lastIndexOf('.')) +  '.vo-dml.xml'
 		fsa.generateFile(filename, vodecl.vodml)
 	}
 	
@@ -69,7 +73,7 @@ class VodslGenerator extends AbstractGenerator  {
         <author>«a»</author>
       «ENDFOR»
       <version>«e.model.version»</version>
-      <lastModified>«df.format(new Date())»</lastModified>
+      <lastModified>«df.format(modDate)»</lastModified>
       «FOR f:e.includes»
       	«f.vodml»
       «ENDFOR» 
