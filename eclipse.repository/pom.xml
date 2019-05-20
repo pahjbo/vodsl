@@ -58,7 +58,7 @@
          <plugin>
             <groupId>org.jboss.tools.tycho-plugins</groupId>
             <artifactId>repository-utils</artifactId>
-            <version>0.26.0</version>
+            <version>1.0.0</version>
             <executions>
                <execution>
                   <phase>package</phase>
@@ -112,5 +112,19 @@
          </plugins>
       </pluginManagement>
    </build>
+   
+   <!-- only needed to pick up workaround plugin -->
+    <pluginRepositories>
+    <pluginRepository>
+        <id>spring</id>
+        <url>http://repo.spring.io/plugins-release/</url>
+        <releases>
+           <enabled>true</enabled>
+        </releases>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+    </pluginRepository>
+   </pluginRepositories>
    
 </project>
