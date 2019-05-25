@@ -55,6 +55,9 @@ be run with
 
 which will produce a file `model.vo-dml.xml` of the equivalent VO-DML.
 
+This jar (only) is also published to maven central if you do not want to have to build it.
+
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.javastro.vodsl/vodslparser/)
  
 Developing VODSL 
 ----------------
@@ -85,6 +88,13 @@ The essential steps to modifying this code and creating a plugin build
 
 
 ## new release
+
+### updating the version
+
+see https://stackoverflow.com/questions/27857153/how-do-i-create-an-eclipse-plugin-release-using-maven-and-tycho
+
+    mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion="0.4.0"
+    mvn org.eclipse.tycho:tycho-versions-plugin:update-eclipse-metadata
 
 ### Hints
 

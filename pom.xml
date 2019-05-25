@@ -3,10 +3,11 @@
 >
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.javastro.vodsl</groupId>
-   <version>0.4.0-SNAPSHOT</version>
+   <version>0.4.0</version>
    <artifactId>vodsl.parent</artifactId>
    <packaging>pom</packaging>
    <properties>
+      <vodsl.version>0.4.0</vodsl.version>
       <xtextVersion>2.17.1</xtextVersion>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>
@@ -335,8 +336,137 @@
          </snapshots>
       </pluginRepository>
    </pluginRepositories>
+   
+      <developers>
+      <developer>
+         <id>pah</id>
+         <name>Paul Harrison</name>
+         <email>paul.harrison@manchester.ac.uk</email>
+         <organization>Manchester University, JBCA</organization>
+         <organizationUrl>http://www.jb.man.ac.uk/</organizationUrl>
+         <roles>
+            <role>Developer</role>
+            <role>Admin</role>
+         </roles>
+      </developer>
+   </developers>
+   <organization>
+      <name>JBCA, University of Manchester</name>
+      <url>http://www.jb.man.ac.uk/</url>
+   </organization>
+   <licenses>
+      <license>
+         <url>https://www.gnu.org/licenses/agpl-3.0.html</url>
+         <name>AGPL-3.0</name>
+      </license>
+   </licenses>
+   <scm>
+      <url>https://github.com/pahjbo/vodsl</url>
+      <connection>scm:git:git://github.com/pahjbo/vodsl.git</connection>
+      <developerConnection>scm:git:git@github.com:pahjbo/vodsl.git</developerConnection>
+   </scm>
+   <issueManagement>
+      <url>https://github.com/pahjbo/vodsl/issues</url>
+   </issueManagement>
+   <distributionManagement>
+      <snapshotRepository>
+         <id>ossrh</id>
+         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      </snapshotRepository>
+   </distributionManagement>
    <profiles>
-		<profile>
+      <profile>
+         <id>release</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-javadoc-plugin</artifactId>
+                  <version>3.1.0</version>
+                  <executions>
+                     <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                           <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                           <additionalparam>-Xdoclint:none</additionalparam>
+                           <failOnError>false</failOnError>
+                           <!-- 
+                              Javadoc 8 became much more strict by default - switch this off -->
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-gpg-plugin</artifactId>
+                  <version>1.6</version>
+                  <executions>
+                     <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                           <goal>sign</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-source-plugin</artifactId>
+                  <version>3.1.0</version>
+                  <executions>
+                     <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                           <goal>jar-no-fork</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>org.sonatype.plugins</groupId>
+                  <artifactId>nexus-staging-maven-plugin</artifactId>
+                  <version>1.6.8</version>
+                  <extensions>true</extensions>
+                  <configuration>
+                     <serverId>ossrh</serverId>
+                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                  </configuration>
+               </plugin>
+			   <plugin>
+			      <groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>
+				</plugin>
+               
+<!-- not yet
+               <plugin>
+                  <groupId>com.github.github</groupId>
+                  <artifactId>site-maven-plugin</artifactId>
+                  <version>0.12</version>
+                  <configuration>
+                     <message>Building site for ${project.version}</message>
+                  </configuration>
+                  <executions>
+                     <execution>
+                        <goals>
+                           <goal>site</goal>
+                        </goals>
+                        <phase>site-deploy</phase>
+                        <configuration>
+                           <merge>true</merge>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+ -->
+            </plugins>
+         </build>
+    </profile>
+  	<profile>
 			<id>macos</id>
 			<activation>
 				<os>

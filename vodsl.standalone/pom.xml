@@ -1,12 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 >
+<!-- https://central.sonatype.org/pages/apache-maven.html for publishing to central -->
    <modelVersion>4.0.0</modelVersion>
    <parent>
       <groupId>org.javastro.vodsl</groupId>
       <artifactId>vodsl.parent</artifactId>
-      <version>0.4.0-SNAPSHOT</version>
-      
+      <version>0.4.0</version>
+      <relativePath>../pom.xml</relativePath>
    </parent>
    <artifactId>vodslparser</artifactId>
    <name>VO-DSL parser</name>
@@ -14,8 +15,8 @@
    <dependencies>
       <dependency>
          <groupId>org.javastro.vodsl</groupId>
-      	<artifactId>net.ivoa.vodsl</artifactId>
-         <version>0.4.0-SNAPSHOT</version>
+      	 <artifactId>net.ivoa.vodsl</artifactId>
+         <version>${vodsl.version}</version>
       </dependency>
       
       
@@ -84,4 +85,5 @@
          </plugin>
       </plugins>
    </build>
+   
 </project>
