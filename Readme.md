@@ -57,7 +57,8 @@ which will produce a file `model.vo-dml.xml` of the equivalent VO-DML.
 
 This jar (only) is also published to maven central if you do not want to have to build it.
 
-![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.javastro.vodsl/vodslparser/)
+[![Maven Central](https://img.shields.io/maven-central/v/org.javastro.vodsl/vodslparser.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.javastro.vodsl%22%20AND%20a:%22vodslparser%22)
+
  
 Developing VODSL 
 ----------------
