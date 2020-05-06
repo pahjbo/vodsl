@@ -31,7 +31,6 @@
 	<!--       <module>net.ivoa.vodsl.ui.tests</module> -->
       
       <!-- <module>vodsl.standalone</module> -->
-      <!-- <module>javaparser</module> -->
    </modules>
    <build>
       <plugins>

@@ -1,6 +1,9 @@
 A DSL for VODML
 ===============
 
+[![Build Status](https://travis-ci.org/pahjbo/vodsl.svg?branch=master)](https://travis-ci.org/pahjbo/vodsl)
+
+
 This directory contains a proposal (still a work in progress) for a domain specific language serialization 
 for the [VODML](http://www.ivoa.net/documents/VODML) called VODSL. 
 The aims of the serialization are
