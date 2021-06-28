@@ -1,8 +1,6 @@
 A DSL for VODML
 ===============
 
-[![Build Status](https://travis-ci.org/pahjbo/vodsl.svg?branch=master)](https://travis-ci.org/pahjbo/vodsl)
-
 
 This directory contains a proposal (still a work in progress) for a domain specific language serialization 
 for the [VODML](http://www.ivoa.net/documents/VODML) called VODSL. 
@@ -19,10 +17,12 @@ The aims of the serialization are
  
 In addition to be able to use some of the features of the graphical visualization via [FXDiagram](http://jankoehnlein.github.io/FXDiagram/) it is worth looking at the introductory video on that site.
 
-Prebuilt Plugins
+Pre-built Plugins
 -----------------
 
-The VODSL editor feature is available pre-built in an update site at http://astrogrid.jb.man.ac.uk/eclipse/vodsl/ if all you want to do is use the editor rather than develop it.  In this case there is also a [git submodule](./models) which contains some example models expressed in VODSL.
+The VODSL editor feature is available pre-built in an update site at http://astrogrid.jb.man.ac.uk/eclipse/vodsl/ if all you want to do is use the editor rather than develop it. 
+
+In this case there is also a [git submodule](./models) which contains some example models expressed in VODSL.
  
 
 Building the plug-in from the command-line
@@ -66,21 +66,21 @@ This jar (only) is also published to maven central if you do not want to have to
 Developing VODSL 
 ----------------
 
+[![Build Status](https://travis-ci.org/pahjbo/vodsl.svg?branch=master)](https://travis-ci.org/pahjbo/vodsl)
+
 There are tutorials and reference documents to guide development on the 
 [Xtext site](https://eclipse.org/Xtext/documentation/102_domainmodelwalkthrough.html)
 
 The content of the various subdirectories is as follows;
 
  1. net.ivoa.vodsl - an eclipse project for the XText grammar for the DSL
- 2. net.ivoa.vodsl.sdk - eclipse feature defintion the VODSL editor
+ 2. net.ivoa.vodsl.sdk - eclipse feature definition the VODSL editor
  3. net.ivoa.vodsl.tests - tests for the VODSL
  4. net.ivoa.vodsl.ui - eclipse custom editor for the VODSL
  5. vodsl.standalone - a stand-alone validating parser that will convert VODSL files to VO-DML
  6. eclipse.target - a directory that defines the target eclipse installation
  7. eclipse.repository - the installable VODSL editor feature update site will be created in this directory.
  
-
-
 
 The essential steps to modifying this code and creating a plugin build
 
@@ -107,6 +107,14 @@ see https://stackoverflow.com/questions/27857153/how-do-i-create-an-eclipse-plug
    with the minimally configured eclipse platform it is necessary to add
    "Eclipse UI IDE Application" to the list of automatically added plugin dependencies.
    and "Views Log"
+
+#£ fxdiagram EOL
+
+fxdiagram is not being developed any more, and along with the death of bintray, and java 9+ modularisation there are several consequences;
+
+* will only run/build on jdk 1.8 max -> eclipse 2020-06 is also the last platform that will work.
+* need local build of fxdiagram to create a local p2 repository
+* need https://github.com/itemis/xtext-reference-projects/pull/186
    
  
 Known issues with the Eclipse editor
@@ -122,5 +130,6 @@ Known issues with the Eclipse editor
   - the "unique composition" rule, where an object type cannot be the target of 
       two compositions.
 * the FXDiagram implementation has some quirks that sometimes require shutting down the view and reopening to stop the strange behaviour.
+
 
     

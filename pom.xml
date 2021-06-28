@@ -8,12 +8,12 @@
    <packaging>pom</packaging>
    <properties>
       <vodsl.version>0.4.1-SNAPSHOT</vodsl.version>
-      <xtextVersion>2.17.1</xtextVersion>
+      <xtextVersion>2.22.0</xtextVersion>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>
       <maven.compiler.target>1.8</maven.compiler.target>
-      <tycho-version>1.3.0</tycho-version>
-      <tycho-extras-version>1.3.0</tycho-extras-version>
+      <tycho-version>1.7.0</tycho-version>
+      <tycho-extras-version>1.7.0</tycho-extras-version>
 		<!-- Define overridable properties for tycho-surefire-plugin -->
 		<platformSystemProperties></platformSystemProperties>
 		<moduleProperties></moduleProperties>
@@ -152,10 +152,9 @@
                </dependencies>
                <configuration>
                   <timestampProvider>jgit</timestampProvider>
-                  <jgit.ignore> pom.xml 
-                  </jgit.ignore>
+                  <jgit.ignore>pom.xml</jgit.ignore>
 <!--                   <format>'v'yyyyMMdd</format> -->
-                  <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree><!-- set to error to prevent build continuing -->
+                  <jgit.dirtyWorkingTree>ignore</jgit.dirtyWorkingTree><!-- set to error to prevent build continuing -->
                </configuration>
             </plugin>
             <plugin>
@@ -300,7 +299,22 @@
       </pluginManagement>
    </build>
    <repositories>
+       <repository>
+         <id>eclipse-2020-06</id>
+         <url>https://download.eclipse.org/releases/2020-06</url>
+         <layout>p2</layout>
+      </repository>
       <repository>
+        <id>fxdiagram</id>
+        <url>https://dl.bintray.com/jankoehnlein/FXDiagram</url>
+        <releases>
+           <enabled>false</enabled> <!--bintray does not exist any more - need local build  -->
+        </releases>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+     </repository>
+     <repository>
          <id>codehaus-snapshots</id>
          <name>disable dead 'Codehaus Snapshots' repository, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=481478</name>
          <url>http://nexus.codehaus.org/snapshots/</url>
@@ -310,18 +324,7 @@
          <snapshots>
             <enabled>false</enabled>
          </snapshots>
-      </repository>
-      <repository>
-        <id>fxdiagram</id>
-        <url>http://dl.bintray.com/jankoehnlein/FXDiagram</url>
-        <releases>
-           <enabled>true</enabled>
-        </releases>
-        <snapshots>
-          <enabled>false</enabled>
-        </snapshots>
-     </repository>
-   </repositories>
+      </repository>   </repositories>
    <pluginRepositories>
       <pluginRepository>
          <id>codehaus-snapshots</id>

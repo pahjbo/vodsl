@@ -22,6 +22,14 @@
    
    <plugins>
       <plugin>
+         <groupId>org.eclipse.tycho</groupId>
+         <artifactId>tycho-p2-repository-plugin</artifactId>
+         <version>${tycho-version}</version>
+         <configuration>
+            <includeAllDependencies>false</includeAllDependencies>
+         </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.8</version>
         <executions>
@@ -58,7 +66,7 @@
          <plugin>
             <groupId>org.jboss.tools.tycho-plugins</groupId>
             <artifactId>repository-utils</artifactId>
-            <version>1.0.0</version>
+            <version>1.7.0</version>
             <executions>
                <execution>
                   <phase>package</phase>
@@ -68,7 +76,8 @@
                   <configuration>
                      <associateSites>
                         <associateSite>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</associateSite>
-                        <associateSite>http://dl.bintray.com/jankoehnlein/FXDiagram</associateSite>
+                        <associateSite>http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02</associateSite>
+                        <associateSite>http://emcc.ast.man.ac.uk/doc/eclipse/fxdiagram</associateSite>
                      </associateSites>
                   </configuration>
                </execution>
@@ -117,9 +126,10 @@
     <pluginRepositories>
     <pluginRepository>
         <id>spring</id>
-        <url>http://repo.spring.io/plugins-release/</url>
+        <url>https://repository.jboss.org/</url>
         <releases>
            <enabled>true</enabled>
+           <updatePolicy>always</updatePolicy>
         </releases>
         <snapshots>
           <enabled>false</enabled>
