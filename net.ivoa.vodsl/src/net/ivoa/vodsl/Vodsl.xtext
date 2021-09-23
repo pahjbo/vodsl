@@ -118,7 +118,7 @@ ObjectType:
  * 
  */
 Attribute :
-    name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )?  description=STRING ((semanticConcept=SemanticConcept)? & ( constraints += Constraint )* )';'
+    name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )? (key=NaturalKey)? description=STRING ((semanticConcept=SemanticConcept)? & ( constraints += Constraint )* )';'
     ;
 
 Composition :
@@ -165,18 +165,17 @@ Reference:
 ;
 
 /*
- * The constraint is just the same as the XML definition - TODO min/max datatypes are not well specified any longer in VODML - they are all strings 
+ * The constraint is just the same as the XML definition 
  * 
  * perhaps could have constraints expressions that were more like traditional logical expressions
  */
 Constraint:
 	{Constraint}
-    '<' (expr=STRING 'as' language=ConstraintLanguage)? (('min=' min=STRING)? & ('max=' max=STRING)? & ('minlen=' minlen=INT)? 
-    & ('maxlen=' maxlen=INT)? & ('len=' len=INT)? & ((unique?='unique' ) (gunique?='globally')?)?) '>'
+    '<' expr=STRING ('as' language=ConstraintLanguage)? '>'
     ;
 
 enum ConstraintLanguage:
-    XSD | Java | OCL | Natural
+    Natural | Regex | OCL 
 ;
 
 SemanticConcept:
@@ -187,4 +186,6 @@ SubSet:
 	'subset' ref=[Role|QualifiedName] 'as' type=[DefinitionType|QualifiedName] ';'
 ;
 
-
+NaturalKey:
+     {NaturalKey} 'iskey' ('ofRank' position=INT)?
+;

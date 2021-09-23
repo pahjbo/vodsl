@@ -3,11 +3,11 @@
 >
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.javastro.vodsl</groupId>
-   <version>0.4.1-SNAPSHOT</version>
+   <version>0.4.2-SNAPSHOT</version>
    <artifactId>vodsl.parent</artifactId>
    <packaging>pom</packaging>
    <properties>
-      <vodsl.version>0.4.1-SNAPSHOT</vodsl.version>
+      <vodsl.version>0.4.2-SNAPSHOT</vodsl.version>
       <xtextVersion>2.22.0</xtextVersion>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>

@@ -31,6 +31,8 @@ import com.google.inject.Inject
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.naming.IQualifiedNameConverter
 import net.ivoa.vodsl.vodsl.SubSet
+import net.ivoa.vodsl.vodsl.NaturalKey
+import net.ivoa.vodsl.vodsl.SemanticConcept
 
 /**
  * Generates code from your model files on save.
@@ -60,11 +62,13 @@ class VodslGenerator extends AbstractGenerator  {
 	}
 	
 	
-	def vodml(VoDataModel e)'''
+	def vodml(VoDataModel e){
+	'''
 <?xml version="1.0" encoding="UTF-8"?>
-<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1" version="1.0"
+<vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1" 
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1 http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd">	<!-- file generated from VODSL -->
+              xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1 https://www.ivoa.net/xml/VODML/vo-dml-v1.xsd" 
+              vodmlVersion="1.1">	<!-- file generated from VODSL - needs validatate against v1.1 of schema  --> 
       <name>«e.model.name»</name>
       <description>«e.model.description»</description> 
       <uri/>
@@ -80,11 +84,11 @@ class VodslGenerator extends AbstractGenerator  {
       «e.elements.vodml»
 </vo-dml:model>
 	'''
-	
+	}
 	
 	def vodml(IncludeDeclaration e) '''
 	<import>
-	  <name>tbd</name><!--should be able to work out from the included model -->
+	  <name>null</name><!--should not be needed in modern vo-dml -->
 	  <url>«e.importURI.substring(0,e.importURI.lastIndexOf('.')) +'.vo-dml.xml'»</url>
 	  <documentationURL>not known</documentationURL>
 	</import>
@@ -140,7 +144,7 @@ class VodslGenerator extends AbstractGenerator  {
 	def vodml (ObjectType e)'''
 	<objectType«IF e.abstract» abstract='true'«ENDIF»>
 	   «e.preamble»
-	   «IF e.superType != null»
+	   «IF e.superType !== null»
 	   <extends>
 	      «(e.superType as ReferableElement).ref»
 	   </extends>
@@ -169,6 +173,12 @@ class VodslGenerator extends AbstractGenerator  {
 	     «(e.type as ReferableElement).ref»
 	  </datatype>
 	  «vodml(e.multiplicity)»
+	  «IF e.semanticConcept !== null»
+	  «e.semanticConcept.vodml»
+	  «ENDIF»
+	  «IF e.key !== null»
+	  «e.key.vodml»
+	  «ENDIF»
 	</attribute>
 	'''
 	
@@ -199,12 +209,13 @@ class VodslGenerator extends AbstractGenerator  {
    </reference>
    '''
    
-// FIXME this is not really doing correct thing for attributes yet...
+// FIXME this is not really doing correct thing for attributes yet... - but probably needs a VODML schema change to allow multiple constraints....
+// TODO should really worry about CDATA end occurring in the exp https://stackoverflow.com/questions/223652/is-there-a-way-to-escape-a-cdata-end-token-in-xml/223782#223782
    def vodml(Constraint e)'''
    <constraint>
-      «IF e.expr != null»
-        <expression>«e.expr»</expression>
-        <language>«e.language»</language>
+      «IF e.expr !== null»
+        <description><![CDATA[«e.expr»]]></description>
+        <!-- <language>«e.language»</language> -->
       «ENDIF»
    </constraint>
    '''
@@ -222,7 +233,7 @@ class VodslGenerator extends AbstractGenerator  {
 	'''
 	<dataType«IF e.abstract» abstract='true'«ENDIF»>
 	  «e.preamble»
-	   «IF e.superType != null»
+	   «IF e.superType !== null»
 	   <extends>
 	      «(e.superType as ReferableElement).ref»
 	   </extends>
@@ -310,5 +321,22 @@ class VodslGenerator extends AbstractGenerator  {
 	      «(e.type as ReferableElement).ref»
 	   </datatype>
 	</constraint>
+	'''
+	
+	def vodml(NaturalKey e)'''
+    <constraint xsi:type="vo-dml:NaturalKey">
+    	<position>« if( e.position <1) 1 else e.position»</position>
+    </constraint>
+	'''
+	
+	def vodml(SemanticConcept e)'''
+	<semanticconcept>
+	  «IF e.broadestConcept !== null»
+	    <topConcept>«e.broadestConcept»</topConcept>
+	  «ENDIF»
+	  «IF e.vocabularyURI !== null»
+	    <vocabularyURI>«e.vocabularyURI»</vocabularyURI>
+	  «ENDIF»
+	</semanticconcept>
 	'''
 }

@@ -66,32 +66,34 @@ public class VodslScopeProvider extends AbstractVodslScopeProvider {
                 }
             });
             return filteredScope;
+            
 
         } else if (context instanceof SubSet && reference == VodslPackage.Literals.SUB_SET__TYPE) {
             
-            EObject ref = (EObject) context.eGet(context.eClass().getEStructuralFeature("ref"));
-            EObject refType = (EObject) ref.eGet(ref.eClass().getEStructuralFeature("type"));
-            
-            VoDataModel root = EcoreUtil2.getContainerOfType(context, VoDataModel.class);
-            final List<? extends EObject> types = EcoreUtil2.getAllContentsOfType(root, refType.getClass());
-            if(refType instanceof PrimitiveType)
-            {
-                types.clear(); // primitive type cannot be extended
-            }
-            Iterator<? extends EObject> iter = types.iterator();
-            while (iter.hasNext()) {
-                EObject eObject = (EObject) iter.next();
-                if(!isSubType(eObject, refType))
-                {
-                    iter.remove();
-                }
-            }
-            IScope filteredScope = new FilteringScope(existingScope, new Predicate<IEObjectDescription>() {
-                public boolean apply(IEObjectDescription input) {
-                   return types.contains(input.getEObjectOrProxy());
-                }
-            });
-            return filteredScope;
+             EObject ref = (EObject) context.eGet(context.eClass().getEStructuralFeature("ref"));
+             EStructuralFeature sf = ref.eClass().getEStructuralFeature("type");
+             
+            if (sf != null) {
+				EObject refType = (EObject) ref.eGet(sf);
+				VoDataModel root = EcoreUtil2.getContainerOfType(context, VoDataModel.class);
+				final List<? extends EObject> types = EcoreUtil2.getAllContentsOfType(root, refType.getClass());
+				if (refType instanceof PrimitiveType) {
+					types.clear(); // primitive type cannot be extended
+				}
+				Iterator<? extends EObject> iter = types.iterator();
+				while (iter.hasNext()) {
+					EObject eObject = (EObject) iter.next();
+					if (!isSubType(eObject, refType)) {
+						iter.remove();
+					}
+				}
+				IScope filteredScope = new FilteringScope(existingScope, new Predicate<IEObjectDescription>() {
+					public boolean apply(IEObjectDescription input) {
+						return types.contains(input.getEObjectOrProxy());
+					}
+				});
+				return filteredScope;
+			}
 
         }
         return existingScope;

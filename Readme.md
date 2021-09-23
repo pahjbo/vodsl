@@ -112,7 +112,7 @@ see https://stackoverflow.com/questions/27857153/how-do-i-create-an-eclipse-plug
 
 fxdiagram is not being developed any more, and along with the death of bintray, and java 9+ modularisation there are several consequences;
 
-* will only run/build on jdk 1.8 max -> eclipse 2020-06 is also the last platform that will work.
+* will only run/build on jdk 1.8 max -> eclipse 2020-06 is also the last platform that will work. (note also that MacOS 10.15 - catalina - is the last version that JDK 1.8 runs without graphics errors)
 * need local build of fxdiagram to create a local p2 repository
 * need https://github.com/itemis/xtext-reference-projects/pull/186
    
