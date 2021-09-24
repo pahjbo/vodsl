@@ -22,6 +22,8 @@ Pre-built Plugins
 
 The VODSL editor feature is available pre-built in an update site at http://astrogrid.jb.man.ac.uk/eclipse/vodsl/ if all you want to do is use the editor rather than develop it. 
 
+The [VODSLEditor.setup](./VODSLEditor.setup) file can be read into the eclipse installer in advanced mode as a user product to create a minimal customized eclipse installation that just contains the vodsl editor.
+
 In this case there is also a [git submodule](./models) which contains some example models expressed in VODSL.
  
 
