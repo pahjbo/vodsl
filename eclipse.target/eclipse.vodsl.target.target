@@ -16,62 +16,74 @@
 	</location>
 -->
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-		<repository location="https://download.eclipse.org/releases/2020-06"/>
-		<unit id="org.eclipse.xtext.sdk.feature.group" version="2.22.0.v20200602-1533"/>
-	</location>
-	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<repository location="http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02"/>
+		<unit id="de.cau.cs.kieler.kgraph.feature.feature.group" version="0.7.0.201502261452"/>
+		<unit id="de.cau.cs.kieler.kiml.adaptagrams.feature.feature.group" version="0.1.0.201502261452"/>
+		<unit id="de.cau.cs.kieler.kiml.feature.feature.group" version="0.18.0.201502261452"/>
+		<unit id="de.cau.cs.kieler.kiml.gmf.feature.feature.group" version="0.12.2.201502261452"/>
+		<unit id="de.cau.cs.kieler.kiml.graphviz.feature.feature.group" version="0.8.3.201502261452"/>
+		<unit id="de.cau.cs.kieler.kiml.ogdf.feature.feature.group" version="0.6.2.201502261452"/>
+		<unit id="de.cau.cs.kieler.klighd.feature.feature.group" version="0.8.0.201502261452"/>
+		<unit id="org.adaptagrams.feature.feature.group" version="0.1.0.201502261452"/>
 	</location>
 	<!-- this is a hack for a local build -->
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<repository location="http://emcc.ast.man.ac.uk/doc/eclipse/fxdiagram"/>
 		<unit id="de.fxdiagram.base.feature.feature.group" version="0.36.1.202106281643"/>
 		<unit id="de.fxdiagram.sdk.feature.feature.group" version="0.36.1.202106281643"/>
-		<unit id="org.eclipse.xtext.runtime.feature.group" version="2.22.0.v20200602-1533"/>
-		<unit id="org.eclipse.xtext.ui.feature.group" version="2.22.0.v20200602-1533"/>
-	</location>
-	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-		<repository location="https://download.eclipse.org/efxclipse/updates-released/3.6.0/site"/>
-		<unit id="org.eclipse.fx.ide.basic.feature.feature.group" version="3.5.0.201907240300"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<repository location="https://download.eclipse.org/eclipse/updates/4.16"/>
-		<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.11.800.v20200602-1138"/>
+	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<repository location="https://download.eclipse.org/efxclipse/runtime-shared-released/3.7.0/site/"/>
+		<unit id="org.eclipse.fx.core.shared.feature.feature.group" version="3.7.0.202010120720"/>
+		<unit id="org.eclipse.fx.runtime.min.feature.feature.group" version="3.7.0.202010120720"/>
+	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<repository location="https://download.eclipse.org/releases/2021-03"/>
+		<unit id="org.eclipse.xtext.sdk.feature.group" version="2.25.0.v20210301-1429"/>
+		<unit id="org.eclipse.emf.sdk.feature.group" version="2.25.0.v20210114-1734"/>
+		<unit id="org.eclipse.jdt.feature.group" version="3.18.700.v20210303-1800"/>
+		<unit id="org.eclipse.pde.feature.group" version="3.14.700.v20210303-1800"/>
+		<unit id="org.eclipse.platform.feature.group" version="4.19.0.v20210303-1800"/>
+		<unit id="org.eclipse.gef.graph.sdk.feature.group" version="5.1.0.202103090301"/>
+		<unit id="org.eclipse.gef.layout.sdk.feature.group" version="5.0.0.202103090301"/>
+		<unit id="org.eclipse.gmf.feature.group" version="1.13.0.202004160913"/>
+		<unit id="org.eclipse.gmf.runtime.notation.sdk.feature.group" version="1.13.0.202004160913"/>
+		<unit id="org.eclipse.gmf.runtime.sdk.feature.group" version="1.13.0.202004160913"/>
+		<unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
+		<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.12.0.201805140824"/>
+		<unit id="org.eclipse.gef.common.sdk.feature.group" version="5.0.1.202103090301"/>
+		<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.12.2.202008210805"/>
+	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.12.1/"/>
+		<unit id="org.eclipse.emf.mwe.sdk.feature.group" version="1.6.1.v20210218-2134"/>
+		<unit id="org.eclipse.emf.mwe2.language.sdk.feature.group" version="2.12.1.v20210218-2134"/>
+		<unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.12.1.v20210218-2134"/>
+	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<repository location="https://download.eclipse.org/tools/orbit/downloads/2021-03"/>
+		<unit id="org.apache.commons.cli" version="1.4.0.v20200417-1444"/>
+		<unit id="org.objectweb.asm" version="9.1.0.v20210209-1849"/>
+		<unit id="com.google.guava" version="30.1.0.v20210127-2300"/>
+		<unit id="org.objectweb.asm.tree" version="9.1.0.v20210209-1849"/>
+		<unit id="com.google.inject" version="3.0.0.v201605172100"/>
+		<unit id="io.github.classgraph" version="4.8.35.v20190528-1517"/>
+	</location>
+	<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+		<repository location="https://download.eclipse.org/tools/gef/updates/legacy/releases"/>
+		<unit id="org.eclipse.draw2d.feature.group" version="3.10.100.201606061308"/>
+	</location>
+	<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+		<repository location="http://downloads.efxclipse.bestsolution.at/p2-repos/openjfx-11/repository/"/>
+		<unit id="openjfx.media.feature.feature.group" version="11.0.0.201901231300"/>
+		<unit id="openjfx.standard.feature.feature.group" version="11.0.0.201901231300"/>
+		<unit id="openjfx.swing.feature.feature.group" version="11.0.0.201901231300"/>
+		<unit id="openjfx.swt.feature.feature.group" version="11.0.0.201901231300"/>
+		<unit id="openjfx.web.feature.feature.group" version="11.0.0.201901231300"/>
 	</location>
 </locations>
-<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<includeBundles>
-		<feature id="de.fxdiagram.base.feature"/>
-		<feature id="de.fxdiagram.sdk.feature"/>
-		<feature id="org.eclipse.ecf.core.feature"/>
-		<feature id="org.eclipse.ecf.core.feature.source"/>
-		<feature id="org.eclipse.ecf.core.ssl.feature"/>
-		<feature id="org.eclipse.ecf.core.ssl.feature.source"/>
-		<feature id="org.eclipse.ecf.filetransfer.feature"/>
-		<feature id="org.eclipse.ecf.filetransfer.feature.source"/>
-		<feature id="org.eclipse.ecf.filetransfer.httpclient45.feature"/>
-		<feature id="org.eclipse.ecf.filetransfer.httpclient45.feature.source"/>
-		<feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
-		<feature id="org.eclipse.ecf.filetransfer.ssl.feature.source"/>
-		<feature id="org.eclipse.emf.mwe2.language.sdk"/>
-		<feature id="org.eclipse.emf.mwe2.launcher"/>
-		<feature id="org.eclipse.emf.mwe2.launcher.source"/>
-		<feature id="org.eclipse.emf.mwe2.runtime.sdk"/>
-		<feature id="org.eclipse.equinox.p2.core.feature"/>
-		<feature id="org.eclipse.equinox.p2.discovery.feature"/>
-		<feature id="org.eclipse.equinox.p2.sdk"/>
-		<feature id="org.eclipse.fx.ide.basic.feature"/>
-		<feature id="org.eclipse.fx.runtime.min.feature"/>
-		<feature id="org.eclipse.xtend.sdk"/>
-		<feature id="org.eclipse.xtext.docs"/>
-		<feature id="org.eclipse.xtext.examples"/>
-		<feature id="org.eclipse.xtext.redist"/>
-		<feature id="org.eclipse.xtext.runtime"/>
-		<feature id="org.eclipse.xtext.sdk"/>
-		<feature id="org.eclipse.xtext.ui"/>
-		<feature id="org.eclipse.xtext.xbase"/>
-		<feature id="org.eclipse.xtext.xbase.lib"/>
-		<feature id="org.eclipse.xtext.xtext.ui"/>
-		<feature id="org.eclipse.xtext.xtext.ui.graph"/>
-	</includeBundles>
+<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 11.0.11 [11.0.11]"/>
 </target>

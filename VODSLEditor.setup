@@ -20,9 +20,9 @@
       <value>Eclipse</value>
     </detail>
   </annotation>
-  <version name="2020-06"
-      label="2020-06"
-      requiredJavaVersion="1.8">
+  <version name="2020-09"
+      label="2020-09"
+      requiredJavaVersion="11">
     <setupTask
         xsi:type="setup.p2:P2Task"
         id="vodsleditor"
@@ -39,21 +39,27 @@
           name="net.ivoa.vodsl.feature.feature.group"/>
       <requirement
           name="org.eclipse.egit.feature.group"/>
+      <requirement
+          name="openjfx.swt.feature.feature.group"/>
+      <requirement
+          name="openjfx.standard.feature.feature.group"/>
       <repository
           url="http://download.eclipse.org/releases/2020-06"/>
       <repository
-          url="http://emcc.ast.man.ac.uk/doc/eclipse/vodsleditor"/>
+          url="http://emcc.ast.man.ac.uk/doc/eclipse/vodsleditor-jdk1.8"/>
       <repository
           url="http://emcc.ast.man.ac.uk/doc/eclipse/fxdiagram"/>
       <repository
           url="http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02"/>
+      <repository
+          url="http://downloads.efxclipse.bestsolution.at/p2-repos/openjfx-11/repository/"/>
       <description>Editor for VODSL</description>
     </setupTask>
     <setupTask
         xsi:type="jdt:JRETask"
-        version="JavaSE-1.8"
-        location="${jre.location-1.8}"/>
-    <description>VODSL Editor for 2020-06.</description>
+        version="JavaSE-11"
+        location="${jre.location-11}"/>
+    <description>VODSL Editor for 2020-09.</description>
   </version>
   <description>VODSL Editor provides cool stuff.</description>
 </setup:Product>

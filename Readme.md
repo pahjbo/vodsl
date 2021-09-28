@@ -110,11 +110,12 @@ see https://stackoverflow.com/questions/27857153/how-do-i-create-an-eclipse-plug
    "Eclipse UI IDE Application" to the list of automatically added plugin dependencies.
    and "Views Log"
 
-#£ fxdiagram EOL
+### fxdiagram EOL
 
-fxdiagram is not being developed any more, and along with the death of bintray, and java 9+ modularisation there are several consequences;
+fxdiagram is not being developed any more, and along with the death of bintray, and java 9+ modularisation there are several consequences, which make building difficult;
 
-* will only run/build on jdk 1.8 max -> eclipse 2020-06 is also the last platform that will work. (note also that MacOS 10.15 - catalina - is the last version that JDK 1.8 runs without graphics errors)
+* to install javafx need to follow https://tomsondev.bestsolution.at/2020/01/28/setting-up-efxclipse-rcp-development-for-java11-and-pde/
+  - note that it is now quite hard to get hold of javafx 11 sdk (the closest to when fxdiagram finished development)
 * need local build of fxdiagram to create a local p2 repository
 * need https://github.com/itemis/xtext-reference-projects/pull/186
    
