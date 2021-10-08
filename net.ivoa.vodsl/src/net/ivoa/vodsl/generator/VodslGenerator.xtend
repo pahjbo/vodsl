@@ -89,7 +89,7 @@ class VodslGenerator extends AbstractGenerator  {
 	def vodml(IncludeDeclaration e) '''
 	<import>
 	  <name>null</name><!--should not be needed in modern vo-dml -->
-	  <url>«e.importURI.substring(0,e.importURI.lastIndexOf('.')) +'.vo-dml.xml'»</url>
+	  <url>«e.importURI.substring(if (e.importURI.lastIndexOf('/') == -1) 0 else e.importURI.lastIndexOf('/')+1,e.importURI.lastIndexOf('.')) +'.vo-dml.xml'»</url>
 	  <documentationURL>not known</documentationURL>
 	</import>
 	'''
