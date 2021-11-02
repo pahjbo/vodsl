@@ -45,6 +45,8 @@ This jar (only) is published to maven central so you do not to have to build it.
 
 [![Maven Central](https://img.shields.io/maven-central/v/org.javastro.vodsl/vodslparser.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.javastro.vodsl%22%20AND%20a:%22vodslparser%22)
 
+Use the following command to run the parser
+
     java -jar vodslparser-0.4.2.jar model.vodsl
 
 which will produce a file `model.vo-dml.xml` of the equivalent VO-DML.
