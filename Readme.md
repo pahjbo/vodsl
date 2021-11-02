@@ -30,7 +30,7 @@ The [VODSLEditor.setup](./VODSLEditor.setup) file can be read into the eclipse i
 6. create a new "general" project and then create a file with extension `.vodsl` - eclipse will prompt whether to convert the project to "XText" - say yes.
 
 
-Once you have an editor then you can also explore [this GitHub project](./models) which contains some example/standard models expressed in VODSL.
+Once you have an editor then you can also explore [this GitHub project](https://github.com/ivoa/vodsl-models) which contains some example/standard models expressed in VODSL.
  
 
    
