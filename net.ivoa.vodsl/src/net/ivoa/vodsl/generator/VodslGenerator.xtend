@@ -241,6 +241,9 @@ class VodslGenerator extends AbstractGenerator  {
 	   «FOR f: e.constraints»
 	   	«f.vodml»
 	   «ENDFOR»
+       «FOR f: e.subsets»
+       «f.vodml»
+      «ENDFOR»	   
       «FOR f: e.content.filter(Attribute)»
 	   	«(f as Attribute).vodml»
 	   «ENDFOR»

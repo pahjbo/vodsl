@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.javastro.vodsl</groupId>
 		<artifactId>vodsl.parent</artifactId>
-      <version>0.4.2-SNAPSHOT</version>
+      <version>0.4.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>net.ivoa.vodsl.ide</artifactId>
 	<packaging>eclipse-plugin</packaging>

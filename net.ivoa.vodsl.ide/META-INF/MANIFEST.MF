@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: VODSL IDE
 Bundle-Vendor: JBO, University of Manchester
-Bundle-Version: 0.4.2.qualifier
+Bundle-Version: 0.4.3.qualifier
 Bundle-SymbolicName: net.ivoa.vodsl.ide;singleton:=true
 Require-Bundle: net.ivoa.vodsl,
  org.eclipse.xtext.ide;bundle-version="2.25.0",

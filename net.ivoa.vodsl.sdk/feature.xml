@@ -3,7 +3,7 @@
 <feature
       id="net.ivoa.vodsl.feature"
       label="VODSL  Feature"
-      version="0.4.2.qualifier"
+      version="0.4.3.qualifier"
       provider-name="JBO, University of Manchester">
 
    <description>
@@ -15,13 +15,9 @@
    </copyright>
 
    <url>
+      <update label="vodsl" url="http://vo.jb.man.ac.uk/eclipse/vodsleditor/"/>
       <discovery label="latest xtext releases" url="https://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
    </url>
-
-   <includes
-         id="org.eclipse.fx.runtime.min.feature"
-         version="0.0.0"
-         search-location="both"/>
 
    <plugin
          id="net.ivoa.vodsl"
