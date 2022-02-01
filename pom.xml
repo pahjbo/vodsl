@@ -8,18 +8,30 @@
    <packaging>pom</packaging>
    <properties>
       <vodsl.version>0.4.3-SNAPSHOT</vodsl.version>
-      <xtextVersion>2.22.0</xtextVersion>
+      <xtextVersion>2.25.0</xtextVersion>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>
       <maven.compiler.target>1.8</maven.compiler.target>
-      <tycho-version>1.7.0</tycho-version>
-      <tycho-extras-version>1.7.0</tycho-extras-version>
+      <tycho-version>2.3.0</tycho-version>
+      <tycho-extras-version>2.3.0</tycho-extras-version>
 		<!-- Define overridable properties for tycho-surefire-plugin -->
 		<platformSystemProperties></platformSystemProperties>
 		<moduleProperties></moduleProperties>
 		<systemProperties></systemProperties>
 		<tycho.testArgLine></tycho.testArgLine>
    </properties>
+<!--	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.eclipse.xtext</groupId>
+				<artifactId>xtext-dev-bom</artifactId>
+				<version>${xtextVersion}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+-->
    <modules>
       <module>net.ivoa.vodsl</module>
       <module>net.ivoa.vodsl.ui</module>
@@ -300,15 +312,16 @@
    </build>
    <repositories>
        <repository>
-         <id>eclipse-2020-06</id>
-         <url>https://download.eclipse.org/releases/2020-06</url>
+         <id>eclipse-2021-03</id>
+         <url>https://download.eclipse.org/releases/2021-03</url>
          <layout>p2</layout>
       </repository>
       <repository>
         <id>fxdiagram</id>
-        <url>https://dl.bintray.com/jankoehnlein/FXDiagram</url>
+        <url>http://vo.jb.man.ac.uk/eclipse/fxdiagram</url>
+        <layout>p2</layout>
         <releases>
-           <enabled>false</enabled> <!--bintray does not exist any more - need local build  -->
+           <enabled>true</enabled> 
         </releases>
         <snapshots>
           <enabled>false</enabled>
@@ -324,7 +337,14 @@
          <snapshots>
             <enabled>false</enabled>
          </snapshots>
-      </repository>   </repositories>
+      </repository>   
+      <repository>
+          <id>openfx</id>
+          <url>http://downloads.efxclipse.bestsolution.at/p2-repos/openjfx-11/repository/</url>
+          <layout>p2</layout>
+          <releases><enabled>true</enabled></releases>
+      </repository>
+   </repositories>
    <pluginRepositories>
       <pluginRepository>
          <id>codehaus-snapshots</id>

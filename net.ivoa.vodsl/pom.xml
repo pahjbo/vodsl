@@ -8,13 +8,16 @@
 	</parent>
 	<artifactId>net.ivoa.vodsl</artifactId>
 	<packaging>eclipse-plugin</packaging>
+	<properties>
+		<mwe2Version>2.12.1</mwe2Version>
+	</properties>
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>1.4.0</version>
 				<executions>
 					<execution>
 						<id>mwe2Launcher</id>
@@ -32,6 +35,7 @@
 						<argument>rootPath=/${project.basedir}/..</argument>
 					</arguments>
 					<classpathScope>compile</classpathScope>
+					<includeProjectDependencies>false</includeProjectDependencies>
 					<includePluginDependencies>true</includePluginDependencies>
 					<cleanupDaemonThreads>false</cleanupDaemonThreads><!-- see https://bugs.eclipse.org/bugs/show_bug.cgi?id=475098#c3 -->
 				</configuration>
@@ -39,7 +43,7 @@
                   <dependency>
                         <groupId>org.eclipse.emf</groupId>
                         <artifactId>org.eclipse.emf.mwe2.launch</artifactId>
-                        <version>2.11.3</version>
+                        <version>${mwe2Version}</version>
                      </dependency>
                      <dependency>
                         <groupId>org.eclipse.xtext</groupId>
@@ -48,19 +52,8 @@
                      </dependency>
                      <dependency>
                         <groupId>org.eclipse.xtext</groupId>
-                        <artifactId>org.eclipse.xtext.xtext.generator</artifactId>
+                        <artifactId>org.eclipse.xtext.generator</artifactId>
                         <version>${xtextVersion}</version>
-                        <!-- workaround for bug https://github.com/eclipse/xtext/issues/1976 -->
-                        <exclusions>
-                           <exclusion>
-                              <groupId>org.eclipse.platform</groupId>
-                              <artifactId>org.eclipse.equinox.common</artifactId>
-                           </exclusion>
-                           <exclusion>
-                              <groupId>org.eclipse.platform</groupId>
-                              <artifactId>org.eclipse.core.runtime</artifactId>
-                           </exclusion>
-                        </exclusions>
                      </dependency>
                      <dependency>
                         <groupId>org.eclipse.xtext</groupId>

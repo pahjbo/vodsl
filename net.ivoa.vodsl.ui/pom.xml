@@ -15,12 +15,26 @@
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId><!-- add the extra classpath elements here for javafx, which is indirectly referenced-->
+				<artifactId>tycho-compiler-plugin</artifactId>
+				<configuration>
+				   <verbose>true</verbose>
+				   <extraClasspathElements>
+					<dependency>
+						<groupId>org.openjfx</groupId>
+						<artifactId>javafx-controls</artifactId>
+						<version>11</version>
+					</dependency>
+				   </extraClasspathElements>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.openjfx</groupId>
+			<groupId>org.openjfx</groupId> <!-- tycho ignores this? -->
 			<artifactId>javafx-controls</artifactId>
 			<version>11</version>
 		</dependency>

@@ -18,6 +18,22 @@ The plug-in can then be installed in the usual fashion for eclipse by adding the
 
 [![Build Status](https://travis-ci.org/pahjbo/vodsl.svg?branch=master)](https://travis-ci.org/pahjbo/vodsl)
 
+
+Deploying stand alone parser to maven central
+---------------------------------------------
+
+after the maven build in the top level, then in the `vodsl.standalone` directory
+
+    mvn deploy -P release
+
+
+if this is successful then
+
+
+    mvn nexus-staging:release -P release
+
+
+
 There are tutorials and reference documents to guide development on the 
 [Xtext site](https://eclipse.org/Xtext/documentation/102_domainmodelwalkthrough.html)
 

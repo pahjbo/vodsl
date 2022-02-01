@@ -25,66 +25,19 @@
          <groupId>org.eclipse.tycho</groupId>
          <artifactId>tycho-p2-repository-plugin</artifactId>
          <version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble-repository</goal>
+						</goals>
+					</execution>
+				</executions>
          <configuration>
             <includeAllDependencies>false</includeAllDependencies>
          </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version>
-        <executions>
-          <execution>
-            <phase>deploy</phase>
-            <configuration>
-              <target>
-
-                <!--
-                  warning doing a cheaty deploy here - would actually like to use composite p2 update sites in preference
-                -->
-                  <exec executable="rsync">
-                    <arg value="-av"/>
-                    <arg value="--delete"/>
-                    <arg value="target/repository/"/>
-                    <arg value="astrogrid@astrogrid.jb.man.ac.uk:vodsl/"/>
-                  </exec>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId> <!-- disable normal deploy -->
-        <version>2.8.2</version>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-   <!-- workaround https://bugs.eclipse.org/bugs/show_bug.cgi?id=453708 -->
-         <plugin>
-            <groupId>org.jboss.tools.tycho-plugins</groupId>
-            <artifactId>repository-utils</artifactId>
-            <version>1.7.0</version>
-            <executions>
-               <execution>
-                  <phase>package</phase>
-                  <goals>
-                     <goal>generate-repository-facade</goal>
-                  </goals>
-                  <configuration>
-                     <associateSites>
-                        <associateSite>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</associateSite>
-                        <associateSite>http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02</associateSite>
-                        <associateSite>http://emcc.ast.man.ac.uk/doc/eclipse/fxdiagram</associateSite>
-                     </associateSites>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>   
-         <!-- end workaround -->
-   
+ 
    </plugins>
       <pluginManagement>
          <plugins>
@@ -122,19 +75,5 @@
       </pluginManagement>
    </build>
    
-   <!-- only needed to pick up workaround plugin -->
-    <pluginRepositories>
-    <pluginRepository>
-        <id>spring</id>
-        <url>https://repository.jboss.org/</url>
-        <releases>
-           <enabled>true</enabled>
-           <updatePolicy>always</updatePolicy>
-        </releases>
-        <snapshots>
-          <enabled>false</enabled>
-        </snapshots>
-    </pluginRepository>
-   </pluginRepositories>
    
 </project>
