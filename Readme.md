@@ -17,6 +17,27 @@ The aims of the serialization are
  
 In addition to be able to use some of the features of the graphical visualization via [FXDiagram](http://jankoehnlein.github.io/FXDiagram/) it is worth looking at the introductory video on that site.
 
+VODSL Language
+--------------
+The concepts are directly mapped from VODML with some renaming
+
+* DataType becomes dtype
+* ObjectType becomes otype
+* PrimitiveType becomes primitive
+   
+The syntax has C/Java like curly brace use withe attribute names declared before their types - multiplicities are introduced with @
+
+* @? optional
+* @* 0 or more 
+* @+ 1 or more
+* @[4] exactly 4
+* @[3 .. 6] between 3 and 6  
+
+![VODSL syntax example](vodslquick.jpeg)
+
+There is an [example that uses most of the language constructs](https://github.com/ivoa/vodsl-models/blob/master/example.vodsl).
+
+
 Installation of Pre-built Editor
 --------------------------------
 
