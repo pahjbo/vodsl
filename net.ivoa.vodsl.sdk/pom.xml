@@ -3,9 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.javastro.vodsl</groupId>
-		<artifactId>vodsl.parent</artifactId>
-      <version>0.4.3-SNAPSHOT</version>
+		<artifactId>mavenbase</artifactId>
+      <version>0.4.4</version>
+      <relativePath>../mavenbase/pom.xml</relativePath>
 	</parent>
+	
+    <version>0.4.4-SNAPSHOT</version>
 	<artifactId>net.ivoa.vodsl.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
 

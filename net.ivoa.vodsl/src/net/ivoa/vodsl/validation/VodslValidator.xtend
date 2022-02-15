@@ -81,11 +81,11 @@ class VodslValidator extends AbstractVodslValidator {
 		if (mul.multiplicitySpec != null) {
 			switch mul.multiplicitySpec {
 				case ATLEASTONE: {
-					warning("multiplicity '+' not advised for reference - see VO-DML spec 4.19 " + typ.name,
+					warning("multiplicity '+' not advised for reference "+typ.name+"\n unless pure aggregation\n see VO-DML spec 4.19 ",
 						VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 				}
 				case MANY: {
-					warning("multiplicity '*' not advised for reference - see VO-DML spec 4.19" + typ.name,
+					warning("multiplicity '*' not advised for reference"+typ.name+"\n see VO-DML spec 4.19",
 						VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 
 				}
@@ -94,7 +94,7 @@ class VodslValidator extends AbstractVodslValidator {
 				}
 				case ONE: {
 					if (mul.maxOccurs != 1 || mul.minOccurs != 1) {
-						warning("max occurs > 1 not advised for reference - see VO-DML spec 4.19 " + typ.name,
+						warning("max occurs > 1 not advised for reference"+typ.name+"\n see VO-DML spec 4.19 " ,
 							VodslPackage.Literals.MULTIPLICITY__MAX_OCCURS)
 					}
 				}

@@ -5,11 +5,11 @@
    <modelVersion>4.0.0</modelVersion>
    <parent>
       <groupId>org.javastro.vodsl</groupId>
-      <artifactId>vodsl.parent</artifactId>
-      <version>0.4.3-SNAPSHOT</version>
-      <relativePath>../pom.xml</relativePath>
+      <artifactId>mavenbase</artifactId>
+      <version>0.4.4</version>
+      <relativePath>../mavenbase/pom.xml</relativePath>
    </parent>
-   <version>0.4.3</version>
+   <version>0.4.4</version>
    <artifactId>vodslparser</artifactId>
    <name>VO-DSL parser</name>
    <description>a standalone implementation of the VO-DSL parser and converter to VO-DML</description>
@@ -62,7 +62,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
-            <version>2.4.2</version>
+            <version>3.2.4</version>
             <executions>
                <execution>
                   <phase>package</phase>
@@ -93,6 +93,8 @@
                         </filter>
                      </filters>
                      <minimizeJar>false</minimizeJar>
+                     <shadedClassifierName>standalone</shadedClassifierName>
+                     <shadedArtifactAttached>true</shadedArtifactAttached>
                   </configuration>
                </execution>
             </executions>

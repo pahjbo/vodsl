@@ -68,7 +68,7 @@ This jar (only) is published to maven central so you do not to have to build it.
 
 Use the following command to run the parser
 
-    java -jar vodslparser-0.4.3.jar model.vodsl
+    java -jar vodslparser-0.4.4-standalone.jar model.vodsl
 
 which will produce a file `model.vo-dml.xml` of the equivalent VO-DML.
 

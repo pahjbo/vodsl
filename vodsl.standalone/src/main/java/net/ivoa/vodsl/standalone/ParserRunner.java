@@ -52,7 +52,7 @@ private XtextResourceSet resourceSet;
 
     }
     
-    public void parse(String[] files)
+    public void parse(String[] files, String outputPath)
     {
         Resource resource = resourceSet.getResource(URI.createFileURI(files[0]), true);
         for (int i = 1; i < files.length; i++) {
@@ -69,11 +69,9 @@ private XtextResourceSet resourceSet;
      // Code Generator
         GeneratorDelegate generator = injector.getInstance(GeneratorDelegate.class);        
         JavaIoFileSystemAccess fsa = injector.getInstance(JavaIoFileSystemAccess.class);
-        fsa.setOutputPath(".");
        
+		fsa.setOutputPath(outputPath);      
         generator.doGenerate(resource, fsa);
-
-        
 
     }
 
@@ -83,7 +81,7 @@ private XtextResourceSet resourceSet;
     public static void main(String[] args) {
         ParserRunner pr = new ParserRunner();
         if(args.length > 0)
-           pr.parse(args);
+           pr.parse(args, ".");
         else
             System.err.println("you must supply at least one file to parse.");
 
