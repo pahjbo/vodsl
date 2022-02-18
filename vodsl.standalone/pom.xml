@@ -6,10 +6,10 @@
    <parent>
       <groupId>org.javastro.vodsl</groupId>
       <artifactId>mavenbase</artifactId>
-      <version>0.4.4</version>
+      <version>0.4.5</version>
       <relativePath>../mavenbase/pom.xml</relativePath>
    </parent>
-   <version>0.4.4</version>
+   <version>0.4.5</version>
    <artifactId>vodslparser</artifactId>
    <name>VO-DSL parser</name>
    <description>a standalone implementation of the VO-DSL parser and converter to VO-DML</description>
@@ -17,7 +17,7 @@
       <dependency>
          <groupId>org.javastro.vodsl</groupId>
       	 <artifactId>net.ivoa.vodsl</artifactId>
-         <version>${vodsl.version}</version>
+         <version>${project.version}</version> <!--force version to be same as this -->
       </dependency>
       
       

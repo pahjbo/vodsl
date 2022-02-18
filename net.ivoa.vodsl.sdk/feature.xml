@@ -3,7 +3,7 @@
 <feature
       id="net.ivoa.vodsl.feature"
       label="VODSL  Feature"
-      version="0.4.4.qualifier"
+      version="0.4.5.qualifier"
       provider-name="JBO, University of Manchester">
 
    <description>

@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.javastro.vodsl</groupId>
   <artifactId>mavenbase</artifactId>
-  <version>0.4.4</version>
+  <version>0.4.5</version>
   <name>maven-base</name>
   <description>Base POM for Maven</description>
   <packaging>pom</packaging>
   <url>https://javastro.github.io</url>
    <properties>
-      <vodsl.version>0.4.4-SNAPSHOT</vodsl.version>
+      <vodsl.version>0.4.5-SNAPSHOT</vodsl.version>
       <xtextVersion>2.25.0</xtextVersion>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>
@@ -96,7 +96,7 @@
                   <artifact>
                      <groupId>org.javastro.vodsl</groupId>
                      <artifactId>eclipse.vodsl.target</artifactId>
-                     <version>${project.version}</version>
+                     <version>${vodsl.version}</version>
                   </artifact>
                </target>
                <environments>
