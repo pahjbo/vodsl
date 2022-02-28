@@ -41,12 +41,21 @@ jobs:
         test -f ${{ env.doc_name }}-draft.pdf
         test -f ${{ env.doc_name }}.bbl
     
+    
     - name: Move the auto-pdf-preview tag
       uses: weareyipyip/walking-tag-action@v2
       with:
         tag-name: auto-pdf-preview
         tag-message: |
-          Last commit takpreview
+          Last commit taken into account for the automatically updated PDF preview of this IVOA document.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update the PDF preview
+      uses: Xotl/cool-github-releases@v1
+      with:
+        mode: update
+        tag-name: auto-pdf-preview
         release_name: "Auto PDF Preview"
         body_mrkdwn: |
           This release aims to provide a PDF preview of the note for  the last commit applied on this repository.
