@@ -19,21 +19,8 @@ In addition to be able to use some of the features of the graphical visualizatio
 
 VODSL Language
 --------------
-The concepts are directly mapped from VODML with some renaming
 
-* DataType becomes dtype
-* ObjectType becomes otype
-* PrimitiveType becomes primitive
-   
-The syntax has C/Java like curly brace use withe attribute names declared before their types - multiplicities are introduced with @
-
-* @? optional
-* @* 0 or more 
-* @+ 1 or more
-* @[4] exactly 4
-* @[3 .. 6] between 3 and 6  
-
-![VODSL syntax example](vodslquick.jpeg)
+The language is discussed in [this note](../../releases/download/auto-pdf-preview/VODSL-draft.pdf)
 
 There is an [example that uses most of the language constructs](https://github.com/ivoa/vodsl-models/blob/master/example.vodsl).
 
@@ -53,7 +40,6 @@ The [VODSLEditor.setup](./VODSLEditor.setup) file can be read into the eclipse i
 
 Once you have an editor then you can also explore [this GitHub project](https://github.com/ivoa/vodsl-models) which contains some example/standard models expressed in VODSL.
  
-
    
 Using the stand-alone parser
 -------------------------------
