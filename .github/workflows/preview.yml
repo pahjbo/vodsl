@@ -55,7 +55,7 @@ jobs:
       uses: Xotl/cool-github-releases@v1
       with:
         mode: update
-        tag-name: auto-pdf-preview
+        tag_name: auto-pdf-preview
         release_name: "Auto PDF Preview"
         body_mrkdwn: |
           This release aims to provide a PDF preview of the note for  the last commit applied on this repository.
