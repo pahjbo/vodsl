@@ -7,7 +7,7 @@ DOCNAME = VODSL
 DOCVERSION = 1.0
 
 # Publication date, ISO format; update manually for "releases"
-DOCDATE = ???
+DOCDATE = 2022-03-31
 
 # What is it you're writing: NOTE, WD, PR, REC, PEN, or EN
 DOCTYPE = NOTE
