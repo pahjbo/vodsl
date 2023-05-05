@@ -142,7 +142,7 @@ class VodslGenerator extends AbstractGenerator  {
 	</package>
 	'''
 	def vodml (ObjectType e)'''
-	<objectType«IF e.abstract» abstract='true'«ENDIF»>
+	<objectType«IF e.abstract» abstract="true"«ENDIF»>
 	   «e.preamble»
 	   «IF e.superType !== null»
 	   <extends>
@@ -231,7 +231,7 @@ class VodslGenerator extends AbstractGenerator  {
 	'''
 	def vodml (DataType e)
 	'''
-	<dataType«IF e.abstract» abstract='true'«ENDIF»>
+	<dataType«IF e.abstract» abstract="true"«ENDIF»>
 	  «e.preamble»
 	   «IF e.superType !== null»
 	   <extends>
