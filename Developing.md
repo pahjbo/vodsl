@@ -98,4 +98,32 @@ Known issues with the Eclipse editor
       two compositions.
 * the FXDiagram implementation has some quirks that sometimes require shutting down the view and reopening to stop the strange behaviour.
 
+Graphical Visualization
+-----------------------
 
+https://www.eclipse.org/elk/
+https://www.slideshare.net/schwurbel/diagrams-xtext-and-ux
+https://github.com/JanKoehnlein/FXDiagram
+
+
+need -Dorg.osgi.framework.bundle.parent=ext -Dosgi.framework.extensions=org.eclipse.fx.osgi	 as VM argument to get javafx to load in debugger
+
+Update
+------
+
+
+* build to create the update site does not seem to be completely working. need to do a build in eclipse and then upload
+
+* note that the build product oomph https://gitlab.cs.man.ac.uk/emerlin/eclipse-setups
+
+* https://wiki.eclipse.org/Equinox_p2_Repository_Mirroring - to get all of the Kieler stuff.
+
+ ~/eclipse/DSL-2020-06/Eclipse.app/Contents/MacOS/eclipse -nosplash -verbose -application org.eclipse.equinox.p2.artifact.repository.mirrorApplication -source http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02 -destination file:`pwd`/kielermirror/
+  
+ 
+ * transfer to metis:/data/vo/eclipse/vodsleditor/ - for site http://vo.jb.man.ac.uk/eclipse/vodsleditor/
+ 
+ JDK 11
+ 
+* https://git.fortiss.org/af3/org.fortiss.openjfx.git 
+* https://github.com/reficio/p2-maven-plugin used this...
