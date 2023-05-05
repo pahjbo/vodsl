@@ -72,7 +72,7 @@ class VodslGenerator extends AbstractGenerator  {
       <name>«e.model.name»</name>
       <description>«e.model.description»</description> 
       <uri/>
-      <title>TBD</title>
+      <title></title>
       «FOR a:e.model.authors»
         <author>«a»</author>
       «ENDFOR»
@@ -138,7 +138,7 @@ class VodslGenerator extends AbstractGenerator  {
 	def vodml (PackageDeclaration e)'''
 	<package>
 	   «e.preamble»
-      «e.elements.vodml»
+       «e.elements.vodml»
 	</package>
 	'''
 	def vodml (ObjectType e)'''
@@ -305,9 +305,14 @@ class VodslGenerator extends AbstractGenerator  {
 	
 	
 	def vodml (PrimitiveType e)'''
-   <primitiveType>
-     «e.preamble»
-   </primitiveType>
+    <primitiveType>
+    «e.preamble»
+    «IF e.superType !== null»
+ 	   <extends>
+ 	      «(e.superType as ReferableElement).ref»
+ 	   </extends>
+    «ENDIF»	   
+    </primitiveType>
 	'''
 	def vodml (EnumLiteral e)'''
    <literal>
