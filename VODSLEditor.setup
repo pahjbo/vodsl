@@ -34,6 +34,8 @@
       <requirement
           name="org.eclipse.rcp.feature.group"/>
       <requirement
+          name="org.eclipse.fx.core.shared.feature.feature.group"/>
+      <requirement
           name="org.eclipse.fx.runtime.min.feature.feature.group"/>
       <requirement
           name="net.ivoa.vodsl.feature.feature.group"/>
