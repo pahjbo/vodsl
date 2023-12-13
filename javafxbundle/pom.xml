@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+<!-- not needed - see https://tomsondev.bestsolution.at/2020/01/28/setting-up-efxclipse-rcp-development-for-java11-and-pde/
+ -->
+    <groupId>org.javastro.vodsl</groupId>
+    <version>11.0.2</version>
+    <artifactId>javafxbundle</artifactId>
+   <build>
+        <plugins>
+            <plugin>
+                <groupId>org.reficio</groupId>
+                <artifactId>p2-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <configuration>
+                            <artifacts>
+                                <!-- groupId:artifactId:version -->
+                                <artifact><id>org.openjfx:javafx-controls:jar:11.0.2</id></artifact>
+                                <artifact><id>org.openjfx:javafx-fxml:11.0.2</id></artifact>
+                            </artifacts>
+                        </configuration>
+                        <phase>site</phase>
+                        <goals>
+                           <goal>site</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+		     <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-site-plugin</artifactId>
+		      <version>3.9.1</version>
+		      <configuration>
+		       <inputDirectory>${project.basedir}/target/repository</inputDirectory>
+		       <skip>false</skip>
+		      </configuration>
+		     </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.5.v20120716</version>
+                <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <webAppSourceDirectory>${project.basedir}/target/repository/</webAppSourceDirectory>
+                    <webApp>
+                        <contextPath>/site</contextPath>
+                    </webApp>
+                </configuration>
+            </plugin>
+
+        </plugins>
+      <extensions>
+         <!-- Enabling the use of external ssh - alternative is to put jars 
+            in $MAVEN_HOME/lib/ext -->
+         <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh-external</artifactId>
+            <version>2.10</version>
+         </extension>
+      </extensions>
+   </build>
+    
+   <distributionManagement>
+      <site>
+         <id>javafx</id>
+         <name>site for p2 repository</name>
+         <url>scpexe://emcc.ast.man.ac.uk/home/emerlin/documentation/eclipse/javafx/</url>
+      </site>
+   </distributionManagement>  
+</project>

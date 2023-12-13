@@ -48,9 +48,9 @@
       <repository
           url="http://download.eclipse.org/releases/2021-06"/>
       <repository
-          url="http://vo.jb.man.ac.uk/eclipse/vodsleditor/"/>
+          url="https://vo.jb.man.ac.uk/eclipse/vodsleditor/"/>
       <repository
-          url="http://vo.jb.man.ac.uk/eclipse/fxdiagram/"/>
+          url="https://vo.jb.man.ac.uk/eclipse/fxdiagram/"/>
       <repository
           url="http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2016-02/"/>
       <repository

@@ -17,7 +17,7 @@
 -->
 	<!-- this is a hack for a local build -->
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-		<repository location="http://vo.jb.man.ac.uk/eclipse/fxdiagram"/>
+		<repository location="https://vo.jb.man.ac.uk/eclipse/fxdiagram"/>
 		<unit id="de.fxdiagram.base.feature.feature.group" version="0.36.1.202106281643"/>
 		<unit id="de.fxdiagram.sdk.feature.feature.group" version="0.36.1.202106281643"/>
 	</location>

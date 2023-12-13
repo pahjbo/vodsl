@@ -3,7 +3,7 @@
 >
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.javastro.vodsl</groupId>
-   <version>0.4.5-SNAPSHOT</version>
+   <version>0.4.6-SNAPSHOT</version>
    <artifactId>vodsl.parent</artifactId>
    <packaging>pom</packaging>
 
@@ -13,7 +13,7 @@
       <module>net.ivoa.vodsl.ide</module>
       <module>eclipse.target</module>
       <module>net.ivoa.vodsl.sdk</module>
-      <module>eclipse.repository</module>
+    <!--  <module>eclipse.repository</module> -->
 	<!--       <module>net.ivoa.vodsl.tests</module> -->
 	<!--       <module>net.ivoa.vodsl.ui.tests</module> -->
       
