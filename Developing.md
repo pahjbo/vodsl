@@ -22,17 +22,17 @@ The plug-in can then be installed in the usual fashion for eclipse by adding the
 Deploying stand alone parser to maven central
 ---------------------------------------------
 
-after the maven build in the top level, then in the `vodsl.standalone` directory
+after the maven build in the top level, then 
 
-    mvn deploy -P release
+   mvn -X deploy -P release --projects mavenbase,net.ivoa.vodsl,vodsl.standalone
 
 
 if this is successful then
 
 
-    mvn nexus-staging:release -P release
+    mvn nexus-staging:release -P release  --projects mavenbase,net.ivoa.vodsl,vodsl.standalone
 
-
+or go to https://oss.sonatype.org/ to release manually
 
 There are tutorials and reference documents to guide development on the 
 [Xtext site](https://eclipse.org/Xtext/documentation/102_domainmodelwalkthrough.html)

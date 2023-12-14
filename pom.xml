@@ -9,16 +9,17 @@
 
    <modules>
       <module>net.ivoa.vodsl</module>
+      <module>vodsl.standalone</module>
       <module>net.ivoa.vodsl.ui</module>
       <module>net.ivoa.vodsl.ide</module>
       <module>eclipse.target</module>
       <module>net.ivoa.vodsl.sdk</module>
+      <module>mavenbase</module><!-- just to get the pom installed -->
     <!--  <module>eclipse.repository</module> -->
 	<!--       <module>net.ivoa.vodsl.tests</module> -->
 	<!--       <module>net.ivoa.vodsl.ui.tests</module> -->
       
-      <module>vodsl.standalone</module> 
-      <module>mavenbase</module>
+      
    </modules>
    
 </project>
