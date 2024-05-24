@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>org.javastro.vodsl</groupId>
 		<artifactId>mavenbase</artifactId>
-      <version>0.4.6</version>
+      <version>0.4.7</version>
       <relativePath>../mavenbase/pom.xml</relativePath>
 	</parent>
 	
-    <version>0.4.6-SNAPSHOT</version>
+    <version>0.4.7-SNAPSHOT</version>
 	<artifactId>eclipse.vodsl.target</artifactId>
 	<packaging>eclipse-target-definition</packaging>
 

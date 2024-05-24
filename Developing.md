@@ -34,6 +34,8 @@ if this is successful then
 
 or go to https://oss.sonatype.org/ to release manually
 
+last known eclipse build on DSL-2021-09 on intel
+
 There are tutorials and reference documents to guide development on the 
 [Xtext site](https://eclipse.org/Xtext/documentation/102_domainmodelwalkthrough.html)
 
@@ -127,3 +129,7 @@ Update
  
 * https://git.fortiss.org/af3/org.fortiss.openjfx.git 
 * https://github.com/reficio/p2-maven-plugin used this...
+
+JDK 17
+
+* have been able to get

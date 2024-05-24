@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: VODSL core
 Bundle-Vendor: JBO,
   University of Manchester
-Bundle-Version: 0.4.6
+Bundle-Version: 0.4.7
 Bundle-SymbolicName: net.ivoa.vodsl;singleton:=true
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
