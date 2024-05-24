@@ -21,8 +21,7 @@ VoDataModel:
 
 
 ModelDeclaration:
-	'model' name=ID '(' version=VERSION ')' description=STRING? 
-	(identifier =  '<' STRING '>')? 
+	'model' name=ID '(' version=VERSION ')' titular=STRING description=STRING? 
 	 ('author' authors+=STRING)*
 ;
 
@@ -123,7 +122,7 @@ ObjectType:
  */
 Attribute :
     name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )? 
-    (key=NaturalKey)? description=STRING ((semanticConcept=SemanticConcept)? & 
+    (key=NaturalKey)? description=STRING ('UCD' ucd=STRING)? ((semanticConcept=SemanticConcept)? & 
     	( constraints += Constraint )*
     )';'
     ;
