@@ -33,6 +33,7 @@ import org.eclipse.xtext.naming.IQualifiedNameConverter
 import net.ivoa.vodsl.vodsl.SubSet
 import net.ivoa.vodsl.vodsl.NaturalKey
 import net.ivoa.vodsl.vodsl.SemanticConcept
+import net.ivoa.vodsl.vodsl.Role
 
 /**
  * Generates code from your model files on save.
@@ -68,11 +69,11 @@ class VodslGenerator extends AbstractGenerator  {
 <vo-dml:model xmlns:vo-dml="http://www.ivoa.net/xml/VODML/v1" 
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://www.ivoa.net/xml/VODML/v1 https://www.ivoa.net/xml/VODML/vo-dml-v1.xsd" 
-              vodmlVersion="1.1">	<!-- file generated from VODSL - needs validatate against v1.1 of schema  --> 
+              vodmlVersion="1.1">	<!-- file generated from VODSL - needs validatation against v1.1 of schema  --> 
       <name>«e.model.name»</name>
       <description>«e.model.description»</description> 
       <uri/>
-      <title></title>
+      <title>«e.model.titular»</title>
       «FOR a:e.model.authors»
         <author>«a»</author>
       «ENDFOR»
@@ -108,6 +109,18 @@ class VodslGenerator extends AbstractGenerator  {
       }
       		
  
+	}
+	
+	def vodml(Role e)
+	{
+      switch  e {
+      	
+      	Composition : (e as Composition).vodml
+      	Reference : (e as Reference).vodml
+      	Attribute: (e as Attribute).vodml
+      	default: "unknown type " + e.class
+      }
+ 		
 	}
 	
 	def preamble(ReferableElement e) '''
@@ -155,15 +168,9 @@ class VodslGenerator extends AbstractGenerator  {
 	   «FOR f: e.subsets»
 	   	«f.vodml»
 	   «ENDFOR»	   
-	   «FOR f: e.content.filter(Attribute)»
-	   	«(f as Attribute).vodml»
+	   «FOR f: e.content»
+	   	«f.vodml»
 	   «ENDFOR»
-	   «FOR f: e.content.filter(Composition)»
-	   	«(f as Composition).vodml»
-	   «ENDFOR»	   
-	   «FOR f: e.content.filter(Reference)»
-	   	«(f as Reference).vodml»
-	   «ENDFOR»	   
 	</objectType>
 	'''
 	def vodml (Attribute e)'''
@@ -173,12 +180,15 @@ class VodslGenerator extends AbstractGenerator  {
 	     «(e.type as ReferableElement).ref»
 	  </datatype>
 	  «vodml(e.multiplicity)»
-	  «IF e.semanticConcept !== null»
+	«IF e.semanticConcept !== null»
 	  «e.semanticConcept.vodml»
-	  «ENDIF»
-	  «IF e.key !== null»
+	«ENDIF»
+    «IF e.ucd !== null»
+      <UCD>«e.ucd»</UCD>
+	«ENDIF»	
+	«IF e.key !== null»
 	  «e.key.vodml»
-	  «ENDIF»
+	«ENDIF»
 	</attribute>
 	'''
 	
@@ -244,12 +254,9 @@ class VodslGenerator extends AbstractGenerator  {
        «FOR f: e.subsets»
        «f.vodml»
       «ENDFOR»	   
-      «FOR f: e.content.filter(Attribute)»
-	   	«(f as Attribute).vodml»
-	   «ENDFOR»
-	   «FOR f: e.content.filter(Reference)»
-	   	«(f as Reference).vodml»
-	   «ENDFOR»	   	
+      «FOR f: e.content»
+	   	«f.vodml»
+	   «ENDFOR» 	
 	</dataType>
 	'''
 	
@@ -305,7 +312,7 @@ class VodslGenerator extends AbstractGenerator  {
 	
 	
 	def vodml (PrimitiveType e)'''
-    <primitiveType>
+    <primitiveType «IF e.abstract» abstract="true"«ENDIF»>
     «e.preamble»
     «IF e.superType !== null»
  	   <extends>
