@@ -21,8 +21,8 @@ VoDataModel:
 
 
 ModelDeclaration:
-	'model' name=ID  '(' version=VERSION ')' ('title' titular=STRING )?  description=STRING 
-	 ('author' authors+=STRING)*
+	'model' name=ID  '(' version=VERSION ')'   description=STRING 
+	 ('author' authors+=STRING)* ('title' titular=STRING )?
 ;
 
 
