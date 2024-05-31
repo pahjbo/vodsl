@@ -13,8 +13,8 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>11</maven.compiler.source>
       <maven.compiler.target>11</maven.compiler.target>
-      <tycho-version>2.3.0</tycho-version>
-      <tycho-extras-version>2.3.0</tycho-extras-version>
+      <tycho-version>2.2.0</tycho-version>
+      <tycho-extras-version>2.2.0</tycho-extras-version>
 		<!-- Define overridable properties for tycho-surefire-plugin -->
 		<platformSystemProperties></platformSystemProperties>
 		<moduleProperties></moduleProperties>
