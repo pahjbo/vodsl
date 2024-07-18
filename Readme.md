@@ -66,6 +66,8 @@ is to run
     
 in the `vodsl.standalone/` directory and a jar file will be produced in `target/`
 
+*Note* the standalone parser is now integrated in the standard [VO-DML tooling](https://ivoa.github.io/vo-dml/) which probably provides a more comprehensive set of tools to work with VO-DML/VODSL models.
+
 Developing
 ----------
    
