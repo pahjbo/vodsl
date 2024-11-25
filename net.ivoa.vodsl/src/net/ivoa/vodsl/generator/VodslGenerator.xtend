@@ -34,6 +34,8 @@ import net.ivoa.vodsl.vodsl.SubSet
 import net.ivoa.vodsl.vodsl.NaturalKey
 import net.ivoa.vodsl.vodsl.SemanticConcept
 import net.ivoa.vodsl.vodsl.Role
+import org.eclipse.xtext.scoping.impl.ImportUriResolver
+import org.eclipse.xtext.EcoreUtil2
 
 /**
  * Generates code from your model files on save.
@@ -44,6 +46,9 @@ class VodslGenerator extends AbstractGenerator  {
 
     @Inject extension IQualifiedNameProvider	
     @Inject IQualifiedNameConverter converter 
+    @Inject ImportUriResolver uriResolver
+	
+    
 	 static val TimeZone tz = TimeZone.getTimeZone("UTC")
     static val DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
     var Date modDate
@@ -87,13 +92,20 @@ class VodslGenerator extends AbstractGenerator  {
 	'''
 	}
 	
-	def vodml(IncludeDeclaration e) '''
+	def vodml(IncludeDeclaration e) { 
+	    val resource = EcoreUtil2.getResource(e.eResource,uriResolver.resolve(e))
+	    val vodecl = resource.allContents.filter(typeof(VoDataModel)).head // surely there must be a better way of getting this one....
+		val modelDecl = vodecl.model
+		
+		return '''
 	<import>
-	  <name>null</name><!--should not be needed in modern vo-dml -->
+	  <name>«modelDecl.name»</name>
+	  <version>«modelDecl.version»</version>
 	  <url>«e.importURI.substring(if (e.importURI.lastIndexOf('/') == -1) 0 else e.importURI.lastIndexOf('/')+1,e.importURI.lastIndexOf('.')) +'.vo-dml.xml'»</url>
 	  <documentationURL>not known</documentationURL>
 	</import>
 	'''
+	}
 	
 	def vodml(ReferableElement e)
 	{
