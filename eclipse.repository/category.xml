@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature id="net.ivoa.vodsl.feature" version="0.4.8.qualifier">
+   <feature id="net.ivoa.vodsl.feature" version="0.4.9.qualifier">
       <category name="main"/>
    </feature>
    <feature id="net.ivoa.vodsl.feature.source" version="0.0.0">
