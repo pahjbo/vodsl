@@ -85,7 +85,7 @@ class VodslValidator extends AbstractVodslValidator {
 						VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 				}
 				case MANY: {
-					warning("multiplicity '*' not advised for reference"+typ.name+"\n see VO-DML spec 4.19",
+					error("multiplicity '*' not advised for reference"+typ.name+"\n see VO-DML spec 4.19",
 						VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 
 				}
@@ -119,11 +119,11 @@ class VodslValidator extends AbstractVodslValidator {
 		if (mul.multiplicitySpec != null) {
 			switch mul.multiplicitySpec {
 				case ATLEASTONE: {
-					warning("multiplicity '+' strongly discouraged for attribute " + typ.name,
+					error("multiplicity '+' strongly discouraged for attribute " + typ.name,
 						VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 				}
 				case MANY: {
-					warning("multiplicity '*' strongly discouraged for attribute " + typ.name,
+					error("multiplicity '*' strongly discouraged for attribute " + typ.name,
 						VodslPackage.Literals.MULTIPLICITY__MULTIPLICITY_SPEC)
 				}
 				case OPTIONAL: {
