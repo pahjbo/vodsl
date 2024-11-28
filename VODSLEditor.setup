@@ -29,13 +29,13 @@
         label="${scope.product.label} (${scope.product.version.label})">
       <requirement
           name="org.eclipse.platform.ide"
-          versionRange="[4.21.0,5.0.0)"/>
+          versionRange="[4.20.0,5.0.0)"/>
       <requirement
           name="org.eclipse.platform.feature.group"
-          versionRange="4.21.0"/>
+          versionRange="4.20.0"/>
       <requirement
           name="org.eclipse.rcp.feature.group"
-          versionRange="4.21.0"/>
+          versionRange="4.20.0"/>
       <requirement
           name="org.eclipse.fx.core.shared.feature.feature.group"/>
       <requirement
@@ -48,18 +48,20 @@
           name="openjfx.swt.feature.feature.group"/>
       <requirement
           name="org.eclipse.xtext.sdk.feature.group"
-          versionRange="2.25.0"/>
+          versionRange="[2.24.0,2.26.0)"/>
       <requirement
           name="org.eclipse.emf.sdk.feature.group"
-          versionRange="2.25.0"/>
+          versionRange="[2.24.0,2.26.0)"/>
       <requirement
           name="openjfx.standard.feature.feature.group"/>
+      <repository
+          url="https://download.eclipse.org/modeling/tmf/updates/"/>
+      <repository
+          url="https://download.eclipse.org/modeling/emf/emf/builds/release/"/>
       <repository
           url="https://download.eclipse.org/releases/2021-06/"/>
       <repository
           url="https://download.eclipse.org/eclipse/updates/4.21/"/>
-      <repository
-          url="https://download.eclipse.org/modeling/tmf/updates/"/>
       <repository
           url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.34.0/"/>
       <repository
