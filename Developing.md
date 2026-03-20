@@ -120,7 +120,7 @@ Update
 
 * https://wiki.eclipse.org/Equinox_p2_Repository_Mirroring - to get all of the Kieler stuff.
 
- ~/eclipse/DSL-2020-06/Eclipse.app/Contents/MacOS/eclipse -nosplash -verbose -application org.eclipse.equinox.p2.artifact.repository.mirrorApplication -source http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02 -destination file:`pwd`/kielermirror/
+ ~/eclipse/DSL-2020-06/Eclipse.app/Contents/MacOS/eclipse -nosplash -verbose -application org.eclipse.equinox.p2.artifact.repository.mirrorApplication -source https://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02 -destination file:`pwd`/kielermirror/
   
  
  * transfer to metis:/data/vo/eclipse/vodsleditor/ - for site http://vo.jb.man.ac.uk/eclipse/vodsleditor/

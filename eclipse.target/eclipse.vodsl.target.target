@@ -68,7 +68,7 @@
 		<unit id="io.github.classgraph" version="4.8.35.v20190528-1517"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-		<repository location="http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02"/>
+		<repository location="https://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02"/>
 		<unit id="de.cau.cs.kieler.kgraph.feature.feature.group" version="0.7.0.201502261452"/>
 		<unit id="de.cau.cs.kieler.kiml.adaptagrams.feature.feature.group" version="0.1.0.201502261452"/>
 		<unit id="de.cau.cs.kieler.kiml.feature.feature.group" version="0.18.0.201502261452"/>
