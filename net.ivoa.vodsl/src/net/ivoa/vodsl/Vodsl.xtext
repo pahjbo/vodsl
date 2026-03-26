@@ -94,6 +94,7 @@ PrimitiveType:
  * constraints
  */
 DataType:
+    pis+=ProcessingInstruction*
     ( abstract?='abstract'? ) 'dtype' name=ID 
     ( '->' superType=[DataType|QualifiedName] )? 
     (description=STRING)?
@@ -107,6 +108,7 @@ DataType:
 
     
 ObjectType:
+    pis+=ProcessingInstruction*
     ( abstract?='abstract'? ) 'otype' name=ID
         ( '->' superType=[ObjectType|QualifiedName] )? (description=STRING)?
         ( constraints += Constraint )*
@@ -121,8 +123,9 @@ ObjectType:
  * 
  */
 Attribute :
+    pis+=ProcessingInstruction*
     name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )? 
-    (key=NaturalKey)? description=STRING  ( ('UCD' ucd=STRING)? & (semanticConcept=SemanticConcept)? & 
+    (key=NaturalKey)? description=STRING  ( (semanticConcept=SemanticConcept)? & 
     	( constraints += Constraint )*
     )';'
     ;
@@ -207,3 +210,14 @@ SubSet:
 NaturalKey:
      {NaturalKey} 'iskey' ('ofRank' position=INT)?
 ;
+
+/**
+ * A processing instruction that can be attached to DataType, ObjectType or Attribute elements.
+ * Syntax: !<name> <content>!
+ * Example: !meta ucd="instr.background"!
+ */
+ProcessingInstruction:
+    {ProcessingInstruction} pitext=PI_TEXT
+;
+
+terminal PI_TEXT: '!' (!'!')* '!';

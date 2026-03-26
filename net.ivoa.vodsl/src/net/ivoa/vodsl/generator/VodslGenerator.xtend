@@ -36,6 +36,7 @@ import net.ivoa.vodsl.vodsl.SemanticConcept
 import net.ivoa.vodsl.vodsl.Role
 import org.eclipse.xtext.scoping.impl.ImportUriResolver
 import org.eclipse.xtext.EcoreUtil2
+import net.ivoa.vodsl.vodsl.ProcessingInstruction
 
 /**
  * Generates code from your model files on save.
@@ -167,7 +168,8 @@ class VodslGenerator extends AbstractGenerator  {
 	</package>
 	'''
 	def vodml (ObjectType e)'''
-	<objectType«IF e.abstract» abstract="true"«ENDIF»>
+	«FOR pi: e.pis»«pi.vodml»
+	«ENDFOR»<objectType«IF e.abstract» abstract="true"«ENDIF»>
 	   «e.preamble»
 	   «IF e.superType !== null»
 	   <extends>
@@ -186,7 +188,8 @@ class VodslGenerator extends AbstractGenerator  {
 	</objectType>
 	'''
 	def vodml (Attribute e)'''
-	<attribute>
+	«FOR pi: e.pis»«pi.vodml»
+	«ENDFOR»<attribute>
 	  «e.preamble»
 	  <datatype>
 	     «(e.type as ReferableElement).ref»
@@ -195,9 +198,6 @@ class VodslGenerator extends AbstractGenerator  {
 	«IF e.semanticConcept !== null»
 	  «e.semanticConcept.vodml»
 	«ENDIF»
-    «IF e.ucd !== null»
-      <UCD>«e.ucd»</UCD>
-	«ENDIF»	
 	«IF e.key !== null»
 	  «e.key.vodml»
 	«ENDIF»
@@ -253,7 +253,8 @@ class VodslGenerator extends AbstractGenerator  {
 	'''
 	def vodml (DataType e)
 	'''
-	<dataType«IF e.abstract» abstract="true"«ENDIF»>
+	«FOR pi: e.pis»«pi.vodml»
+	«ENDFOR»<dataType«IF e.abstract» abstract="true"«ENDIF»>
 	  «e.preamble»
 	   «IF e.superType !== null»
 	   <extends>
@@ -366,4 +367,21 @@ class VodslGenerator extends AbstractGenerator  {
 	  «ENDIF»
 	</semanticconcept>
 	'''
+	
+	def vodml(ProcessingInstruction e) {
+	    val pitext = e.pitext
+	    if (pitext === null || pitext.length < 2)
+	        return ''
+	    // pitext is the full token including surrounding '!' delimiters, e.g. "!meta ucd=\"x\"!"
+	    val inner = pitext.substring(1, pitext.length - 1).trim()
+	    val spaceIdx = inner.indexOf(' ')
+	    val name = if (spaceIdx == -1) inner else inner.substring(0, spaceIdx)
+	    val content = if (spaceIdx == -1) '' else inner.substring(spaceIdx + 1).trim()
+	    // XML PI content must not contain '?>' - replace to avoid malformed output
+	    val safeContent = content.replace("?>", "? >")
+	    if (safeContent.empty)
+	        return '''<?«name»?>'''
+	    else
+	        return '''<?«name» «safeContent»?>'''
+	}
 }
