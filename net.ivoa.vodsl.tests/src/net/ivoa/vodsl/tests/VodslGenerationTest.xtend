@@ -56,6 +56,26 @@ class VodslGenerationTest extends BaseTest {
 	    }
 	'''
 
+	val multiplicityModel = '''
+	model multest (0.1) "a multiplicity test"
+	    primitive integer ""
+	    otype Container {
+	        items : Container @[3,-1] as composition "at least 3 items, unbounded";
+	    }
+	'''
+
+	@Test
+	def void multiplicityUnboundedTest() {
+		val model = parseHelper.parse(multiplicityModel)
+		assertNotNull(model)
+		val fsa = new InMemoryFileSystemAccess()
+		underTest.doGenerate(model.eResource, fsa, context)
+		val xml = new StringBuffer(fsa.textFiles.get(fsa.textFiles.keySet().head)).toString()
+		// Verify that @[3,-1] generates minOccurs=3 and maxOccurs=-1 (unbounded)
+		assertTrue("minOccurs 3 not found", xml.contains('<minOccurs>3</minOccurs>'))
+		assertTrue("maxOccurs -1 (unbounded) not found", xml.contains('<maxOccurs>-1</maxOccurs>'))
+	}
+
 	@Test
 	def void naturalKeyOrderTest() {
 		val model = parseHelper.parse(naturalKeyModel)

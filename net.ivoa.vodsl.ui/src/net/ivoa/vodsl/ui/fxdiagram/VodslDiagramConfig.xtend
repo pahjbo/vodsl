@@ -240,9 +240,15 @@ class VodslDiagramConfig extends AbstractXtextDiagramConfig {
 					}
 					case ONE:
 					{
-						if(e.minOccurs != 0)
+						// maxOccurs defaults to 0 when not explicitly set in the grammar (e.g. @[n]).
+						// A non-zero maxOccurs means it was explicitly specified (e.g. @[n,m] or @[n,-1]).
+						if(e.maxOccurs != 0)
 						{
 							'''[«e.minOccurs»..«e.maxOccurs» ]'''
+						}
+						else if(e.minOccurs != 0)
+						{
+							'''[«e.minOccurs»]'''
 						}
 						else
 						{
