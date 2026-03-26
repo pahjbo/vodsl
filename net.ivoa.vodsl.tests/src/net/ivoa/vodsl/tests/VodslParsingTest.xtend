@@ -12,6 +12,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import net.ivoa.vodsl.vodsl.DataType
+import net.ivoa.vodsl.vodsl.ObjectType
+import net.ivoa.vodsl.vodsl.Attribute
+import org.eclipse.xtext.generator.InMemoryFileSystemAccess
+import org.eclipse.xtext.generator.IGenerator2
+import org.eclipse.xtext.generator.IGeneratorContext
+import org.eclipse.xtext.util.CancelIndicator
 
 
 @RunWith(XtextRunner)
@@ -21,10 +28,57 @@ class VodslValidationTest extends BaseTest {
 	@Inject
 	ParseHelper<VoDataModel> parseHelper
 
+	@Inject IGenerator2 generator
+
+	val context = new IGeneratorContext {
+		override getCancelIndicator() {
+			return CancelIndicator.NullImpl
+		}
+	}
+
 	@Test 
 	def void loadModel() {
 		val result = parseHelper.parse(example1)
 		assertNotNull(result)
+	}
+
+	@Test
+	def void parseProcessingInstructions() {
+		val result = parseHelper.parse(exampleWithPI)
+		assertNotNull(result)
+		assertTrue("parse errors", result.eResource.errors.empty)
+
+		val elements = result.elements
+		val flux = elements.filter(DataType).findFirst[name == "Flux"]
+		assertNotNull("Flux DataType not found", flux)
+		assertEquals("Flux should have 1 PI", 1, flux.pis.size)
+		assertTrue("Flux PI text should contain 'meta'", flux.pis.get(0).pitext.contains("meta"))
+
+		val source = elements.filter(ObjectType).findFirst[name == "Source"]
+		assertNotNull("Source ObjectType not found", source)
+		assertEquals("Source should have 1 PI", 1, source.pis.size)
+
+		val nameAttr = source.content.filter(Attribute).findFirst[name == "name"]
+		assertNotNull("name Attribute not found", nameAttr)
+		assertEquals("name Attribute should have 1 PI", 1, nameAttr.pis.size)
+	}
+
+	@Test
+	def void generateProcessingInstructions() {
+		val result = parseHelper.parse(exampleWithPI)
+		assertNotNull(result)
+		assertTrue("parse errors", result.eResource.errors.empty)
+
+		val fsa = new InMemoryFileSystemAccess()
+		generator.doGenerate(result.eResource, fsa, context)
+		val xml = fsa.textFiles.get(fsa.textFiles.keySet.head).toString()
+
+		assertTrue("Generated XML should contain PI for Flux DataType",
+			xml.contains('<?meta ucd="phys.background"?>'))
+		assertTrue("Generated XML should contain PI for Source ObjectType",
+			xml.contains('<?meta ucd="src.class"?>'))
+		assertTrue("Generated XML should contain PI for name Attribute",
+			xml.contains('<?meta ucd="meta.id"?>'))
 	}
 
 }

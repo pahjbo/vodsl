@@ -143,6 +143,27 @@ For that purpose the attribute isa skosconcept, but a proper SKOS vocabulary for
   	}
   }
   '''
+
+  protected val exampleWithPI = '''
+  model example (0.1) "an example model with processing instructions"
+  author "Paul Harrison"
+
+  	primitive real ""
+  	primitive boolean ""
+  	primitive string ""
+
+  	!meta ucd="phys.background"!
+  	dtype Flux "a flux data type" {
+  		!meta ucd="instr.background"!
+  		value : real "the flux value" ;
+  	}
+
+  	!meta ucd="src.class"!
+  	otype Source "a source object type" {
+  		!meta ucd="meta.id"!
+  		name : string "source name" ;
+  	}
+  '''
 }
 
 /*
