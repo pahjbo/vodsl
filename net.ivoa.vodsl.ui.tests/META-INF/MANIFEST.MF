@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: net.ivoa.vodsl.ui.tests
 Bundle-Vendor: JBO,
   University of Manchester
-Bundle-Version: 0.4.0.qualifier
+Bundle-Version: 0.4.10.qualifier
 Bundle-SymbolicName: net.ivoa.vodsl.ui.tests;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.xtext.example.mydsl.ui,
