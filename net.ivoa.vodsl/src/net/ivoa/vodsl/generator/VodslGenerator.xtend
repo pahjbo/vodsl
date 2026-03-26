@@ -350,11 +350,25 @@ class VodslGenerator extends AbstractGenerator  {
 	</constraint>
 	'''
 	
-	def vodml(NaturalKey e)'''
+	def vodml(NaturalKey e) {
+		val attr = e.eContainer as Attribute
+		val container = attr.eContainer
+		val pos = if (e.position >= 1) {
+			e.position
+		} else {
+			val keyAttrs = switch container {
+				ObjectType: container.content.filter(Attribute).filter[key !== null].toList
+				DataType: container.content.filter(Attribute).filter[key !== null].toList
+				default: #[]
+			}
+			keyAttrs.indexOf(attr) + 1
+		}
+		'''
     <constraint xsi:type="vo-dml:NaturalKey">
-    	<position>« if( e.position <1) 1 else e.position»</position>
+    	<position>«pos»</position>
     </constraint>
-	'''
+		'''
+	}
 	
 	def vodml(SemanticConcept e)'''
 	<semanticconcept>
