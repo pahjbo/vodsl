@@ -356,11 +356,11 @@ class VodslGenerator extends AbstractGenerator  {
 		val pos = if (e.position >= 1) {
 			e.position
 		} else {
-			val keyAttrs = switch container {
-				ObjectType: container.content.filter(Attribute).filter[key !== null].toList
-				DataType: container.content.filter(Attribute).filter[key !== null].toList
+		val keyAttrs = switch container {
+				ObjectType: container.content
+				DataType: container.content
 				default: #[]
-			}
+			}.filter(Attribute).filter[key !== null].toList
 			keyAttrs.indexOf(attr) + 1
 		}
 		'''
