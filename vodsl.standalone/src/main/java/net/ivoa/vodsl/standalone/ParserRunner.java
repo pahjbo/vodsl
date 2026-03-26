@@ -63,7 +63,9 @@ private XtextResourceSet resourceSet;
         IResourceValidator validator = ((XtextResource)resource).getResourceServiceProvider().getResourceValidator();
         List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
         for (Issue issue : issues) {
-          System.err.println(issue.getMessage());
+          Integer lineNumber = issue.getLineNumber();
+          String location = lineNumber != null ? " at line " + lineNumber : "";
+          System.err.println(issue.getSeverity() + location + ": " + issue.getMessage());
         }
         
      // Code Generator
