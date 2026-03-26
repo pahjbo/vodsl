@@ -107,7 +107,7 @@ class VodslValidator extends AbstractVodslValidator {
 		val mul = typ.multiplicity
 
 		if (mul.multiplicitySpec == null || mul.multiplicitySpec == MultiplicityBound.ONE) {
-			if (mul.maxOccurs < mul.minOccurs) {
+			if (mul.maxOccurs != -1 && mul.maxOccurs < mul.minOccurs) {
 				error("maximum multiplicity less than minimum - " + typ.name,
 					VodslPackage.Literals.MULTIPLICITY__MAX_OCCURS)
 			}

@@ -142,17 +142,15 @@ Composition :
 /*
  * the @ is not really necessary from a parsing/grammar point of view - 
  * just put in to make it stand out in the text
- * when not present it is assumed that the multiplicity is @[1..1]
+ * when the multiplicity annotation is omitted entirely, it defaults to @[1,1]
  */
 Multiplicity :
-	'@' ( ('[' (minOccurs=INT) ('..' maxOccurs=SINT)? ']' ) 
+	'@' ( ('[' (minOccurs=INT) (',' maxOccurs=SINT)? ']' ) 
 		| ( multiplicitySpec = MultiplicityBound )
 	)
 ;
 		
-/* need this because of problems with the terminal INT rule in different contexts
- * FIXME - still having problems with @[2..-1]
- */		
+/* need this because of problems with the terminal INT rule in different contexts */		
 SINT returns ecore::EInt : '-'? INT ;
   
 /* shortcut representation of common multiplicities - the ONE is a bit ugly
