@@ -198,9 +198,6 @@ class VodslGenerator extends AbstractGenerator  {
 	«IF e.semanticConcept !== null»
 	  «e.semanticConcept.vodml»
 	«ENDIF»
-    «IF e.ucd !== null»
-      <UCD>«e.ucd»</UCD>
-	«ENDIF»	
 	«IF e.key !== null»
 	  «e.key.vodml»
 	«ENDIF»

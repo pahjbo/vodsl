@@ -125,7 +125,7 @@ ObjectType:
 Attribute :
     pis+=ProcessingInstruction*
     name=ID ':' type=[DefinitionType|QualifiedName] (multiplicity=Multiplicity )? 
-    (key=NaturalKey)? description=STRING  ( ('UCD' ucd=STRING)? & (semanticConcept=SemanticConcept)? & 
+    (key=NaturalKey)? description=STRING  ( (semanticConcept=SemanticConcept)? & 
     	( constraints += Constraint )*
     )';'
     ;
