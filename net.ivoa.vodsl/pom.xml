@@ -7,7 +7,7 @@
       <version>0.4.10</version>
       <relativePath>../mavenbase/pom.xml</relativePath>
 	</parent>
-	
+	<name>vodsl parser library</name>
     <version>0.4.10</version>
 	<artifactId>net.ivoa.vodsl</artifactId>
 	
