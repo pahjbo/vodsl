@@ -11,7 +11,7 @@
    </parent>
    <version>0.4.10</version>
    <artifactId>vodslparser</artifactId>
-   <name>VO-DSL parser</name>
+   <name>VO-DSL parser standalone</name>
    <description>a standalone implementation of the VO-DSL parser and converter to VO-DML</description>
    <dependencies>
       <dependency>

@@ -24,15 +24,10 @@ Deploying stand alone parser to maven central
 
 after the maven build in the top level, then 
 
-   mvn -X deploy -P release --projects mavenbase,net.ivoa.vodsl,vodsl.standalone
+   mvn deploy -P release --projects mavenbase,net.ivoa.vodsl,vodsl.standalone
 
 
-if this is successful then
-
-
-    mvn nexus-staging:release -P release  --projects mavenbase,net.ivoa.vodsl,vodsl.standalone
-
-or go to https://oss.sonatype.org/ to release manually
+then go to https://central.sonatype.com/publishing/deployments to release manually
 
 last known eclipse build on DSL-2021-09 on intel
 
@@ -123,7 +118,7 @@ Update
  ~/eclipse/DSL-2020-06/Eclipse.app/Contents/MacOS/eclipse -nosplash -verbose -application org.eclipse.equinox.p2.artifact.repository.mirrorApplication -source https://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2015-02 -destination file:`pwd`/kielermirror/
   
  
- * transfer to metis:/data/vo/eclipse/vodsleditor/ - for site http://vo.jb.man.ac.uk/eclipse/vodsleditor/
+ * transfer to metis:/data/vo/eclipse/vodsleditor/ - for site https://vo.jb.man.ac.uk/eclipse/vodsleditor/
  
  JDK 11
  

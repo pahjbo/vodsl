@@ -34,3 +34,13 @@ jobs:
          mvn -B install
          cd vodsl.standalone
          mvn -B install
+         cd ../eclipse.repository
+         mvn package
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: eclipse_repository
+        path: eclipse.repository/target/repository/
+        
+         
