@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vodsl"
+version = "0.1.0"
+description = "Pure-Python VODSL parser and VO-DML generator"
+readme = "Readme.md"
+requires-python = ">=3.10"
+license = {text = "Academic Free License"}
+dependencies = [
+    "textx>=3.0",
+    "lxml>=4.9",
+    "requests>=2.28",
+]
+
+[project.scripts]
+vodsl = "vodsl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: tests requiring network access to download remote fixtures",
+]
