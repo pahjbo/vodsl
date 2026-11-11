@@ -51,8 +51,8 @@ class VodslGenerationTest extends BaseTest {
 	        third : string iskey "third key";
 	    }
 	    otype RankedType {
-	        a : string iskey ofRank 3 "explicit rank 3";
-	        b : integer iskey ofRank 1 "explicit rank 1";
+	        a : string iskey ofRank 0 "explicit rank 3";
+	        b : integer iskey ofRank 0 "explicit rank 0";
 	    }
 	'''
 
@@ -93,8 +93,11 @@ class VodslGenerationTest extends BaseTest {
 		assertTrue("position 1 should come before position 2", pos1 < pos2)
 		assertTrue("position 2 should come before position 3", pos2 < pos3)
 		// Verify explicit ofRank values are preserved
-		val pos3b = xml.indexOf('<position>3</position>', pos3 + 1)
+		val pos3b = xml.indexOf('<position>4</position>', pos3 + 1)
 		assertTrue("explicit rank 3 should also appear", pos3b >= 0)
+		val pos0 = xml.indexOf('<position>0</position>')
+		assertTrue("explicit rank 0 should also appear", pos0 >= 0)
+
 	}
 
 	@Test 
