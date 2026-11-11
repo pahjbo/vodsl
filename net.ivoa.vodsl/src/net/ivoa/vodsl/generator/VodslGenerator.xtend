@@ -360,7 +360,7 @@ class VodslGenerator extends AbstractGenerator  {
 	def vodml(NaturalKey e) {
 		val attr = e.eContainer as Attribute
 		val container = attr.eContainer
-		val pos = if (e.position >= 1) {
+		val pos = if (e.position >= 0) {
 			e.position
 		} else {
 		val keyAttrs = switch container {
