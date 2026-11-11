@@ -26,7 +26,7 @@ import org.junit.Test
  */
 @RunWith(XtextRunner)
 @InjectWith(VodslInjectorProvider)
-class FormattingTest extends BaseTest {
+class FormattingTestSupport extends BaseTest {
 	
 @Inject extension FormatterTestHelper
 	
