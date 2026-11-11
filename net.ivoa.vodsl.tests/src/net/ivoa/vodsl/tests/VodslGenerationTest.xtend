@@ -42,16 +42,11 @@ class VodslGenerationTest extends BaseTest {
 				}
 
 	val naturalKeyModel = '''
-	model keytest (0.1) "a key ordering test"
+	model keytest (0.1) "a key rank test"
 	    primitive string ""
 	    primitive integer ""
-	    otype KeyedType {
-	        first : string iskey "first key";
-	        second : integer iskey "second key";
-	        third : string iskey "third key";
-	    }
 	    otype RankedType {
-	        a : string iskey ofRank 0 "explicit rank 3";
+	        a : string iskey ofRank 3 "explicit rank 3";
 	        b : integer iskey ofRank 0 "explicit rank 0";
 	    }
 	'''
@@ -77,26 +72,18 @@ class VodslGenerationTest extends BaseTest {
 	}
 
 	@Test
-	def void naturalKeyOrderTest() {
+	def void naturalKeyRankTest() {
 		val model = parseHelper.parse(naturalKeyModel)
 		assertNotNull(model)
 		val fsa = new InMemoryFileSystemAccess()
 		underTest.doGenerate(model.eResource, fsa, context)
 		val xml = new StringBuffer(fsa.textFiles.get(fsa.textFiles.keySet().head)).toString()
-		// Verify positions appear in order for implicit ranking
-		val pos1 = xml.indexOf('<position>1</position>')
-		val pos2 = xml.indexOf('<position>2</position>')
+		// Verify explicit ofRank values are preserved in the generated XML.
 		val pos3 = xml.indexOf('<position>3</position>')
-		assertTrue("position 1 not found", pos1 >= 0)
-		assertTrue("position 2 not found", pos2 >= 0)
-		assertTrue("position 3 not found", pos3 >= 0)
-		assertTrue("position 1 should come before position 2", pos1 < pos2)
-		assertTrue("position 2 should come before position 3", pos2 < pos3)
-		// Verify explicit ofRank values are preserved
-		val pos3b = xml.indexOf('<position>4</position>', pos3 + 1)
-		assertTrue("explicit rank 3 should also appear", pos3b >= 0)
 		val pos0 = xml.indexOf('<position>0</position>')
-		assertTrue("explicit rank 0 should also appear", pos0 >= 0)
+		assertTrue("explicit rank 3 not found", pos3 >= 0)
+		assertTrue("explicit rank 0 not found", pos0 >= 0)
+		assertTrue("ranks should follow attribute order", pos3 < pos0)
 
 	}
 

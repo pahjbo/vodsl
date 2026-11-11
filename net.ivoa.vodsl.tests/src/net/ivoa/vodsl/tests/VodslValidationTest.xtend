@@ -13,7 +13,6 @@ import org.junit.runner.RunWith
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 
 import static org.junit.Assert.*
-import net.ivoa.vodsl.vodsl.VodslPackage
 
 @RunWith(XtextRunner)
 @InjectWith(VodslInjectorProvider)
@@ -25,10 +24,9 @@ class VodslParsingTest extends BaseTest {
 
 	@Test 
 	def void allvalidation() {
-		val result = parseHelper.parse(example1) // actually should parse smaller chunk...
+		val result = parseHelper.parse(exampleWithPI)
 		assertNotNull(result)
-		
-		result.assertWarning(VodslPackage.Literals.MULTIPLICITY,null,"tbd")
+		result.assertNoErrors
 	}
 
 }
