@@ -110,7 +110,7 @@ class VodslGenerationTest extends BaseTest {
 	   
 	     val factory = 
             SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        val schema = factory.newSchema(new StreamSource('http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/xsd/vo-dml-v1.0.xsd'));
+        val schema = factory.newSchema(new StreamSource('https://raw.githubusercontent.com/ivoa/vo-dml/refs/heads/main/xsd/vo-dml-v1.0.xsd'));
         val exceptions = new LinkedList<SAXParseException>();
         val validator = schema.newValidator();
         validator.errorHandler = new ErrorHandler(){
