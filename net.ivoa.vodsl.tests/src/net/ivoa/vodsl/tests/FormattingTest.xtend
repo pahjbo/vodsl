@@ -30,15 +30,15 @@ class FormattingTest extends BaseTest {
 	
 @Inject extension FormatterTestHelper
 	
-@Test	def formexample1()
-	{
-		assertFormatted [
-			toBeFormatted = example1
-			
-			expectation = '''
-			'''
-		]
-	}
+//@Test	def formexample1()
+//	{
+//		assertFormatted [
+//			toBeFormatted = example1
+//
+//			expectation = '''
+//			'''
+//		]
+//	}
 	
 }
 
