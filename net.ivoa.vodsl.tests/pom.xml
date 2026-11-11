@@ -9,6 +9,7 @@
 	</parent>
 	<packaging>eclipse-test-plugin</packaging>
     <artifactId>net.ivoa.vodsl.tests</artifactId>
+	<version>0.4.11-SNAPSHOT</version>
 	<build>
 		<plugins>
 			<plugin>
