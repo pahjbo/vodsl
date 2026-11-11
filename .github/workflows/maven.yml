@@ -40,13 +40,21 @@ jobs:
       with:
         name: eclipse_repository
         path: eclipse.repository/target/repository/
-        
-    - name: Build standalone
-      run: |
-        mvn -B deploy -P release --projects mavenbase,net.ivoa.vodsl,vodsl.standalone
 
     - name: Upload standalone
       uses: actions/upload-artifact@v5
       with:
         name: vodsl_standalone
         path: vodsl.standalone/target/
+
+    - name: Upload mavenbase
+      uses: actions/upload-artifact@v5
+      with:
+        name: vodsl_mavenbase
+        path: mavenbase/target/
+
+    - name: Upload vodsl
+      uses: actions/upload-artifact@v5
+      with:
+        name: vodsl_vodsl
+        path: net.ivoa.vodsl/target/
