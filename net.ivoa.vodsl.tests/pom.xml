@@ -4,9 +4,11 @@
 	<parent>
 		<groupId>org.javastro.vodsl</groupId>
 		<artifactId>mavenbase</artifactId>
-		<version>0.4.11</version></artifactId>
+		<version>0.4.11</version>
+        <relativePath>../mavenbase/pom.xml</relativePath>
+	</parent>
 	<packaging>eclipse-test-plugin</packaging>
-
+    <artifactId>net.ivoa.vodsl.tests</artifactId>
 	<build>
 		<plugins>
 			<plugin>
