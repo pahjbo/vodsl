@@ -120,7 +120,7 @@ Update
  
  * transfer to metis:/data/vo/eclipse/vodsleditor/ - for site https://vo.jb.man.ac.uk/eclipse/vodsleditor/
  
- JDK 11
+ JDK 17
  
 * https://git.fortiss.org/af3/org.fortiss.openjfx.git 
 * https://github.com/reficio/p2-maven-plugin used this...

@@ -9,12 +9,11 @@
   <url>https://javastro.github.io</url>
    <properties>
       <vodsl.version>0.4.11-SNAPSHOT</vodsl.version>
-      <xtextVersion>2.25.0</xtextVersion>
+      <xtextVersion>2.29.0</xtextVersion>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <maven.compiler.source>11</maven.compiler.source>
-      <maven.compiler.target>11</maven.compiler.target>
-      <tycho-version>2.2.0</tycho-version>
-      <tycho-extras-version>2.2.0</tycho-extras-version>
+      <maven.compiler.source>17</maven.compiler.source>
+      <maven.compiler.target>17</maven.compiler.target>
+      <tycho-version>4.0.13</tycho-version>
 		<!-- Define overridable properties for tycho-surefire-plugin -->
 		<platformSystemProperties></platformSystemProperties>
 		<moduleProperties></moduleProperties>
@@ -55,25 +54,6 @@
             </executions>
          </plugin>
          <plugin>
-            <groupId>org.eclipse.tycho.extras</groupId>
-            <artifactId>tycho-source-feature-plugin</artifactId>
-            <version>${tycho-version}</version>
-            <executions>
-               <execution>
-                  <id>source-feature</id>
-                  <phase>package</phase>
-                  <goals>
-                     <goal>source-feature</goal>
-                  </goals>
-                  <configuration>
-                     <excludes>
-                        <feature id="org.eclipse.fx.runtime.min.feature"/>
-                     </excludes>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
             <groupId>org.eclipse.tycho</groupId>
             <artifactId>tycho-p2-plugin</artifactId>
             <version>${tycho-version}</version>
@@ -101,6 +81,7 @@
             <artifactId>target-platform-configuration</artifactId>
             <version>${tycho-version}</version>
             <configuration>
+               <executionEnvironment>JavaSE-17</executionEnvironment>
                <target>
                   <artifact>
                      <groupId>org.javastro.vodsl</groupId>
@@ -153,19 +134,6 @@
                <groupId>org.eclipse.tycho</groupId>
                <artifactId>tycho-packaging-plugin</artifactId>
                <version>${tycho-version}</version>
-               <dependencies>
-                  <dependency>
-                     <groupId>org.eclipse.tycho.extras</groupId>
-                     <artifactId>tycho-buildtimestamp-jgit</artifactId>
-                     <version>${tycho-extras-version}</version>
-                  </dependency>
-               </dependencies>
-               <configuration>
-                  <timestampProvider>jgit</timestampProvider>
-                  <jgit.ignore>pom.xml</jgit.ignore>
-<!--                   <format>'v'yyyyMMdd</format> -->
-                  <jgit.dirtyWorkingTree>ignore</jgit.dirtyWorkingTree><!-- set to error to prevent build continuing -->
-               </configuration>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -310,8 +278,8 @@
    </build>
    <repositories>
        <repository>
-         <id>eclipse-2021-03</id>
-         <url>https://download.eclipse.org/releases/2021-03</url>
+         <id>eclipse-2026-09</id>
+         <url>https://download.eclipse.org/releases/2026-09</url>
          <layout>p2</layout>
       </repository>
       <repository>
@@ -338,7 +306,7 @@
       </repository>   
       <repository>
           <id>openfx</id>
-          <url>http://downloads.efxclipse.bestsolution.at/p2-repos/openjfx-11/repository/</url>
+          <url>https://vo.jb.man.ac.uk/eclipse/javafx/</url>
           <layout>p2</layout>
           <releases><enabled>true</enabled></releases>
       </repository>

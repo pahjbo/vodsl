@@ -30,7 +30,7 @@ Installation of Pre-built Editor
 
 The [VODSLEditor.setup](./VODSLEditor.setup) file can be read into the eclipse installer in advanced mode as a user product to create a minimal customized eclipse installation that just contains the vodsl editor.
 
-1. ensure that you have a Java 11 or later installed on your machine as well as [graphviz](https://graphviz.org)
+1. ensure that you have Java 17 or later installed on your machine as well as [graphviz](https://graphviz.org)
 2. download the eclipse installer https://www.eclipse.org/downloads/
 3. Run the eclipse installer and select "advanced mode" from the menu at top right.
 4. use the green arrow at the top right to add a new user product with the following url https://raw.githubusercontent.com/pahjbo/vodsl/master/VODSLEditor.setup
