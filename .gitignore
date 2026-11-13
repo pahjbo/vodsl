@@ -4,3 +4,13 @@
 **/plugin.xml_gen
 **/target
 /.externalToolBuilders/
+
+# Python
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+*.dot
+.pytest_cache/
