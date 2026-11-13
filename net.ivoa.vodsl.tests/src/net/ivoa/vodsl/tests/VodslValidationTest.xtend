@@ -25,10 +25,9 @@ class VodslParsingTest extends BaseTest {
 
 	@Test 
 	def void allvalidation() {
-		val result = parseHelper.parse(example1) // actually should parse smaller chunk...
+		val result = parseHelper.parse(exampleWithPI)
 		assertNotNull(result)
-		
-		result.assertWarning(VodslPackage.Literals.MULTIPLICITY,null,"tbd")
+		result.assertNoErrors
 	}
 
 }

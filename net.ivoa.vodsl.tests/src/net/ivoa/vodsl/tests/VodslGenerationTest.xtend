@@ -83,6 +83,7 @@ class VodslGenerationTest extends BaseTest {
 		val fsa = new InMemoryFileSystemAccess()
 		underTest.doGenerate(model.eResource, fsa, context)
 		val xml = new StringBuffer(fsa.textFiles.get(fsa.textFiles.keySet().head)).toString()
+		println(xml)
 		// Verify positions appear in order for implicit ranking
 		val pos1 = xml.indexOf('<position>1</position>')
 		val pos2 = xml.indexOf('<position>2</position>')
@@ -106,7 +107,7 @@ class VodslGenerationTest extends BaseTest {
 		assertNotNull(model)
 		val fsa = new InMemoryFileSystemAccess()
 	    underTest.doGenerate(model.eResource, fsa, context)
-	   println(fsa.textFiles)
+	   //println(fsa.textFiles)
 	   
 	     val factory = 
             SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
