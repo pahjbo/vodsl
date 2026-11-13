@@ -22,7 +22,9 @@
 		<unit id="de.fxdiagram.sdk.feature.feature.group" version="0.36.1.202106281643"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-		<repository location="https://download.eclipse.org/eclipse/updates/4.19"/>
+		<repository location="https://download.eclipse.org/eclipse/updates/4.26"/>
+		<unit id="org.eclipse.platform.ide" version="4.26.0.I20221123-1800"/>
+		<unit id="org.eclipse.rcp.feature.group" version="4.26.0.v20221123-2302"/>
 	</location>
 	<!--
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -36,27 +38,26 @@
 		<repository location="https://download.eclipse.org/efxclipse/updates-released/3.7.0/site/"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-		<repository location="https://download.eclipse.org/releases/2021-03"/>
-		<unit id="org.eclipse.xtext.sdk.feature.group" version="2.25.0.v20210301-1429"/>
-		<unit id="org.eclipse.emf.sdk.feature.group" version="2.25.0.v20210114-1734"/>
-		<unit id="org.eclipse.jdt.feature.group" version="3.18.700.v20210303-1800"/>
-		<unit id="org.eclipse.pde.feature.group" version="3.14.700.v20210303-1800"/>
-		<unit id="org.eclipse.platform.feature.group" version="4.19.0.v20210303-1800"/>
-		<unit id="org.eclipse.gef.graph.sdk.feature.group" version="5.1.0.202103090301"/>
-		<unit id="org.eclipse.gef.layout.sdk.feature.group" version="5.0.0.202103090301"/>
-		<unit id="org.eclipse.gmf.feature.group" version="1.13.0.202004160913"/>
-		<unit id="org.eclipse.gmf.runtime.notation.sdk.feature.group" version="1.13.0.202004160913"/>
-		<unit id="org.eclipse.gmf.runtime.sdk.feature.group" version="1.13.0.202004160913"/>
-		<unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
-		<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.12.0.201805140824"/>
-		<unit id="org.eclipse.gef.common.sdk.feature.group" version="5.0.1.202103090301"/>
-		<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.12.2.202008210805"/>
+		<repository location="https://download.eclipse.org/releases/2022-12"/>
+		<unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.emf.sdk.feature.group" version="2.32.0.v20221121-1400"/>
+		<unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.gef.graph.sdk.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.gef.layout.sdk.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.gmf.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.gmf.runtime.notation.sdk.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.gmf.runtime.sdk.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.gef.sdk.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.gef.common.sdk.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.emf.validation.sdk.feature.group" version="0.0.0"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-		<repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.12.1/"/>
-		<unit id="org.eclipse.emf.mwe.sdk.feature.group" version="1.6.1.v20210218-2134"/>
-		<unit id="org.eclipse.emf.mwe2.language.sdk.feature.group" version="2.12.1.v20210218-2134"/>
-		<unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.12.1.v20210218-2134"/>
+		<repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.14.0/"/>
+		<unit id="org.eclipse.emf.mwe.sdk.feature.group" version="0.0.0"/>
+		<unit id="org.eclipse.emf.mwe2.language.sdk.feature.group" version="2.14.0.v20221117-1134"/>
+		<unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.14.0.v20221117-1134"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<repository location="https://download.eclipse.org/tools/orbit/downloads/2021-03"/>
@@ -87,5 +88,5 @@
 		<unit id="openjfx.web.feature.feature.group" version="17.0.0.202311161141"/>
 	</location>
 </locations>
-<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"/>
+<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17"/>
 </target>

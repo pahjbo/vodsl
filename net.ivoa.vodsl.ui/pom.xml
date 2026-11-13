@@ -27,7 +27,7 @@
 					<dependency>
 						<groupId>org.openjfx</groupId>
 						<artifactId>javafx-controls</artifactId>
-						<version>11</version>
+						<version>17</version>
 					</dependency>
 				   </extraClasspathElements>
 				</configuration>
@@ -39,7 +39,7 @@
 		<dependency>
 			<groupId>org.openjfx</groupId> <!-- tycho ignores this? -->
 			<artifactId>javafx-controls</artifactId>
-			<version>11</version>
+			<version>17</version>
 		</dependency>
 	</dependencies>
 </project>

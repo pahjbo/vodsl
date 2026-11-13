@@ -20,22 +20,22 @@
       <value>Eclipse</value>
     </detail>
   </annotation>
-  <version name="2021-06"
-      label="2021-06"
-      requiredJavaVersion="11">
+  <version name="2022-12"
+      label="2022-12"
+      requiredJavaVersion="17">
     <setupTask
         xsi:type="setup.p2:P2Task"
         id="vodsleditor"
         label="${scope.product.label} (${scope.product.version.label})">
       <requirement
           name="org.eclipse.platform.ide"
-          versionRange="[4.20.0,5.0.0)"/>
+          versionRange="[4.26.0,5.0.0)"/>
       <requirement
           name="org.eclipse.platform.feature.group"
-          versionRange="4.20.0"/>
+          versionRange="4.26.0"/>
       <requirement
           name="org.eclipse.rcp.feature.group"
-          versionRange="4.20.0"/>
+          versionRange="4.26.0"/>
       <requirement
           name="org.eclipse.fx.core.shared.feature.feature.group"/>
       <requirement
@@ -48,10 +48,10 @@
           name="openjfx.swt.feature.feature.group"/>
       <requirement
           name="org.eclipse.xtext.sdk.feature.group"
-          versionRange="[2.24.0,2.26.0)"/>
+          versionRange="[2.29.0,2.30.0)"/>
       <requirement
           name="org.eclipse.emf.sdk.feature.group"
-          versionRange="[2.24.0,2.26.0)"/>
+          versionRange="[2.32.0,2.33.0)"/>
       <requirement
           name="openjfx.standard.feature.feature.group"/>
       <repository
@@ -59,9 +59,9 @@
       <repository
           url="https://download.eclipse.org/modeling/emf/emf/builds/release/"/>
       <repository
-          url="https://download.eclipse.org/releases/2021-06/"/>
+          url="https://download.eclipse.org/releases/2022-12/"/>
       <repository
-          url="https://download.eclipse.org/eclipse/updates/4.21/"/>
+          url="https://download.eclipse.org/eclipse/updates/4.26/"/>
       <repository
           url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.34.0/"/>
       <repository
@@ -78,9 +78,9 @@
     </setupTask>
     <setupTask
         xsi:type="jdt:JRETask"
-        version="JavaSE-11"
-        location="${jre.location-11}"/>
-    <description>VODSL Editor for 2021-06.</description>
+        version="JavaSE-17"
+        location="${jre.location-17}"/>
+    <description>VODSL Editor for 2022-12.</description>
   </version>
   <description>VODSL Editor provides cool stuff.</description>
 </setup:Product>
