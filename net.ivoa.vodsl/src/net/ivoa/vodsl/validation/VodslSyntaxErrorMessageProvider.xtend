@@ -40,7 +40,7 @@ IGrammarAccess grammarAccess;
 			var unexpectedText = token
 					.getText();
 					
-         if (GrammarUtil.getAllKeywords(grammarAccess.getGrammar())
+         if (grammarAccess !== null && GrammarUtil.getAllKeywords(grammarAccess.getGrammar())
 					.contains(unexpectedText)) {
 				return new SyntaxErrorMessage(
 						unexpectedText
