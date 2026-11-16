@@ -1,0 +1,29 @@
+{
+  "name": "VODSL",
+  "scopeName": "source.vodsl",
+  "fileTypes": ["vodsl"],
+  "patterns": [
+    { "name": "comment.line.double-slash.vodsl", "match": "//.*$" },
+    { "name": "comment.block.vodsl", "begin": "/\\*", "end": "\\*/" },
+    {
+      "name": "string.quoted.double.vodsl",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [{ "name": "constant.character.escape.vodsl", "match": "\\\\." }]
+    },
+    {
+      "name": "string.quoted.single.vodsl",
+      "begin": "'",
+      "end": "'",
+      "patterns": [{ "name": "constant.character.escape.vodsl", "match": "\\\\." }]
+    },
+    { "name": "meta.processing-instruction.vodsl", "begin": "!", "end": "!" },
+    { "name": "variable.other.escaped.vodsl", "match": "\\^[a-zA-Z_][a-zA-Z_0-9]*" },
+    {
+      "name": "keyword.control.vodsl",
+      "match": "\\b(model|author|title|include|package|abstract|primitive|dtype|otype|enum|references|as|ordered|composition|semantic|in|subset|iskey|ofRank|Natural|Regex|OCL|ONE)\\b"
+    },
+    { "name": "constant.numeric.vodsl", "match": "\\b[0-9]+\\b" },
+    { "name": "keyword.operator.vodsl", "match": "->|[@:*+?<>]" }
+  ]
+}

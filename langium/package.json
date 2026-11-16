@@ -1,0 +1,33 @@
+{
+  "name": "vodsl-langium",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "vodsl": "./out/cli.js"
+  },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26"
+  },
+  "scripts": {
+    "generate": "langium generate",
+    "build": "npm run generate && tsc && npm run bundle",
+    "bundle": "node build.mjs",
+    "test": "npm run build && node --test out/test/*.test.js"
+  },
+  "dependencies": {
+    "langium": "~4.4.0",
+    "vscode-languageclient": "^9.0.1",
+    "vscode-languageserver": "~10.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.25.0",
+    "langium-cli": "~4.4.0",
+    "typescript": "~5.9.0",
+    "vscode-jsonrpc": "^8.2.0",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.2.0"
+  }
+}

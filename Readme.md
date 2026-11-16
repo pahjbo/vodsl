@@ -72,3 +72,6 @@ Developing
 ----------
    
 If you want to develop vodsl itself then see the [developer instructions](./Developing.md).
+
+An independent [Langium implementation](./langium/README.md) provides a Node.js
+compiler and a VS Code extension example.

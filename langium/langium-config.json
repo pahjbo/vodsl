@@ -1,0 +1,14 @@
+{
+  "projectName": "Vodsl",
+  "languages": [{
+    "id": "vodsl",
+    "grammar": "src/vodsl.langium",
+    "fileExtensions": [".vodsl"]
+  }],
+  "out": "src/generated",
+  "chevrotainParserConfig": {
+    "recoveryEnabled": true,
+    "nodeLocationTracking": "full",
+    "maxLookahead": 4
+  }
+}

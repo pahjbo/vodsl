@@ -1,0 +1,39 @@
+{
+  "name": "vodsl-langium-example",
+  "displayName": "VODSL (Langium example)",
+  "description": "VODSL syntax highlighting and language server example",
+  "version": "0.1.0",
+  "publisher": "vodsl-example",
+  "private": true,
+  "type": "module",
+  "engines": { "vscode": "^1.85.0" },
+  "main": "./dist/extension.cjs",
+  "activationEvents": ["onLanguage:vodsl"],
+  "contributes": {
+    "languages": [{
+      "id": "vodsl",
+      "aliases": ["VODSL", "vodsl"],
+      "extensions": [".vodsl"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "vodsl",
+      "scopeName": "source.vodsl",
+      "path": "./vodsl.tmLanguage.json"
+    }],
+    "commands": [{
+      "command": "vodsl.compile",
+      "title": "VODSL: Compile to VO-DML"
+    }],
+    "configuration": {
+      "title": "VODSL",
+      "properties": {
+        "vodsl.nodePath": {
+          "type": "string",
+          "default": "node",
+          "description": "Path to a supported Node.js executable for the VODSL language server and compiler."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+node_modules/
+out/
+src/generated/
+syntaxes/
+vscode/dist/
+*.vsix
