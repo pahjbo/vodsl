@@ -38,7 +38,23 @@
     "commands": [{
       "command": "vodsl.compile",
       "title": "VODSL: Compile to VO-DML"
+    }, {
+      "command": "vodsl.showDiagram",
+      "title": "VODSL: Open Diagram"
+    }, {
+      "command": "vodsl.revealInDiagram",
+      "title": "VODSL: Reveal in Diagram"
     }],
+    "menus": {
+      "editor/title": [{ "command": "vodsl.showDiagram", "when": "editorLangId == vodsl", "group": "navigation" }],
+      "editor/context": [
+        {
+          "command": "vodsl.revealInDiagram",
+          "when": "editorLangId == vodsl && resourceScheme == file",
+          "group": "navigation"
+        }
+      ]
+    },
     "configuration": {
       "title": "VODSL",
       "properties": {

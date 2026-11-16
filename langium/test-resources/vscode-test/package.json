@@ -1,0 +1,7 @@
+{
+  "name": "vodsl-test-harness",
+  "publisher": "vodsl-test",
+  "version": "0.0.1",
+  "engines": { "vscode": "^1.146.0" },
+  "description": "Test harness for the installed VODSL extension"
+}

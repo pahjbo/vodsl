@@ -18,7 +18,11 @@
     "test:vsix": "node scripts/test-vsix.mjs"
   },
   "dependencies": {
+    "elkjs": "0.8.2",
+    "inversify": "6.0.2",
     "langium": "~4.4.0",
+    "reflect-metadata": "0.2.2",
+    "sprotty": "1.1.0",
     "vscode-languageclient": "^9.0.1",
     "vscode-languageserver": "~10.1.0"
   },
@@ -29,6 +33,7 @@
     "@types/vscode": "^1.85.0",
     "esbuild": "^0.25.0",
     "langium-cli": "~4.4.0",
+    "playwright-core": "1.56.1",
     "typescript": "~5.9.0",
     "vscode-jsonrpc": "^8.2.0",
     "vscode-oniguruma": "^2.0.1",

@@ -2,10 +2,11 @@ import * as vscode from 'vscode';
 import { fork } from 'node:child_process';
 import * as path from 'node:path';
 import { LanguageClient, TransportKind, type ServerOptions } from 'vscode-languageclient/node.js';
+import { DiagramPanels } from './diagram-panel.js';
 
 let client: LanguageClient | undefined;
 
-export async function activate(context: vscode.ExtensionContext): Promise<void> {
+export async function activate(context: vscode.ExtensionContext): Promise<{ getDiagramStatus: (uri: string) => ReturnType<DiagramPanels['getStatus']> }> {
     const node = vscode.workspace.getConfiguration('vodsl').get<string>('nodePath')?.trim() || undefined;
     const server = context.asAbsolutePath('dist/server.js');
     const options: ServerOptions = { module: server, runtime: node, transport: TransportKind.stdio };
@@ -17,7 +18,25 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         synchronize: { fileEvents: watcher }
     });
     await client.start();
+    const diagrams = new DiagramPanels(context, client);
     context.subscriptions.push(
+        diagrams,
+        vscode.commands.registerCommand('vodsl.showDiagram', () => {
+            const editor = vscode.window.activeTextEditor;
+            if (!editor || editor.document.languageId !== 'vodsl' || editor.document.uri.scheme !== 'file') {
+                void vscode.window.showErrorMessage('Open a local VODSL file to view its diagram.');
+                return;
+            }
+            diagrams.open(editor);
+        }),
+        vscode.commands.registerCommand('vodsl.revealInDiagram', async () => {
+            const editor = vscode.window.activeTextEditor;
+            if (!editor || editor.document.languageId !== 'vodsl' || editor.document.uri.scheme !== 'file') {
+                void vscode.window.showErrorMessage('Open a local VODSL file to reveal its diagram element.');
+                return;
+            }
+            await diagrams.revealSelection(editor);
+        }),
         vscode.commands.registerCommand('vodsl.compile', async () => {
             const editor = vscode.window.activeTextEditor;
             if (!editor || editor.document.languageId !== 'vodsl' || editor.document.uri.scheme !== 'file') {
@@ -62,6 +81,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
             }
         })
     );
+    return { getDiagramStatus: uri => diagrams.getStatus(uri) };
 }
 
 export async function deactivate(): Promise<void> {

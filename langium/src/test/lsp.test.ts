@@ -46,6 +46,52 @@ test('bundled language server publishes diagnostics and resolves an included typ
         });
         const location = Array.isArray(definition) ? definition[0] : definition;
         assert.equal(location.uri ?? location.targetUri, URI.file(base).toString());
+        const diagram = await connection.sendRequest<{ nodes: { name: string; rows: { text: string }[] }[] }>(
+            'vodsl/diagram', { uri }
+        );
+        assert.equal(diagram.nodes.find(node => node.name === 'D')?.rows[0].text, 'value: base:text');
+        const changedDiagnostics = new Promise<unknown[]>(resolveDiagnostics => {
+            connection.onNotification('textDocument/publishDiagnostics', (params: { uri: string; diagnostics: unknown[] }) => {
+                if (params.uri === uri) resolveDiagnostics(params.diagnostics);
+            });
+        });
+        await connection.sendNotification('textDocument/didChange', {
+            textDocument: { uri, version: 2 },
+            contentChanges: [{ text: source.replace('value :', 'renamed :') }]
+        });
+        assert.deepEqual(await changedDiagnostics, [], stderr);
+        const updated = await connection.sendRequest<{ nodes: { name: string; rows: { text: string }[] }[] }>(
+            'vodsl/diagram', { uri }
+        );
+        assert.equal(updated.nodes.find(node => node.name === 'D')?.rows[0].text, 'renamed: base:text');
+        const baseUri = URI.file(base).toString();
+        await connection.sendNotification('textDocument/didOpen', {
+            textDocument: { uri: baseUri, languageId: 'vodsl', version: 1, text: 'model base (1) "" primitive text ""' }
+        });
+        const changedImportDiagnostics = new Promise<unknown[]>(resolveDiagnostics => {
+            connection.onNotification('textDocument/publishDiagnostics', (params: { uri: string; diagnostics: unknown[] }) => {
+                if (params.uri === uri && params.diagnostics.length) resolveDiagnostics(params.diagnostics);
+            });
+        });
+        await connection.sendNotification('textDocument/didChange', {
+            textDocument: { uri: baseUri, version: 2 },
+            contentChanges: [{ text: 'model base (1) "" primitive renamed ""' }]
+        });
+        assert.ok((await changedImportDiagnostics).length > 0, 'dirty import should relink the dependent document');
+        const broken = await connection.sendRequest<{ errors: string[] }>('vodsl/diagram', { uri });
+        assert.ok(broken.errors.length > 0, 'diagram should expose errors caused by the unsaved import');
+        const restoredImportDiagnostics = new Promise<unknown[]>(resolveDiagnostics => {
+            connection.onNotification('textDocument/publishDiagnostics', (params: { uri: string; diagnostics: unknown[] }) => {
+                if (params.uri === uri && !params.diagnostics.length) resolveDiagnostics(params.diagnostics);
+            });
+        });
+        await connection.sendNotification('textDocument/didChange', {
+            textDocument: { uri: baseUri, version: 3 },
+            contentChanges: [{ text: 'model base (1) "" primitive text ""' }]
+        });
+        assert.deepEqual(await restoredImportDiagnostics, []);
+        const restored = await connection.sendRequest<{ errors: string[] }>('vodsl/diagram', { uri });
+        assert.deepEqual(restored.errors, []);
         await connection.sendRequest('shutdown');
         await connection.sendNotification('exit');
     } finally {

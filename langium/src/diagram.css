@@ -1,0 +1,24 @@
+body { padding: 0; color: var(--vscode-foreground); font-family: var(--vscode-font-family); }
+header { padding: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+button { color: var(--vscode-button-foreground); background: var(--vscode-button-background); border: 0; padding: 4px 8px; cursor: pointer; }
+button:focus { outline: 1px solid var(--vscode-focusBorder); }
+#status { color: var(--vscode-errorForeground); padding: 0 8px; }
+#targets { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px 8px; }
+#diagram { height: calc(100vh - 100px); width: 100%; }
+.sprotty-graph { width: 100%; height: 100%; }
+.vodsl-node { fill: url(#node-gradient); stroke: #31455b; stroke-width: 1.2; }
+.selected .vodsl-node { stroke: var(--vscode-focusBorder); stroke-width: 3; }
+.vodsl-class text { fill: #111; font-size: 13px; }
+.vodsl-class .heading, .vodsl-class .stereotype { text-anchor: middle; }
+.heading { font-weight: bold; }
+.abstract { font-style: italic; }
+.row { text-anchor: start; }
+.divider { stroke: #31455b; }
+.imported { text-anchor: end; font-size: 9px !important; }
+.relationship { fill: none; stroke-width: 2; }
+.relationship.selected { stroke-width: 4; }
+.relationship.inheritance { stroke: #c00000; }
+.relationship.composition { stroke: #0050bd; }
+.relationship.reference { stroke: #008000; }
+.edge-label { fill: var(--vscode-foreground); paint-order: stroke; stroke: var(--vscode-editor-background); stroke-width: 4px; font-size: 12px; }
+.legend { font-size: 12px; }

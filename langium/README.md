@@ -62,6 +62,31 @@ server supplies diagnostics, completion and navigation. The command palette's
 **VODSL: Compile to VO-DML** saves the active file and writes XML next to it.
 Compiler warnings and errors appear in the **VODSL compiler** output channel.
 
+### Read-only diagram
+
+Open a local VODSL file and choose **VODSL: Open Diagram** from the command
+palette or editor title. The model overview shows immediate packages and
+types, including types in nested packages. Double-click a package to view its
+immediate contents, or use **Model overview** to return. Double-click a type,
+attribute, literal or relationship to open its source; Enter also activates
+focused diagram elements. Use **VODSL: Reveal in Diagram** with the cursor in
+the editor to locate a displayed element, including nested packages.
+
+Inheritance, compositions and references are shown with red, blue and green
+lines respectively, with distinct arrowhead/diamond shapes. Referenced types
+outside the current view are offered as **Show** buttons, including imported
+types. The diagram reflects unsaved edits, displays errors alongside any
+recoverable content, and refreshes when errors are corrected. Drag nodes to
+reposition them; **Re-layout** discards temporary positions and **Fit** adjusts
+the viewport. Layout and expansion are view state only and never modify the
+source. Diagram styling approximates the original FXDiagram rather than
+reproducing its exact rendering.
+
+The diagram is a desktop extension feature. Editor-to-diagram navigation for
+imports requires the declaration to be visible or offered as a relationship
+target; arbitrary unrelated imported declarations are not indexed. Duplicate
+or incomplete declarations may lose their temporary positions on refresh.
+
 The language server and compiler use VS Code's embedded Node runtime; no
 separate Node installation is needed for the extension. The optional
 `vodsl.nodePath` setting overrides that runtime with a supported Node executable;
@@ -150,7 +175,8 @@ documented above are not yet a complete standards validator.
 `npm test` builds the project and runs parser, scope, validation, compiler,
 TextMate and language-server tests. Schema tests run offline against the pinned
 XSD and require `xmllint` on PATH. Set `VODSL_SCHEMA` to test an alternative
-schema.
+schema. To include the Sprotty browser interaction test, set
+`VODSL_CHROME_PATH` to a local Chrome or Chromium executable.
 
 The upstream `ivoa/vodsl-models` repository contains the
 [example](https://raw.githubusercontent.com/ivoa/vodsl-models/9affff8f08f52461a44d558d5997abc172af489d/example.vodsl)
