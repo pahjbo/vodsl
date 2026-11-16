@@ -3,4 +3,6 @@ out/
 src/generated/
 syntaxes/
 vscode/dist/
+vscode/LICENSE
+.vscode-test/
 *.vsix

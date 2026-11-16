@@ -40,7 +40,13 @@ The reusable Node API is `createVodslServices` in `src/vodsl-module.ts`,
 it rejects unvalidated documents or documents with errors. Pass an explicit
 date to `generateVodml` for reproducible output.
 
-## VS Code integration example
+## VS Code extension
+
+The extension is prepared for the VS Code Marketplace as `tsastro.vodsl`.
+Once published, install it from the Extensions view or with
+`code --install-extension tsastro.vodsl`. It is a preview and requires desktop
+VS Code 1.146 or later. Marketplace publisher setup and publication are
+separate from access to the npm `@tsastro` scope.
 
 The `vscode/` directory is an extension development root. After `npm run build`,
 start a development instance with:
@@ -56,13 +62,57 @@ server supplies diagnostics, completion and navigation. The command palette's
 **VODSL: Compile to VO-DML** saves the active file and writes XML next to it.
 Compiler warnings and errors appear in the **VODSL compiler** output channel.
 
-The language server and compiler are launched with `node` from PATH, not the
-Node version embedded in VS Code. Set `vodsl.nodePath` to an absolute path to
-a supported executable if needed, then restart VS Code. This subtree is an
-integration example, not a published extension; to integrate it into another
-extension, copy the language and grammar contributions in
+The language server and compiler use VS Code's embedded Node runtime; no
+separate Node installation is needed for the extension. The optional
+`vodsl.nodePath` setting overrides that runtime with a supported Node executable;
+leave it empty to use VS Code's runtime and restart VS Code after changing it.
+The installed VSIX has been exercised on macOS; the release workflow includes
+Linux smoke tests. Windows, browser and remote extension hosts have not yet
+been verified. To integrate the
+language support into another extension, copy the language contributions in
 `vscode/package.json`, the TextMate grammar and language configuration, and
 use `src/extension.ts` and `src/server.ts` as the client/server wiring.
+
+### Build, review and release
+
+Build a VSIX with `npm ci && npm run package:vsix`; install it locally with
+`code --install-extension vodsl.vsix`. `npm run test:vsix` installs that VSIX
+into an isolated VS Code profile and runs desktop integration and schema
+checks with Node absent from PATH. It downloads VS Code 1.146 by default; set
+`VSCODE_EXECUTABLE_PATH` to an existing VS Code executable or `VSCODE_VERSION`
+to another version. Linux needs a display (for example `xvfb-run -a`) and
+`xmllint` must be on the test runner's PATH. To test the optional runtime
+override, set `VODSL_NODE_OVERRIDE` to a supported Node executable when
+running `test:vsix`.
+
+Publishing requires one-time setup by a Marketplace publisher administrator:
+
+1. At [Marketplace publisher management](https://marketplace.visualstudio.com/manage),
+   create or confirm control of publisher `tsastro` and confirm `tsastro.vodsl`
+   is available. The npm namespace does not grant Marketplace publisher rights.
+2. In GitHub, create the `vodsl-marketplace` environment, add at least one
+   required reviewer, restrict deployments to the protected `master` branch,
+   and protect that branch and the workflow from unauthorized changes. GitHub
+   plan and repository visibility determine availability of required reviewers.
+3. Configure a Marketplace Trusted Publishing policy for `pahjbo/vodsl`,
+   workflow `vodsl-marketplace.yml` and environment `vodsl-marketplace`.
+   See the [Marketplace publishing guide](https://code.visualstudio.com/api/working-with-extensions/publishing-extension).
+
+For each release, update and review the manifest version and changelog in a
+commit on `master`. Manually run **Prepare and publish VODSL extension** on
+`master`. Download and inspect the VSIX and `RELEASE-INFO.txt` artifact, check
+the recorded commit, version and SHA-256, and test that exact file. Only then
+approve the `vodsl-marketplace` environment deployment. The publish job checks
+the same artifact and uses short-lived OIDC authentication; it does not rebuild,
+create a commit or tag, or publish an npm package. An absent environment or
+required reviewer causes the release to fail rather than publish without review.
+Never approve a release before publisher setup and artifact review. Check the
+Marketplace listing and install the released version afterwards.
+
+Marketplace versions cannot be overwritten. For a bad release, publish a new
+version containing the fix or restored code; users can select an older version
+via **Install Another Version** while the fix is prepared. Unpublishing affects
+availability and is not an automatic rollback.
 
 ## Compatibility and VO-DML output
 

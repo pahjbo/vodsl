@@ -13,7 +13,9 @@
     "generate": "langium generate",
     "build": "npm run generate && tsc && npm run bundle",
     "bundle": "node build.mjs",
-    "test": "npm run build && node --test out/test/*.test.js"
+    "test": "npm run build && node --test out/test/*.test.js",
+    "package:vsix": "npm run build && cd vscode && ../node_modules/.bin/vsce package --no-dependencies -o ../vodsl.vsix",
+    "test:vsix": "node scripts/test-vsix.mjs"
   },
   "dependencies": {
     "langium": "~4.4.0",
@@ -21,6 +23,8 @@
     "vscode-languageserver": "~10.1.0"
   },
   "devDependencies": {
+    "@vscode/test-electron": "3.1.0",
+    "@vscode/vsce": "4.1.1",
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.85.0",
     "esbuild": "^0.25.0",

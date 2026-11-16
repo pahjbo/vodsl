@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { build } from 'esbuild';
 
 await mkdir('vscode/dist', { recursive: true });
+await copyFile('../LICENSE', 'vscode/LICENSE');
 const server = await build({
     entryPoints: ['src/server.ts', 'src/cli.ts'],
     outdir: 'vscode/dist',

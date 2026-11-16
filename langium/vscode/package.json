@@ -1,13 +1,27 @@
 {
-  "name": "vodsl-langium-example",
-  "displayName": "VODSL (Langium example)",
-  "description": "VODSL syntax highlighting and language server example",
+  "name": "vodsl",
+  "displayName": "VODSL",
+  "description": "VODSL language support and VO-DML compilation",
   "version": "0.1.0",
-  "publisher": "vodsl-example",
+  "publisher": "tsastro",
   "private": true,
+  "preview": true,
+  "license": "AGPL-3.0-only",
+  "repository": { "type": "git", "url": "https://github.com/pahjbo/vodsl.git" },
+  "bugs": { "url": "https://github.com/pahjbo/vodsl/issues" },
+  "categories": ["Programming Languages"],
+  "keywords": ["vodsl", "vo-dml", "astronomy", "data modeling"],
   "type": "module",
-  "engines": { "vscode": "^1.85.0" },
+  "engines": { "vscode": "^1.146.0" },
   "main": "./dist/extension.cjs",
+  "files": [
+    "dist/**",
+    "language-configuration.json",
+    "vodsl.tmLanguage.json",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "activationEvents": ["onLanguage:vodsl"],
   "contributes": {
     "languages": [{
@@ -30,8 +44,8 @@
       "properties": {
         "vodsl.nodePath": {
           "type": "string",
-          "default": "node",
-          "description": "Path to a supported Node.js executable for the VODSL language server and compiler."
+          "default": "",
+          "description": "Optional path to a supported Node.js executable. Leave empty to use VS Code's embedded runtime; restart VS Code after changing it."
         }
       }
     }

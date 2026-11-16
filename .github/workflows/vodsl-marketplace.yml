@@ -1,0 +1,114 @@
+name: Prepare and publish VODSL extension
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    outputs:
+      sha256: ${{ steps.digest.outputs.sha256 }}
+      version: ${{ steps.digest.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24.15.0'
+          cache: npm
+          cache-dependency-path: langium/package-lock.json
+      - name: Install system test dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends libxml2-utils xvfb xauth
+      - name: Install dependencies, run tests and package
+        working-directory: langium
+        run: |
+          npm ci
+          npm test
+          npm run package:vsix
+          unzip -l vodsl.vsix
+          unzip -Z1 vodsl.vsix | sort > actual-files.txt
+          printf '%s\n' '[Content_Types].xml' 'extension.vsixmanifest' \
+            'extension/LICENSE.txt' 'extension/changelog.md' 'extension/language-configuration.json' \
+            'extension/package.json' 'extension/readme.md' 'extension/vodsl.tmLanguage.json' \
+            'extension/dist/THIRD_PARTY_LICENSES.txt' 'extension/dist/cli.js' \
+            'extension/dist/diagram-webview.js' 'extension/dist/diagram.css' \
+            'extension/dist/extension.cjs' 'extension/dist/server.js' \
+            'extension/dist/terminateProcess.sh' | sort > expected-files.txt
+          diff -u expected-files.txt actual-files.txt
+          xvfb-run -a npm run test:vsix
+          xvfb-run -a env VSCODE_VERSION=stable npm run test:vsix
+      - name: Record reviewed artifact
+        id: digest
+        working-directory: langium
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          sha256="$(sha256sum vodsl.vsix | cut -d ' ' -f 1)"
+          version="$(node -p "require('./vscode/package.json').version")"
+          printf 'sha256=%s\nversion=%s\n' "$sha256" "$version" >> "$GITHUB_OUTPUT"
+          printf 'Commit: %s\nVersion: %s\nSHA-256: %s\n' "$SOURCE_SHA" "$version" "$sha256" > RELEASE-INFO.txt
+          cat RELEASE-INFO.txt >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v5
+        with:
+          name: vodsl-vsix-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            langium/vodsl.vsix
+            langium/RELEASE-INFO.txt
+          if-no-files-found: error
+
+  check-protection:
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require an existing environment with reviewers
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh api "repos/$GH_REPO/environments/vodsl-marketplace" |
+            jq -e 'any(.protection_rules[]?; .type == "required_reviewers" and (.reviewers | length > 0))' >/dev/null
+
+  publish:
+    needs: [package, check-protection]
+    runs-on: ubuntu-latest
+    environment: vodsl-marketplace
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24.15.0'
+          cache: npm
+          cache-dependency-path: langium/package-lock.json
+      - uses: actions/download-artifact@v5
+        with:
+          name: vodsl-vsix-${{ github.run_id }}-${{ github.run_attempt }}
+          path: release
+      - name: Verify the reviewed artifact
+        env:
+          EXPECTED_HASH: ${{ needs.package.outputs.sha256 }}
+          EXPECTED_VERSION: ${{ needs.package.outputs.version }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          echo "$EXPECTED_HASH  release/vodsl.vsix" | sha256sum --check
+          unzip -p release/vodsl.vsix extension/package.json |
+            jq -e --arg version "$EXPECTED_VERSION" \
+              '.publisher == "tsastro" and .name == "vodsl" and .version == $version' >/dev/null
+          grep -Fx "Commit: $SOURCE_SHA" release/RELEASE-INFO.txt
+          grep -Fx "Version: $EXPECTED_VERSION" release/RELEASE-INFO.txt
+          grep -Fx "SHA-256: $EXPECTED_HASH" release/RELEASE-INFO.txt
+      - name: Install locked publication tool
+        working-directory: langium
+        run: npm ci --ignore-scripts
+      - name: Publish the approved VSIX
+        working-directory: langium
+        run: ./node_modules/.bin/vsce publish --oidc --packagePath ../release/vodsl.vsix
